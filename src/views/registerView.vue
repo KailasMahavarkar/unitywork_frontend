@@ -1,7 +1,6 @@
 <template>
-	<div class="flex justify-center items-center">
-		<div class="flex flex-col items-center justify-center w-full test">
-			
+	<div class="flex justify-center items-center min-h-[100vh] shadow">
+		<div class="flex flex-col items-center justify-center w-full">
 			<div>
 				<div v-if="active === 'user-register'">
 					<user-register-form />

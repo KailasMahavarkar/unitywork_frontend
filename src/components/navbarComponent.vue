@@ -29,14 +29,43 @@
 					</li>
 				</ul>
 			</div>
-			<router-link to="/">
+			<router-link :to="authed ? '/gigs' : '/'">
 				<a class="btn btn-ghost normal-case text-xl"> Unity Work </a>
 			</router-link>
 		</div>
 		<div class="navbar-end">
-			<router-link to="/register">
-				<button class="btn btn-primary btn-outline mx-2">Join</button>
+			<!-- register -->
+			<router-link to="/register" v-if="!authed">
+				<button class="btn btn-primary btn-outline">register</button>
 			</router-link>
+
+			<!-- welcome message -->
+
+			<router-link to="/seller-dashboard" v-if="this.$store.state.authed">
+				<button class="btn btn-outline">
+					<font-awesome-icon class="mx-2" :icon="['fas', 'user']">
+					</font-awesome-icon>
+					Go to {{ this.$store.state.user.username }}'s Dashboard
+				</button>
+			</router-link>
+
+			<!-- login -->
+			<router-link to="/login" v-if="!authed">
+				<button class="btn btn-secondary btn-outline mx-2">
+					login
+				</button>
+			</router-link>
+
+			<!-- logout -->
+			<button
+				class="btn btn-error btn-outline mx-2"
+				@click="logoutHandler"
+				v-if="authed"
+			>
+				logout
+			</button>
+
+			<!-- theme -->
 			<button class="btn btn-primary btn-circle" @click="toggleTheme">
 				<font-awesome-icon
 					v-bind:icon="
@@ -49,7 +78,8 @@
 	</div>
 </template>
 
-<script>// @ts-nocheck
+<script>
+// @ts-nocheck
 
 import { baseRoutes } from "@/router";
 
@@ -57,13 +87,28 @@ export default {
 	name: "navbarComponent",
 	data: () => ({
 		baseRoutes,
+		authed: false,
+		user: {},
 	}),
 	props: {
 		toggleTheme: Function,
 		theme: String,
 	},
-	methods: {},
+	methods: {
+		logoutHandler() {
+			this.$store.commit("setAuthentication", false);
+			this.$store.commit("setUser", {});
+		},
+	},
 
-	mounted: function () {},
+	// authenicate the user and update component
+	mounted() {
+		this.authed = this.$store.state.authed;
+		this.$store.subscribe((mutation, state) => {
+			if (mutation.type === "setAuthentication") {
+				this.authed = state.authed;
+			}
+		});
+	},
 };
 </script>

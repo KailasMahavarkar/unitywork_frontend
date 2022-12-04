@@ -42,7 +42,7 @@
 			<!-- EMAIL -->
 			<div class="form-control w-full">
 				<label class="label">
-					<span class="label-text">Email Address</span>
+					<span class="label-text">Company Email Address</span>
 				</label>
 				<input
 					type="email"
@@ -90,7 +90,7 @@
 import axios from "axios";
 
 export default {
-	name: "userRegisterView",
+	name: "companyRegisterForm",
 	components: {},
 
 	data: () => {

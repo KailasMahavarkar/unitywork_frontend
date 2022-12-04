@@ -34,15 +34,18 @@ export const isEmpty = (arg) => {
     return false;
 };
 
-export function parseJwt(token) {
-    try {
-        const base64Payload = token.split(".")[1];
-        const payload = Buffer.from(base64Payload, "base64");
-        return JSON.parse(payload.toString());
-    } catch (error) {
-        console.log("token does not exists");
-    }
-}
+let b64DecodeUnicode = str =>
+    decodeURIComponent(
+        Array.prototype.map.call(atob(str), c =>
+            '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+        ).join(''))
+
+export let parseJwt = token =>
+    JSON.parse(
+        b64DecodeUnicode(
+            token.split('.')[1].replace('-', '+').replace('_', '/')
+        )
+    )
 
 
 export const handleCustomError = (error) => {

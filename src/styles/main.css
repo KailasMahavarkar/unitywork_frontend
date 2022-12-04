@@ -2,10 +2,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-#app {
-  height: 100% !important;
-}
-
 html,
 body {
   font-family: "Roboto", sans-serif;
@@ -13,14 +9,11 @@ body {
 
 html {
   display: block;
-  height: 100%;
-  width: 100%;
 }
 
 body {
   width: 100% !important;
   height: 100% !important;
-  min-height: 100vh;
 }
 
 html,

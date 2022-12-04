@@ -1,32 +1,32 @@
 // @ts-nocheck
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 import HomeView from "../views/homeView.vue";
+import store from '@/store';
 
 Vue.use(VueRouter)
 
 function guardMyroute(to, from, next) {
-
-
-    console.log(localStorage.getItem('accessToken'))
-
-    var isAuthenticated = false;
-    //this is just an example. You will have to find a better or 
-    // centralised way to handle you localstorage data handling 
-    if (localStorage.getItem('LoggedUser'))
-        isAuthenticated = true;
-    else
-        isAuthenticated = false;
-
-
-    if (isAuthenticated) {
-        next(); // allow to enter route
+    if (store.state.authenicated) {
+        return next();
     }
-    else {
-        next('/login'); // go to '/login';
+
+    const user = store.state.user;
+    if (user) {
+        // check if token iat is more than exp
+        if (user['iat'] < user['exp']) {
+            // token is valid
+            return next();
+        }
     }
+
+    next('/login');
 }
 
+const waitForStorageToBeReady = async (to, from, next) => {
+    await store.restored
+    next()
+}
 
 export const baseRoutes = [
     {
@@ -35,40 +35,41 @@ export const baseRoutes = [
         component: HomeView
     },
     {
-        path: '/buddies',
-        name: 'buddiesView',
-        component: () => import('../views/buddiesView.vue')
-    },
-    {
         path: "/login",
         name: "loginView",
         component: () => import("../views/loginView.vue")
     },
     {
-        path: "/auth/seller",
-        name: "sellerRegisterView",
-        component: () => import("../views/sellerRegisterView.vue")
+        path: "/seller-dashboard",
+        name: "sellerDashboardView",
+        beforeEnter: guardMyroute,
+        component: () => import("../views/sellerDashboardView.vue"),
+    },
+    {
+        path: "/seller-dashboard/create-gig",
+        name: "sellerGigCreateView",
+        component: () => import("../views/sellerGigCreateView.vue"),
     },
     {
         path: "/register",
         name: "registerView",
         component: () => import("../views/registerView.vue")
     },
-    // {
-    //     path: "/analytics",
-    //     name: "buyerAnalyticsView",
-    //     component: () => import("../views/buyerAnalyticsView.vue")
-    // },
-    // {
-    //     path: "/analytics/seller",
-    //     name: "sellerAnalyticsView",
-    //     component: () => import("../views/sellerAnalyticsView.vue")
-    // },
+    {
+        path: "/gigs/:id",
+        name: "gigView",
+        component: () => import("../views/gigView.vue")
+    },
     {
         path: "/gigs",
         name: "gigsView",
-        beforeEnter : guardMyroute,
-        component: () => import("../views/gigsView.vue")
+        component: () => import("../views/gigsView.vue"),
+        children: []
+    },
+    {
+        path: "*",
+        name: "notFoundView",
+        component: () => import("../views/notFoundView.vue")
     }
 ]
 
@@ -79,5 +80,9 @@ const router = new VueRouter({
         ...baseRoutes
     ]
 })
+
+
+router.beforeEach(waitForStorageToBeReady)
+
 
 export default router

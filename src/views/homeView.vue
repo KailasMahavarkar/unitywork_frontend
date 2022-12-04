@@ -1,87 +1,38 @@
 <template>
-	<div class="flex flex-col">
+	<div class="flex flex-col shadow">
 		<section class="flex items-center justify-center">
 			<hero-section />
 		</section>
+		<div class="divider"></div>
 
 		<!-- marketplace section -->
-		<section class="flex flex-col items-center justify-center w-full">
-			<h1 class="text-3xl font-bold text-center">
-				Explore the Marketplace
-			</h1>
-			<div class="flex flex-wrap w-full child:flex-1 child:grayscale">
-				<div
-					class="hover:grayscale flex flex-col items-center justify-center"
-				>
-					<img
-						src="../assets/icons/programming.svg"
-						class="rounded-md w-[6rem]"
-						alt="developer"
-					/>
-					<h1 class="text-2xl font-bold text-center">Programming</h1>
-				</div>
-				<div class="flex flex-col items-center justify-center">
-					<img
-						src="../assets/icons/graphics_design.svg"
-						class="rounded-md w-[6rem]"
-						alt="designer"
-					/>
-					<h1 class="text-2xl font-bold text-center">
-						Graphics & Design
-					</h1>
-				</div>
-				<div class="flex flex-col items-center justify-center">
-					<img
-						src="../assets/icons/business.svg"
-						class="rounded-md w-[6rem]"
-						alt="entrepreneur"
-					/>
-					<h1 class="text-2xl font-bold text-center">Business</h1>
-				</div>
-
-				<div class="flex flex-col items-center justify-center">
-					<img
-						src="../assets/icons/video_animation.svg"
-						class="rounded-md w-[6rem]"
-						alt="entrepreneur"
-					/>
-					<h1 class="text-2xl font-bold text-center">
-						Video & Animation
-					</h1>
-				</div>
-			</div>
-		</section>
+		<marketplace></marketplace>
 
 		<!-- Why Choose US -->
-		<section class="flex flex-col items-center justify-center"></section>
+		<faq-snippet></faq-snippet>
 
 		<div class="m-[2em] text-primary">
-			<h1>Welcome to CodeBuddy Platform</h1>
+			<button class="btn btn-wide btn-secondary">
+				<span class="btn-text">Get Started</span>
+			</button>
 		</div>
 	</div>
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from "@/components/helloWorld.vue";
-
 import heroSectionVue from "@/components/heroSection.vue";
+import faqSnippet from "@/components/faqComponent.vue";
+import marketplaceComponent from "@/components/marketplaceComponent.vue";
 
 export default {
 	name: "HomeView",
-	data: function () {
-		return {
-			replace: [
-				{
-					text: "Welcome to the CodeBuddy Platform",
-					replace: "Stuck in code/design get help now",
-				},
-			],
-			typingDone: false,
-		};
-	},
 	components: {
+		"faq-snippet": faqSnippet,
 		"hero-section": heroSectionVue,
+		marketplace: marketplaceComponent,
+	},
+	data: function () {
+		return {};
 	},
 
 	mounted() {},

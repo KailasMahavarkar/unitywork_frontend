@@ -1,6 +1,11 @@
 <template>
-	<div class="flex justify-center items-center w-full h-full">
-		<div class="flex flex-col p-5 shadow">
+	<div
+		class="flex justify-center items-center w-full h-full shadow min-h-[80vh] "
+	>
+		<div class="flex flex-col p-10 shadow-xl">
+			<h2 class="m-0">
+				<span class="text-2xl">Login</span>
+			</h2>
 			<!-- USERNAME HANDLER -->
 			<div class="form-control w-full">
 				<label class="label">
@@ -46,6 +51,7 @@ import {
 	handleCustomError,
 	handleNetworkError,
 	isNetworkError,
+	parseJwt,
 } from "@/helper";
 import customToast from "@/toast";
 import axios from "axios";
@@ -59,6 +65,9 @@ export default {
 			password: "",
 		};
 	},
+	mounted() {
+		console.log(this.$store.state.counter);
+	},
 	methods: {
 		async loginHandler() {
 			try {
@@ -68,7 +77,23 @@ export default {
 				});
 
 				if (result.status === 200) {
-					this.$router.push({
+					const { accessToken, refreshToken } = result.data.data;
+					const parsedToken = parseJwt(accessToken);
+
+					this.$store.commit("setUser", {
+						...parsedToken,
+						accessToken,
+						refreshToken,
+					});
+					this.$store.commit("setAuthentication", true);
+
+					this.$store.subscribe((mutation, state) => {
+						if (mutation.type === "setAuthentication") {
+							this.authed = state.authed;
+						}
+					});
+
+					this.$router.replace({
 						name: "gigsView",
 					});
 

@@ -6,30 +6,45 @@ import store from './store'
 import Fragment from 'vue-fragment';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faRightLeft, faSun, faMoon, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import {
+    faRightLeft, faSun, faMoon,
+    faEnvelope, faStar, faQuestion,
+    faHouse, faList, faGear,
+    faStore, faChartLine, faEdit,
+    faCircle, faComments, faTrash, faSearch,
+    faAdd, faUser, faCircleCheck
+} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-import VuexPersistence from 'vuex-persist'
+import vueDebounce from 'vue-debounce'
+
 
 axios.defaults.baseURL = 'http://localhost:2000'
-
-const vuexLocal = new VuexPersistence({
-    storage: window.localStorage
-})
 
 
 // custom stylesheet
 import './styles/main.css';
+import { faWpexplorer } from '@fortawesome/free-brands-svg-icons';
+
 
 // import fontawesome library
-library.add(faRightLeft, faSun, faMoon, faEnvelope)
+library.add(
+    faRightLeft, faSun, faMoon,
+    faEnvelope, faStar, faQuestion,
+    faHouse, faList, faGear,
+    faSearch, faUser,
+    faStore, faChartLine, faTrash,
+    faEdit, faCircle, faComments,
+    faAdd, faWpexplorer, faCircleCheck
+)
 
 // plugins
 Vue.use(Fragment.Plugin);
+Vue.use(vueDebounce)
+
 
 // import fontawesome component as a global component
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 Vue.config.productionTip = false
-
 
 
 // vue filter to support max length of 20 for string
