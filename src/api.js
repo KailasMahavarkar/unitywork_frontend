@@ -1,8 +1,6 @@
 import axios from "axios";
 import { handleNetworkError, isNetworkError } from "./helper";
-
-const MODE = process.env.MODE || "dev"
-const SERVER_URL = process.env.SERVER_URL || 'https://unitybackend.up.railway.app'
+import { MODE, SERVER_URL } from './env';
 
 const API_URL = MODE === "dev" ? "http://localhost:2000" : SERVER_URL
 

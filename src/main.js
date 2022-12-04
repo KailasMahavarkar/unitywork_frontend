@@ -15,10 +15,11 @@ import {
     faAdd, faUser, faCircleCheck
 } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-import vueDebounce from 'vue-debounce'
+import vueDebounce from 'vue-debounce';
+import { SERVER_URL } from './env';
 
 
-axios.defaults.baseURL = 'http://localhost:2000'
+axios.defaults.baseURL = SERVER_URL;
 
 
 // custom stylesheet
