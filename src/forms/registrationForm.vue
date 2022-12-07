@@ -112,7 +112,8 @@
 					v-model="confirm_password"
 				/>
 			</div>
-			<div class="flex flex-col items-center justify-center w-full m-2">
+
+			<!-- <div class="flex flex-col items-center justify-center w-full m-2">
 				<div class="tabs tabs-boxed">
 					<a
 						class="tab"
@@ -129,10 +130,10 @@
 						>Company Register</a
 					>
 				</div>
-			</div>
+			</div> -->
 
 			<!-- SUBMIT BUTTON -->
-			<div class="form-control justify-center">
+			<div class="form-control justify-center mt-5">
 				<button
 					@click="handleRegister"
 					required="true"
@@ -159,14 +160,11 @@
 </template>
 
 <script>
-import axios from "axios";
+import api from "@/api";
 import { countryData } from "@/data/countryData";
 import customToast from "@/toast";
-import {
-	handleCustomError,
-	handleNetworkError,
-	isNetworkError,
-} from "@/helper";
+import { handleCustomError } from "@/helper";
+import { sha512 } from "js-sha512";
 
 export default {
 	name: "userRegisterView",
@@ -189,47 +187,35 @@ export default {
 
 	methods: {
 		async handleRegister() {
-			if (this.active === "user-register") {
-				const data = {
+			if (this.password !== this.confirm_password) {
+				return customToast({
+					message: "password does not match",
+					icon: "error",
+				});
+			}
+
+			try {
+				await api.post("/auth/register", {
 					firstname: this.firstname,
 					lastname: this.lastname,
 					username: this.username,
 					email: this.email,
-					password: this.password,
+					password: sha512(this.password).toString(),
 					confirm_password: this.confirm_password,
-				};
+				});
 
-				try {
-					const result = await axios.post("/auth/register", data);
+                // push to gigs page
+                this.$router.push('/gigs');
 
-					if (result.status === 200) {
-						return customToast({
-							title: "Success",
-							message:
-								"Mail Has been sent to email, kindly also check spam",
-							icon: "success",
-							duration: 3000,
-						});
-					}
-				} catch (error) {
-					if (isNetworkError(error)) {
-						return handleNetworkError();
-					}
-
-					return handleCustomError(error);
-				}
-			} else {
-				const data = {
-					companyName: this.companyName,
-					country: this.country,
-					username: this.username,
-					email: this.email,
-					password: this.password,
-					confirm_password: this.confirm_password,
-				};
-
-				const result = await axios.post("/auth/company-register", data);
-				console.log(result);
+				return customToast({
+					title: "Success",
+					message:
+						"Mail Has been sent to email, kindly also check spam",
+					icon: "success",
+					duration: 3000,
+				});
+			} catch (error) {
+				return handleCustomError(error);
 			}
 		},
 	},

@@ -11,11 +11,13 @@
 		<!-- Why Choose US -->
 		<faq-snippet></faq-snippet>
 
-		<div class="m-[2em] text-primary">
-			<button class="btn btn-wide btn-secondary">
-				<span class="btn-text">Get Started</span>
-			</button>
-		</div>
+		<router-link to="/gigs">
+			<div class="m-[2em] text-primary">
+				<button class="btn btn-wide btn-secondary">
+					<span class="btn-text">Get Started</span>
+				</button>
+			</div>
+		</router-link>
 	</div>
 </template>
 

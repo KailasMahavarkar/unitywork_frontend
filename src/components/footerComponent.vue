@@ -4,7 +4,7 @@
 			class="mt-10 footer footer-center p-4 bg-base-200 rounded-t-lg text-base-content"
 		>
 			<div>
-				<p>Copyright © 2022 | toolbox</p>
+				<p>Copyright © {{ year }} | UnityWork</p>
 			</div>
 		</footer>
 	</fragment>
@@ -18,5 +18,7 @@ export default {
 			year: new Date().getFullYear(),
 		};
 	},
+
+	computed: {},
 };
 </script>

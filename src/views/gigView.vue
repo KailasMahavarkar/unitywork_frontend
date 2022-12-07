@@ -48,7 +48,7 @@
 			<div
 				class="flex max-w-[80%] justify-between w-full text-start mx-5"
 			>
-				<div class="child:m-0 child:p-1" v-html="gig.blog" />
+				<div class="child:m-0 child:p-1" v-if="gig.blog" v-html="gig.blog"></div>
 			</div>
 			<div class="divider mb-0"></div>
 
@@ -145,7 +145,6 @@ export default {
 		async getGig() {
 			try {
 				const id = this.$route.params.id;
-				console.log(id);
 				const result = await api.get(`/gigs/${id}`);
 
 				// post fetch processing
@@ -167,8 +166,6 @@ export default {
 
 				// set rating to rounded average
 				gig.rating = roundedAvg;
-
-				gig.blog = gig.blog[0];
 
 				this.gig = gig;
 			} catch (error) {

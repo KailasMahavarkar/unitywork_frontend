@@ -17,65 +17,65 @@
 				</div>
 			</div>
 		</div>
-		<div
-			class="grid items-start grid-cols-5 lg:grid-col-3 xl:grid-col-4 gap-4 my-5"
-		>
-			<div
-				class="card bg-base-100 shadow rounded-none w-[300px] h-[400px]"
-				v-for="gig in gigs"
-				:key="gig._id"
-				@click="gigClickHandler(gig._id)"
-			>
-				<!-- conditonal routing in routerlink -->
-				<router-link :to="'gigs/' + gig._id">
-					<figure class="mb-0 pb-2 mt-0 border-[1px]">
-						<img :src="gig.thumbnail" />
-					</figure>
-					<div class="card-body">
-						<div class="flex">
-							<img
-								:src="gig.sellerAvatar"
-								class="rounded-full shadow w-[40px] h-[40px] p-2 m-0"
-							/>
-							<div class="flex flex-col mx-2 items-start">
-								<p
-									class="mx-2 my-0 flex items-center justify-center text-sm font-bold"
-								>
-									{{ gig.sellerName }}
-								</p>
-								<p
-									class="mx-2 my-0 flex items-center justify-center text-xs"
-								>
-									Seller level
-									<span class="font-bold">
-										&nbsp;{{ gig.sellerLevel }}
-									</span>
-								</p>
+		<div class="container mx-auto">
+			<div class="flex flex-wrap -m-1 md:-m-2">
+				<div
+					class="card m-5 bg-base-100 shadow rounded-none w-[300px] h-[400px]"
+					v-for="gig in gigs"
+					:key="gig._id"
+					@click="gigClickHandler(gig._id)"
+				>
+					<!-- conditonal routing in routerlink -->
+					<router-link :to="'gigs/' + gig._id">
+						<figure class="mb-0 pb-2 mt-0 border-[1px]">
+							<img :src="gig.thumbnail" />
+						</figure>
+						<div class="card-body">
+							<div class="flex">
+								<img
+									:src="gig.sellerAvatar"
+									class="rounded-full shadow w-[40px] h-[40px] p-2 m-0"
+								/>
+								<div class="flex flex-col mx-2 items-start">
+									<p
+										class="mx-2 my-0 flex items-center justify-center text-sm font-bold"
+									>
+										{{ gig.sellerName }}
+									</p>
+									<p
+										class="mx-2 my-0 flex items-center justify-center text-xs"
+									>
+										Seller level
+										<span class="font-bold">
+											&nbsp;{{ gig.sellerLevel }}
+										</span>
+									</p>
+								</div>
 							</div>
-						</div>
 
-						<div class="card-title">
-							<div class="badge badge-secondary">
-								{{ gig.rating }}
-								<font-awesome-icon
-									v-bind:icon="['fas', 'star']"
-								></font-awesome-icon>
+							<div class="card-title">
+								<div class="badge badge-secondary">
+									{{ gig.rating }}
+									<font-awesome-icon
+										v-bind:icon="['fas', 'star']"
+									></font-awesome-icon>
+								</div>
+							</div>
+							<div class="card-actions">
+								<p class="text-start m-0 text-sm">
+									{{ gig.title }}
+								</p>
+								<span
+									class="badge badge-outline"
+									v-for="tag in gig.tags"
+									:key="tag"
+								>
+									{{ tag }}
+								</span>
 							</div>
 						</div>
-						<div class="card-actions">
-							<p class="text-start m-0 text-sm">
-								{{ gig.title }}
-							</p>
-							<span
-								class="badge badge-outline"
-								v-for="tag in gig.tags"
-								:key="tag"
-							>
-								{{ tag }}
-							</span>
-						</div>
-					</div>
-				</router-link>
+					</router-link>
+				</div>
 			</div>
 		</div>
 	</fragment>

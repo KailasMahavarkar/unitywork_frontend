@@ -56,6 +56,11 @@ export const baseRoutes = [
         component: () => import("../views/registerView.vue")
     },
     {
+        path: "/reset-password",
+        name: "passwordResetView",
+        component: () => import("../views/passwordResetView.vue")
+    },
+    {
         path: "/gigs/:id",
         name: "gigView",
         component: () => import("../views/gigView.vue")

@@ -49,7 +49,7 @@ export let parseJwt = token =>
 
 
 export const handleCustomError = (error) => {
-    const errorData = error.response.data;
+    const errorData = error.response?.data;
 
     if (errorData.errors) {
         // this part handles AJV errors

@@ -23,7 +23,7 @@
 			</router-link>
 
 			<router-link to="/seller-dashboard/verify">
-				<button class="btn btn-outline ">
+				<button class="btn btn-outline">
 					<font-awesome-icon
 						class="mx-2"
 						:icon="['fas', 'circle-check']"
@@ -148,31 +148,6 @@ export default {
 
 	methods: {
 		async deleteGig(gigId, title) {
-			const deleteGIGAfterConfirm = async (gigId) => {
-				const URL = "/seller/gigs/" + gigId;
-
-				try {
-					await api.delete(URL, {
-						headers: {
-							authorization:
-								"Bearer " + this.$store.state.user.accessToken,
-						},
-					});
-
-					// update gigs
-					this.gigs = this.gigs.filter((gig) => gig._id !== gigId);
-					Swal.fire("Saved!", "", "success");
-
-					customToast({
-						title: "Success",
-						message: "Gig deleted successfully",
-						type: "success",
-					});
-				} catch (error) {
-					handleCustomError(error);
-				}
-			};
-
 			try {
 				Swal.fire({
 					title: "Do you want to delete gig with title " + title,
@@ -182,7 +157,31 @@ export default {
 				}).then(async (result) => {
 					/* Read more about isConfirmed, isDenied below */
 					if (result.isConfirmed) {
-						await deleteGIGAfterConfirm(gigId);
+						const URL = "/seller/gigs/" + gigId;
+
+						try {
+							await api.delete(URL, {
+								headers: {
+									authorization:
+										"Bearer " +
+										this.$store.state.user.accessToken,
+								},
+							});
+
+							// update gigs
+							this.gigs = this.gigs.filter(
+								(gig) => gig._id !== gigId
+							);
+							Swal.fire("Saved!", "", "success");
+
+							customToast({
+								title: "Success",
+								message: "Gig deleted successfully",
+								type: "success",
+							});
+						} catch (error) {
+							handleCustomError(error);
+						}
 					}
 				});
 			} catch (error) {
@@ -193,7 +192,6 @@ export default {
 	async mounted() {
 		// get all gigs created by this user
 		// user will be treated as seller while making the request to fetch gigs
-
 		const sellerId = this.$store.state.user._id;
 		const URL = `/seller/` + sellerId + "/gigs";
 

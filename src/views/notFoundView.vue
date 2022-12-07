@@ -13,7 +13,9 @@
 
 				<p class="mb-8 text-center md:text-lg">
 					The page you’re looking for doesn’t exist, redirecting in
-					{{ count }} seconds
+                    <span class="font-extrabold">
+                        {{ count }} seconds
+                    </span>
 				</p>
 
 				<router-link to="/">
@@ -29,7 +31,7 @@ export default {
 	name: "notFoundView",
 	data() {
 		return {
-			count: 8,
+			count: 10,
 		};
 	},
 	mounted() {
@@ -39,7 +41,7 @@ export default {
 
 		setTimeout(() => {
 			this.$router.push("/");
-		}, 9 * 1000);
+		}, 11 * 1000);
 	},
 	methods: {},
 };

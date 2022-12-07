@@ -1,20 +1,37 @@
 import axios from "axios";
-import { handleNetworkError, isNetworkError } from "./helper";
-import { MODE, SERVER_URL } from './env';
+import env from './env.js';
+import customToast from "./toast";
 
-const API_URL = MODE === "dev" ? "http://localhost:2000" : SERVER_URL
 
 export const api = axios.create({
-    baseURL: API_URL
+    baseURL: env.SERVER_URL
 })
 
 
 // this interceptor will handle network related errors
-api.interceptors.response.use((response) => response, (error) => {
-    // check network error
-    if (isNetworkError(error)) {
-        return handleNetworkError();
-    }
-});
+api.interceptors.response.use(
+    (response) => response, (error) => {
+        const networkErrorFlag = !!error.isAxiosError && !error.response;
+
+        // check network error
+        if (networkErrorFlag) {
+            if (!window.navigator.onLine) {
+                // internet is not working
+                return customToast({
+                    message: "Internet connection is not available",
+                    icon: "error",
+                });
+            }
+
+            return customToast({
+                message: "Server is not available",
+                icon: "error",
+            });
+        }
+
+
+        return Promise.reject(error);
+
+    });
 
 export default api;

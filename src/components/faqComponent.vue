@@ -8,7 +8,7 @@
 				Frequently asked questions
 			</h3>
 			<div
-				class="flex child:flex-1 gap-10 text-left border-t md:grid-cols-2"
+				class="flex flex-col child:flex-1 md:flex-row child:mx-5 text-left border-t md:grid-cols-2"
 			>
 				<!--------------------
         ----- LEFT SIDE -----
@@ -16,11 +16,7 @@
 				<div>
 					<div class="mb-10">
 						<h3 class="flex items-center mb-4 text-lg font-bold">
-							<font-awesome-icon
-								:icon="['fas', 'question']"
-								:class="questionIconClass"
-							>
-							</font-awesome-icon>
+							<question-icon> </question-icon>
 							What is UnityWork?
 						</h3>
 						<p>
@@ -32,11 +28,6 @@
 					</div>
 					<div class="mb-10">
 						<h3 class="flex items-center mb-4 text-lg font-bold">
-							<font-awesome-icon
-								:icon="['fas', 'question']"
-								:class="questionIconClass"
-							>
-							</font-awesome-icon>
 							How do I use unitywork?
 						</h3>
 						<p>
@@ -47,11 +38,7 @@
 					</div>
 					<div class="mb-10">
 						<h3 class="flex items-center mb-4 text-lg font-bold">
-							<font-awesome-icon
-								:icon="['fas', 'question']"
-								:class="questionIconClass"
-							>
-							</font-awesome-icon>
+							<question-icon></question-icon>
 							How do I create a gig?
 						</h3>
 						<p>
@@ -66,11 +53,7 @@
 				<div>
 					<div class="mb-10">
 						<h3 class="flex items-center mb-4 text-lg font-bold">
-							<font-awesome-icon
-								:icon="['fas', 'question']"
-								:class="questionIconClass"
-							>
-							</font-awesome-icon>
+							<question-icon> </question-icon>
 							Is this a free service?
 						</h3>
 						<p>
@@ -80,11 +63,7 @@
 					</div>
 					<div class="mb-10">
 						<h3 class="flex items-center mb-4 text-lg font-bold">
-							<font-awesome-icon
-								:icon="['fas', 'question']"
-								:class="questionIconClass"
-							>
-							</font-awesome-icon>
+							<question-icon> </question-icon>
 							How does my gig rank in search?
 						</h3>
 						<p>
@@ -96,11 +75,7 @@
 					</div>
 					<div class="mb-10">
 						<h3 class="flex items-center mb-4 text-lg font-bold">
-							<font-awesome-icon
-								:icon="['fas', 'question']"
-								:class="questionIconClass"
-							>
-							</font-awesome-icon>
+							<question-icon> </question-icon>
 							How do I get paid?
 						</h3>
 						<div class="flex-col inline-flex">
@@ -117,15 +92,22 @@
 </template>
 
 <script>
+import questionIcon from "@/components/partials/questionIcon.vue";
+
 export default {
 	name: "faqComponent",
+	components: {
+		"question-icon": questionIcon,
+	},
 	data() {
 		return {
-			questionIconClass:
-				"rounded-[50%] p-[0.2rem] h-[1rem] mr-[0.5rem] w-[1rem] bg-black text-white dark:text-black dark:bg-white  ",
+			questionIconClass: "  ",
 		};
 	},
 	props: {},
+
+	computed: {},
+
 	methods: {},
 };
 </script>

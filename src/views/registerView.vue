@@ -1,35 +1,57 @@
 <template>
 	<div class="flex justify-center items-center min-h-[100vh] shadow">
 		<div class="flex flex-col items-center justify-center w-full">
-			<div>
-				<div v-if="active === 'user-register'">
-					<user-register-form />
-				</div>
-				<div v-if="active === 'seller-register'">
-					<company-register-form />
-				</div>
-			</div>
+            <user-register-form></user-register-form>            
 		</div>
 	</div>
 </template>
 
 <script>
+import userRegisterFormVue from "@/forms/registrationForm.vue";
+import api from "@/api";
+import customToast from "@/toast";
+import { isEmpty } from "@/helper";
 
-import userRegisterFormVue from '@/forms/userRegisterForm.vue';
-import companyRegisterForm from '@/forms/companyRegisterForm.vue';
+
 
 export default {
 	name: "registerView",
-    components: {
-        "user-register-form": userRegisterFormVue,
-        "company-register-form": companyRegisterForm
-    },
+	components: {
+		"user-register-form": userRegisterFormVue,
+	},
 	data: function () {
 		return {
 			active: "user-register",
 		};
 	},
 
-	mounted() {},
+	async mounted() {
+		const mailToken = this.$route.query?.mailtoken
+
+		if (!isEmpty(mailToken)) {
+			// verify mail token
+			try {
+				const result = await api.post("/auth/mailverify", {
+					token: mailToken,
+				});
+
+				if (result.status === 200) {
+					return customToast({
+						message: "Mail verifed successfully",
+						icon: "success",
+					});
+				}
+			} catch (error) {
+				const errorMessage = error.response?.data?.msg;
+
+				if (errorMessage) {
+					return customToast({
+						message: errorMessage,
+						icon: "error",
+					});
+				}
+			}
+		}
+	},
 };
 </script>

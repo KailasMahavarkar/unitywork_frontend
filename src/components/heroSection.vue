@@ -1,11 +1,13 @@
 <template>
-	<div class="flex w-full child:min-h-[800px]">
+	<div
+		class="flex flex-col md:flex-row w-full child:min-h-[40vh] child:md:min-h-[800px]"
+	>
 		<!-- search component -->
 		<div
-			class="flex-1 flex flex-col justify-start items-center h-full w-full child:m-2 child:max-w-[80%]"
+			class="flex-1 flex flex-col justify-start items-center h-full w-full child:max-w-[80%]"
 		>
 			<div class="flex flex-1 items-end justify-center">
-				<h1 class="max-w-[500px] text-left text-4xl">
+				<h1 class="max-w-[500px] text-left text-4xl mb-0">
 					Freelance platform for
 					<span class="text-red-500">Developers</span>,
 					<span class="text-yellow-500">Designers</span>
@@ -13,7 +15,7 @@
 				</h1>
 			</div>
 			<div class="flex-1 flex w-full h-full">
-				<div class="flex form-control w-full max-w-[70%] my-5">
+				<div class="flex form-control w-full mb-0 my-5">
 					<div class="input-group">
 						<input
 							v-model="query"
@@ -31,19 +33,19 @@
 		</div>
 
 		<!-- image slider -->
-		<div class="flex-1 flex w-full h-full items-center justify-center">
-			<vue-image-slider
-				:images="imageArray"
-				:intervalVal="3000"
-				:height="700"
-			/>
+		<div class="flex-1 flex items-center justify-center">
+			<div class="hero_slider">
+				<vue-image-slider
+					:images="imageArray"
+					:intervalVal="3000"
+				/>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
 // @ts-nocheck
-
 import VueImageSlider from "vue-image-slider";
 
 export default {

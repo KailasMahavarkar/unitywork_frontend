@@ -3,52 +3,20 @@
 		<h1 class="text-3xl font-bold text-center">
 			Open Marketplace for freelancers
 		</h1>
-		<div class="flex flex-wrap w-full child:flex-1 child:grayscale">
-			<div
-				class="hover:grayscale flex flex-col items-center justify-center"
-			>
-				<img
-					src="../assets/icons/programming.svg"
-					class="rounded-md w-[6rem]"
-					alt="developer"
-				/>
-				<h1 class="text-2xl font-bold text-center">Programming</h1>
-			</div>
-			<div class="flex flex-col items-center justify-center">
-				<img
-					src="../assets/icons/graphics_design.svg"
-					class="rounded-md w-[6rem]"
-					alt="designer"
-				/>
-				<h1 class="text-2xl font-bold text-center">
-					Graphics & Design
-				</h1>
-			</div>
-			<div class="flex flex-col items-center justify-center">
-				<img
-					src="../assets/icons/business.svg"
-					class="rounded-md w-[6rem]"
-					alt="entrepreneur"
-				/>
-				<h1 class="text-2xl font-bold text-center">Business</h1>
-			</div>
-			<div class="flex flex-col items-center justify-center">
-				<img
-					src="../assets/icons/video_animation.svg"
-					class="rounded-md w-[6rem]"
-					alt="entrepreneur"
-				/>
-				<h1 class="text-2xl font-bold text-center">
-					Video & Animation
-				</h1>
-			</div>
-		</div>
+        <marketplace-block>
+		
+    </marketplace-block>
 	</section>
 </template>
 
 <script>
+import marketplaceBlock from "./partials/marketplace.vue";
+
 export default {
 	name: "marketplaceComponent",
+	components: {
+		"marketplace-block": marketplaceBlock,
+	},
 	data: function () {
 		return {
 			replace: [

@@ -18,8 +18,6 @@ html {
 	// width: 100%;
 }
 
-
-
 // body {
 // 	height: 100%;
 // }
@@ -106,4 +104,15 @@ a {
 	width: 100%;
 	height: 100%;
 	font-weight: bold;
+}
+
+.hero_slider {
+	div {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	img {
+	    @apply w-[300px] md:w-[400px] lg:w-[500px];
+	}
 }

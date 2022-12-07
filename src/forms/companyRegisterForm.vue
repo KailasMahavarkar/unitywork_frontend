@@ -87,7 +87,8 @@
 </template>
 
 <script>
-import axios from "axios";
+
+import api from '@/api';
 
 export default {
 	name: "companyRegisterForm",
@@ -115,7 +116,7 @@ export default {
 				confirm_password: this.confirm_password,
 			};
 
-			const result = await axios.post("/auth/register", data);
+			const result = await api.post("/auth/register", data);
 			console.log(result);
 		},
 	},

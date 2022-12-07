@@ -20,7 +20,7 @@ export default new Vuex.Store({
         getUser: state => state.user,
         getAuthed: state => state.authed,
         getGigs: state => state.gigs
-    },
+    }, 
 
     mutations: {
         setUser: (state, user) => state.user = user,
