@@ -7,7 +7,7 @@
 			class="flex-1 flex flex-col justify-start items-center h-full w-full child:max-w-[80%]"
 		>
 			<div class="flex flex-1 items-end justify-center">
-				<h1 class="max-w-[500px] text-left text-4xl mb-0">
+				<h1 class="max-w-[500px] text-left mb-0">
 					Freelance platform for
 					<span class="text-red-500">Developers</span>,
 					<span class="text-yellow-500">Designers</span>
@@ -69,9 +69,9 @@ export default {
 			query: "",
 
 			imageArray: [
-				require("../assets/svg/designer.svg"),
-				require("../assets/svg/developer.svg"),
-				require("../assets/svg/entrepreneur.svg"),
+				require("../../assets/svg/designer.svg"),
+				require("../../assets/svg/developer.svg"),
+				require("../../assets/svg/entrepreneur.svg"),
 			],
 		};
 	},

@@ -35,20 +35,46 @@ export const baseRoutes = [
         component: HomeView
     },
     {
+        path: "/test",
+        name: "testView",
+        component: () => import("../views/testView.vue")
+    },
+    {
         path: "/login",
         name: "loginView",
         component: () => import("../views/loginView.vue")
+    },
+    {
+        path: "/sellers",
+        name: "sellersView",
+        component: () => import("../views/sellersView.vue"),
+    },
+    {
+        path: "/seller/:id",
+        name: "sellerProfileView",
+        component: () => import("../views/sellerProfileView.vue")
+    },
+
+    {
+        path: "/seller-dashboard/create-gig",
+        name: "sellerGigCreateView",
+        component: () => import("../views/sellerGigCreateView.vue"),
+    },
+    {
+        path: "/seller-dashboard/verification",
+        name: "sellerVerificationView",
+        component: () => import("../views/sellerVerificationView.vue"),
+    },
+    {
+        path: "/seller-dashboard/socials",
+        name: "sellerSocialsView",
+        component: () => import("../views/sellerSocialsView.vue"),
     },
     {
         path: "/seller-dashboard",
         name: "sellerDashboardView",
         beforeEnter: guardMyroute,
         component: () => import("../views/sellerDashboardView.vue"),
-    },
-    {
-        path: "/seller-dashboard/create-gig",
-        name: "sellerGigCreateView",
-        component: () => import("../views/sellerGigCreateView.vue"),
     },
     {
         path: "/register",

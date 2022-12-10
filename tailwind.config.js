@@ -1,7 +1,9 @@
+// @ts-nocheck
 /** @type {import('tailwindcss').Config} */
 
 const daisy = require("daisyui");
 const tailwindTypography = require("@tailwindcss/typography");
+const lineclamp = require('@tailwindcss/line-clamp')
 
 const childrenSupport = ({ addVariant }) => {
     addVariant("child", "& > *");
@@ -26,14 +28,14 @@ module.exports = {
     },
     daisyui: {
         styled: true,
-        themes: ['dracula', 'light'],
+        themes: ['dark', 'light'],
         base: true,
         utils: true,
         logs: true,
         rtl: false,
         prefix: "",
-        darkTheme: "dracula",
+        darkTheme: "dark",
     },
-    plugins: [tailwindTypography, daisy, childrenSupport],
+    plugins: [tailwindTypography, lineclamp, daisy, childrenSupport],
 }
 

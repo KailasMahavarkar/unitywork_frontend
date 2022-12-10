@@ -12,10 +12,21 @@ import {
     faHouse, faList, faGear,
     faStore, faChartLine, faEdit,
     faCircle, faComments, faTrash, faSearch,
-    faAdd, faUser, faCircleCheck
+    faAdd, faUser, faCircleCheck,
+    faThumbsUp, faThumbsDown,
+    faEye, faTimes, faCheck,
+    faCloudUpload, faBars
 } from '@fortawesome/free-solid-svg-icons';
-import vueDebounce from 'vue-debounce';
 
+import {
+    faGithub, faTwitter, faInstagram, faDribbble, faBehance,
+    faYoutube, faLinkedin, faDiscord,
+    faFacebook
+} from '@fortawesome/free-brands-svg-icons';
+
+
+// import vue-debounce
+import vueDebounce from 'vue-debounce';
 
 // custom stylesheet
 import './styles/main.css';
@@ -30,13 +41,26 @@ library.add(
     faSearch, faUser,
     faStore, faChartLine, faTrash,
     faEdit, faCircle, faComments,
-    faAdd, faWpexplorer, faCircleCheck
+    faAdd, faWpexplorer, faCircleCheck,
+    faEnvelope,
+    faThumbsUp, faThumbsDown,
+    faEye, faTimes, faCheck,
+    faCloudUpload, faBars,
+
+    // brands
+    faGithub, faTwitter, faInstagram, faDribbble, faBehance, faYoutube,
+
+    faFacebook,
+    faLinkedin, faDiscord
+
 )
+
+
+
 
 // plugins
 Vue.use(Fragment.Plugin);
 Vue.use(vueDebounce)
-
 
 // import fontawesome component as a global component
 Vue.component("font-awesome-icon", FontAwesomeIcon);

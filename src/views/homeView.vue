@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import heroSectionVue from "@/components/heroSection.vue";
-import faqSnippet from "@/components/faqComponent.vue";
-import marketplaceComponent from "@/components/marketplaceComponent.vue";
+import heroSectionVue from "@/components/static/heroSection.vue";
+import faqSnippet from "@/components/static/faqComponent.vue";
+import marketplaceComponent from "@/components/static/marketplaceComponent.vue";
 
 export default {
 	name: "HomeView",

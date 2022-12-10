@@ -3,7 +3,15 @@
 		class="flex justify-center items-center w-full h-full shadow min-h-[80vh]"
 	>
 		<div class="flex flex-col p-10 shadow-xl">
-            <login-form></login-form>
+			<login-form></login-form>
+			<div class="divider"></div>
+			<div>
+				<b> Test Credentials</b>
+				<br />
+				Username: kai
+				<br />
+				Password: 123
+			</div>
 		</div>
 	</div>
 </template>
@@ -24,7 +32,6 @@ export default {
 		};
 	},
 	mounted() {
-		console.log(this.$store.state.counter);
 	},
 	methods: {},
 };

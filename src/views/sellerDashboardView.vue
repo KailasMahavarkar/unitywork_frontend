@@ -2,35 +2,45 @@
 	<div class="flex flex-col w-full h-full items-center justify-center">
 		<!-- toggle dashboard logic -->
 		<div class="flex justify-center w-full p-5 gap-5">
-			<router-link to="/gigs">
-				<button class="btn btn-outline btn-primary">
-					<font-awesome-icon
-						class="mx-2"
-						:icon="['fas', 'house']"
-					></font-awesome-icon>
-					Switch to Gig Listing
-				</button>
-			</router-link>
+			<link-button
+				buttonClass="btn-outline"
+				:to="{ name: 'gigsView' }"
+				:icon="['fas', 'house']"
+			>
+				Switch to Gig Listing
+			</link-button>
 
-			<router-link to="/seller-dashboard/create-gig">
-				<button class="btn btn-outline btn-secondary">
-					<font-awesome-icon
-						class="mx-2"
-						:icon="['fas', 'add']"
-					></font-awesome-icon>
-					Create Gig
-				</button>
-			</router-link>
+			<link-button
+				buttonClass="btn-outline"
+				:to="{ name: 'sellerGigCreateView' }"
+				:icon="['fas', 'add']"
+			>
+				Create Gig
+			</link-button>
 
-			<router-link to="/seller-dashboard/verify">
-				<button class="btn btn-outline">
-					<font-awesome-icon
-						class="mx-2"
-						:icon="['fas', 'circle-check']"
-					></font-awesome-icon>
-					verify seller
-				</button>
-			</router-link>
+			<link-button
+				buttonClass="btn-outline "
+				:to="{ name: 'sellerVerificationView' }"
+				:icon="['fas', 'circle-check']"
+			>
+				verify seller
+			</link-button>
+
+			<link-button
+				buttonClass="btn-outline"
+				:to="{ name: 'sellerVerificationView' }"
+				:icon="['fas', 'circle-check']"
+			>
+				Edit Seller Profile
+			</link-button>
+
+			<link-button
+				buttonClass="btn-outline"
+				:to="{ name: 'sellerSocialsView' }"
+				:icon="['fas', 'circle-check']"
+			>
+				Edit Social Info
+			</link-button>
 		</div>
 
 		<!-- all gigs overview -->
@@ -42,7 +52,9 @@
 						<th>Title</th>
 						<th>Status</th>
 						<th>Preview</th>
-						<th>Actions</th>
+						<th>Gig Actions</th>
+						<th>User Actions</th>
+
 						<th></th>
 					</tr>
 				</thead>
@@ -75,17 +87,6 @@
 						</td>
 						<td>
 							<div class="btn-group btn-group-vertical">
-								<!-- analytics -->
-								<button
-									class="btn gap-2 btn-outline btn-sm btn-out"
-								>
-									<font-awesome-icon
-										class="mx-2"
-										:icon="['fas', 'chart-line']"
-									></font-awesome-icon>
-									Insights
-								</button>
-
 								<!-- delete -->
 								<button
 									class="btn btn-error btn-outline my-1 gap-2 btn-sm"
@@ -106,20 +107,45 @@
 								</button>
 							</div>
 						</td>
-						<td colspan="6">
-							<button
-								:class="{
-									'btn-warning': gig?.status === 'paused',
-								}"
-								:disabled="gig.status === 'draft'"
-								class="btn gap-2 btn-sm"
-							>
-								{{
-									gig?.status === "paused"
-										? "click to activate"
-										: "click to pause"
-								}}
-							</button>
+						<td>
+							<div class="btn-group btn-group-vertical">
+								<!-- CORE ACTIONS -->
+								<button
+									class="btn gap-2 btn-outline btn-sm btn-out"
+									:disabled="gig.verification === 'verified'"
+									@click="gigVerificationHandler(gig._id)"
+								>
+									<font-awesome-icon
+										class="mx-2"
+										:icon="['fas', 'eye']"
+									></font-awesome-icon>
+
+									{{
+										gig.verification === "verified"
+											? "gig is verified"
+											: "pending verification"
+									}}
+								</button>
+
+								<button
+									class="btn btn-outline my-1 gap-2 btn-sm"
+									@click="gigStatusChangeHandler(gig._id)"
+								>
+									<font-awesome-icon
+										class="mx-2"
+										:icon="
+											gig?.status === 'inactive'
+												? 'fa-solid fa-check'
+												: 'fa-solid fa-times'
+										"
+									></font-awesome-icon>
+									{{
+										gig?.status === "inactive"
+											? "activate gig"
+											: "inactivate gig"
+									}}
+								</button>
+							</div>
 						</td>
 					</tr>
 				</tbody>
@@ -134,16 +160,29 @@ import { handleCustomError } from "@/helper";
 import customToast from "@/toast";
 import Swal from "sweetalert2";
 
+import linkButton from "@/components/linkButton.vue";
+import produce from "immer";
+
 export default {
 	name: "sellerDashboardView",
 
-	components: {},
+	components: {
+		"link-button": linkButton,
+	},
 
 	data() {
 		return {
 			buyerDashboard: true,
 			gigs: [],
 		};
+	},
+
+	computed: {
+		getHeaders: function () {
+			return {
+				authorization: "bearer " + this.$store.state.user.accessToken,
+			};
+		},
 	},
 
 	methods: {
@@ -188,6 +227,76 @@ export default {
 				handleCustomError(error);
 			}
 		},
+
+		async gigVerificationHandler(gigId) {
+			try {
+				const URL = `/seller/gig/verify`;
+				const result = await api.patch(
+					URL,
+					{
+						gigId: gigId,
+					},
+					{
+						headers: this.getHeaders,
+					}
+				);
+
+				if (result.status === 200) {
+					// update gigs
+					this.gigs = produce(this.gigs, (draft) => {
+						const gigIndex = draft.findIndex(
+							(gig) => gig._id === gigId
+						);
+						draft[gigIndex].verification = "pending";
+					});
+
+					customToast({
+						title: "Success",
+						message: "Gig status changed successfully",
+						type: "success",
+					});
+				}
+			} catch (error) {
+				handleCustomError(error);
+			}
+		},
+
+		async gigStatusChangeHandler(gigId) {
+			try {
+				const URL = `/seller/gig/status`;
+				const result = await api.patch(
+					URL,
+					{
+						gigId: gigId,
+					},
+					{
+						headers: this.getHeaders,
+					}
+				);
+
+				if (result.status === 200) {
+					const oldStatus = this.gigs.find(
+						(gig) => gig._id === gigId
+					).status;
+
+					const newStatus =
+						oldStatus === "active" ? "inactive" : "active";
+
+					// update gig status locally
+					this.gigs = produce(this.gigs, (draft) => {
+						const gig = draft.find((gig) => gig._id === gigId);
+						gig.status = newStatus;
+					});
+					customToast({
+						title: "Success",
+						message: `Gig status changed to ${newStatus}`,
+						type: "success",
+					});
+				}
+			} catch (error) {
+				handleCustomError(error);
+			}
+		},
 	},
 	async mounted() {
 		// get all gigs created by this user
@@ -197,10 +306,7 @@ export default {
 
 		try {
 			const result = await api.get(URL, {
-				headers: {
-					authorization:
-						"Bearer " + this.$store.state.user.accessToken,
-				},
+				headers: this.getHeaders,
 			});
 			this.gigs = result.data.data;
 		} catch (error) {

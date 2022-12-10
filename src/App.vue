@@ -6,17 +6,32 @@
 	>
 		<div class="flex items-center justify-center w-full h-full">
 			<div class="flex flex-col container w-full h-full">
-				<navbar-component :toggleTheme="toggleTheme" :theme="theme" />
+				<navbar-component>
+					<template v-slot:theme>
+						<button
+							class="btn btn-primary btn-circle"
+							@click="() => toggleTheme()"
+						>
+							<font-awesome-icon
+								v-bind:icon="
+									theme === 'dark'
+										? ['fas', 'sun']
+										: ['fas', 'moon']
+								"
+								class="w-5 h-5"
+							/>
+						</button>
+					</template>
+				</navbar-component>
 				<router-view />
-                <footer-component></footer-component>
-
+				<footer-component></footer-component>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import footerComponent from "./components/footerComponent.vue";
+import footerComponent from "./components/static/footerComponent.vue";
 import navbarComponent from "./components/navbarComponent.vue";
 
 const routes = [
@@ -39,18 +54,18 @@ export default {
 
 	methods: {
 		toggleTheme() {
-			// set theme to localStorage
-			// update theme to data
-			if (this.theme === "light") {
-				this.theme = "dark";
-			} else {
-				this.theme = "light";
-			}
+			this.theme = this.theme === "dark" ? "light" : "dark";
+
+			// Save theme to local storage
+			localStorage.setItem("theme", this.theme);
 		},
 	},
 
 	beforeMount() {},
 
-	mounted() {},
+	mounted() {
+        // Get theme from local storage
+        this.theme = localStorage.getItem("theme") || "light";
+    },
 };
 </script>

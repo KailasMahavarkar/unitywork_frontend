@@ -91,6 +91,10 @@ export default {
 				const result = await api.get(`/search?query=${tempQuery}`);
 				// post fetch processing
 				this.gigs = processGigs(result.data.data);
+
+                // return gig to parent component
+                this.$emit("gigs", this.gigs);
+
 			} catch (error) {
 				handleCustomError(error);
 			}
