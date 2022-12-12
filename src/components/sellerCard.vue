@@ -7,12 +7,12 @@
 			<div class="w-full px-4 flex justify-center">
 				<div class="flex justify-center relative w-[150px] h-[90px]">
 					<img
-						:src="avatar"
+						:src="getAvatar"
 						class="shadow-xl rounded-full h-auto align-middle border-none absolute -m-12"
 					/>
 				</div>
 			</div>
-			<h3>{{ name }}</h3>
+			<h3>{{ fullname.slice(0, 30) }}</h3>
 
 			<div class="w-full flex justify-center">
 				<div class="flex justify-center space-x-6 align-center">
@@ -57,9 +57,9 @@
 						<span
 							class="text-xl font-bold block uppercase tracking-wide"
 						>
-							{{ likes }}
+							{{ rank }}
 						</span>
-						<span class="text-sm">Followers</span>
+						<span class="text-sm">Rank</span>
 					</div>
 					<div class="mr-4 p-3 text-center">
 						<span
@@ -85,15 +85,15 @@
 		<!-- seller location, job and education -->
 		<div class="text-center">
 			<h4 class="text-gray-400">
-				{{ location }}
+				{{ location || 'Location Unspecified' }}
 			</h4>
 			<div class="mb-2 mt-6">
 				<i class="fas fa-briefcase mr-2 text-lg"></i>
-				{{ job }}
+				{{ job || 'Job Title Unspecified' }}
 			</div>
 			<div class="mb-2">
 				<i class="fas fa-university mr-2 text-lg"></i>
-				{{ education }}
+				{{ education || 'Education Level Unspecified' }}
 			</div>
 		</div>
 		<div class="divider h-[0.25rem]"></div>
@@ -102,7 +102,7 @@
 		<div class="flex flex-wrap justify-center text-center">
 			<div class="w-full px-10">
 				<p>
-					{{ description }}
+					{{ description || 'About Unspecified' }}
 				</p>
 			</div>
 		</div>
@@ -111,19 +111,35 @@
 
 <script>
 export default {
+	name: "sellerCard",
+
+	data() {
+		return {};
+	},
 	props: {
+		username: {
+			type: String,
+			required: true,
+		},
 		avatar: {
 			type: String,
-			required: true,
+			required: false,
+            default: ""
 		},
-		name: {
+		firstname: {
 			type: String,
 			required: true,
 		},
-		likes: {
+		lastname: {
+			type: String,
+			required: true,
+		},
+
+		rank: {
 			type: Number,
 			required: true,
 		},
+
 		gigCount: {
 			type: Number,
 			required: true,
@@ -149,6 +165,14 @@ export default {
 			required: true,
 		},
 	},
-	computed: {},
+	computed: {
+		fullname() {
+			return `${this.firstname || "John"} ${this.lastname || "Doe"}`;
+		},
+		getAvatar() {
+			const fallbackUrl = `https://avatars.dicebear.com/api/identicon/${this.username}.svg`;
+			return this.avatar || fallbackUrl;
+		},
+	},
 };
 </script>

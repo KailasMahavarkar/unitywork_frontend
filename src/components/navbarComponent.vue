@@ -151,6 +151,11 @@ export default {
 		logoutHandler() {
 			this.$store.commit("setAuthentication", false);
 			this.$store.commit("setUser", {});
+
+            // redirect to home page
+            this.$router.push("/");
+            
+
 		},
 	},
 

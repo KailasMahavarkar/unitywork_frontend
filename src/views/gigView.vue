@@ -1,6 +1,8 @@
 <template>
-	<!-- create a tailwind page where you can view single gig  -->
-	<gig-view-card :gig="gig"></gig-view-card>
+	<page-component>
+		<!-- create a tailwind page where you can view single gig  -->
+		<gig-view-card :gig="gig"></gig-view-card>
+	</page-component>
 </template>
 
 <script>

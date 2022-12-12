@@ -19,8 +19,15 @@ export default new Vuex.Store({
     getters: {
         getUser: state => state.user,
         getAuthed: state => state.authed,
-        getGigs: state => state.gigs
-    }, 
+        getGigs: state => state.gigs,
+        getHeaders: state => {
+            return {
+                headers: {
+                    'Authorization': 'Bearer ' + state.user.accessToken,
+                }
+            }
+        }
+    },
 
     mutations: {
         setUser: (state, user) => state.user = user,

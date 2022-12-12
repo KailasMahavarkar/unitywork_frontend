@@ -80,7 +80,10 @@ export default {
 
 				if (result.status === 200) {
 					const { accessToken, refreshToken } = result.data.data;
+
 					const parsedToken = parseJwt(accessToken);
+
+                    const role = parsedToken.role;
 
 					this.$store.commit("setUser", {
 						...parsedToken,
@@ -95,14 +98,24 @@ export default {
 						}
 					});
 
-					this.$router.replace({
-						name: "gigsView",
-					});
+					if (role === "admin") {
+						this.$router.replace({
+							name: "adminDashboardView",
+						});
+						return customToast({
+							icon: "success",
+							message: "Admin Logged In Successfully",
+						});
+					} else {
+						this.$router.replace({
+							name: "gigsView",
+						});
 
-					return customToast({
-						icon: "success",
-						message: "User Logged In Successfully",
-					});
+						return customToast({
+							icon: "success",
+							message: "User Logged In Successfully",
+						});
+					}
 				}
 			} catch (error) {
 				return handleCustomError(error);

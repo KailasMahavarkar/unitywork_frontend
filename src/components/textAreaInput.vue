@@ -7,7 +7,8 @@
 				</span>
 			</label>
 			<textarea
-				:v-model="value"
+				:value="value"
+                @input="$emit('input', value)"
 				class="textarea textarea-bordered w-full min-h-[200px]"
 				:class="textareaClass"
 			/>
@@ -19,19 +20,23 @@
 export default {
 	name: "formInput",
 	components: {},
-	data: () => ({}),
+	data: () => ({
+    }),
 	props: {
-		change: {
-			type: Function,
-			required: false,
-		},
 		textareaClass: {
 			type: String,
 			required: false,
 		},
-		value: {
-			type: String,
-			required: false,
+        value: {
+            type: String,
+            required: false,
+            default: "",
+        },
+	},
+
+	methods: {
+		emitInput() {
+			this.$emit("input", this.value);
 		},
 	},
 };

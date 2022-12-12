@@ -1,157 +1,121 @@
 <template>
-	<div class="flex flex-col w-full h-full items-center justify-center">
-		<!-- toggle dashboard logic -->
-		<div class="flex justify-center w-full p-5 gap-5">
-			<link-button
-				buttonClass="btn-outline"
-				:to="{ name: 'gigsView' }"
-				:icon="['fas', 'house']"
-			>
-				Switch to Gig Listing
-			</link-button>
+	<dashboard-component>
+		<div class="m-5">
+			<!-- all gigs overview -->
+			<div class="overflow-x-auto min-h-[60vh]">
+				<table class="table table-compact  w-full shadow-md">
+					<!-- head -->
+					<thead>
+						<tr>
+							<th>Title</th>
+							<th>Status</th>
+							<th>Preview</th>
+							<th>Gig Actions</th>
+							<th>User Actions</th>
 
-			<link-button
-				buttonClass="btn-outline"
-				:to="{ name: 'sellerGigCreateView' }"
-				:icon="['fas', 'add']"
-			>
-				Create Gig
-			</link-button>
-
-			<link-button
-				buttonClass="btn-outline "
-				:to="{ name: 'sellerVerificationView' }"
-				:icon="['fas', 'circle-check']"
-			>
-				verify seller
-			</link-button>
-
-			<link-button
-				buttonClass="btn-outline"
-				:to="{ name: 'sellerVerificationView' }"
-				:icon="['fas', 'circle-check']"
-			>
-				Edit Seller Profile
-			</link-button>
-
-			<link-button
-				buttonClass="btn-outline"
-				:to="{ name: 'sellerSocialsView' }"
-				:icon="['fas', 'circle-check']"
-			>
-				Edit Social Info
-			</link-button>
-		</div>
-
-		<!-- all gigs overview -->
-		<div class="overflow-x-auto min-w-[80%] min-h-[60vh]">
-			<table class="table w-full shadow-md">
-				<!-- head -->
-				<thead>
-					<tr>
-						<th>Title</th>
-						<th>Status</th>
-						<th>Preview</th>
-						<th>Gig Actions</th>
-						<th>User Actions</th>
-
-						<th></th>
-					</tr>
-				</thead>
-				<tbody v-if="gigs">
-					<!-- row 1 -->
-					<tr v-for="gig in gigs" :key="gig._id">
-						<th>
-							{{ gig.title }}
-						</th>
-						<td>
-							<font-awesome-icon
-								class="mx-2"
-								:class="{
-									'text-gray-300': gig.status === 'draft',
-									'text-green-500': gig.status === 'active',
-									'text-red-500': gig.status === 'inactive',
-								}"
-								:icon="['fas', 'circle']"
-							></font-awesome-icon>
-							{{ gig.status }}
-						</td>
-						<td>
-							<div class="flex items-center space-x-3">
-								<img
-									:src="gig.thumbnail"
-									class="w-[120px] h-[60px]"
-									alt="Avatar Tailwind CSS Component"
-								/>
-							</div>
-						</td>
-						<td>
-							<div class="btn-group btn-group-vertical">
-								<!-- delete -->
-								<button
-									class="btn btn-error btn-outline my-1 gap-2 btn-sm"
-									@click="deleteGig(gig._id, gig.title)"
-								>
-									<font-awesome-icon
-										class="mx-2"
-										:icon="['fas', 'trash']"
-									></font-awesome-icon>
-									Delete
-								</button>
-								<button class="btn btn-primary gap-2 btn-sm">
-									<font-awesome-icon
-										class="mx-2"
-										:icon="['fas', 'edit']"
-									></font-awesome-icon>
-									Edit
-								</button>
-							</div>
-						</td>
-						<td>
-							<div class="btn-group btn-group-vertical">
-								<!-- CORE ACTIONS -->
-								<button
-									class="btn gap-2 btn-outline btn-sm btn-out"
-									:disabled="gig.verification === 'verified'"
-									@click="gigVerificationHandler(gig._id)"
-								>
-									<font-awesome-icon
-										class="mx-2"
-										:icon="['fas', 'eye']"
-									></font-awesome-icon>
-
-									{{
-										gig.verification === "verified"
-											? "gig is verified"
-											: "pending verification"
-									}}
-								</button>
-
-								<button
-									class="btn btn-outline my-1 gap-2 btn-sm"
-									@click="gigStatusChangeHandler(gig._id)"
-								>
-									<font-awesome-icon
-										class="mx-2"
-										:icon="
-											gig?.status === 'inactive'
-												? 'fa-solid fa-check'
-												: 'fa-solid fa-times'
+							<th></th>
+						</tr>
+					</thead>
+					<tbody v-if="gigs">
+						<!-- row 1 -->
+						<tr v-for="gig in gigs" :key="gig._id">
+							<th>
+								{{ gig.title }}
+							</th>
+							<td>
+								<font-awesome-icon
+									class="mx-2"
+									:class="{
+										'text-gray-300': gig.status === 'draft',
+										'text-green-500':
+											gig.status === 'active',
+										'text-red-500':
+											gig.status === 'inactive',
+									}"
+									:icon="['fas', 'circle']"
+								></font-awesome-icon>
+								{{ gig.status }}
+							</td>
+							<td>
+								<div class="flex items-center space-x-3">
+									<img
+										:src="gig.thumbnail"
+										class="w-[120px] h-[60px]"
+										alt="Avatar Tailwind CSS Component"
+									/>
+								</div>
+							</td>
+							<td>
+								<div class="btn-group btn-group-vertical">
+									<!-- delete -->
+									<button
+										class="btn btn-error btn-outline my-1 gap-2 btn-sm"
+										@click="deleteGig(gig._id, gig.title)"
+									>
+										<font-awesome-icon
+											class="mx-2"
+											:icon="['fas', 'trash']"
+										></font-awesome-icon>
+										Delete
+									</button>
+									<button
+										class="btn btn-primary gap-2 btn-sm"
+									>
+										<font-awesome-icon
+											class="mx-2"
+											:icon="['fas', 'edit']"
+										></font-awesome-icon>
+										Edit
+									</button>
+								</div>
+							</td>
+							<td>
+								<div class="btn-group btn-group-vertical">
+									<!-- CORE ACTIONS -->
+									<button
+										class="btn gap-2 btn-outline btn-sm btn-out"
+										:disabled="
+											gig.verification === 'verified'
 										"
-									></font-awesome-icon>
-									{{
-										gig?.status === "inactive"
-											? "activate gig"
-											: "inactivate gig"
-									}}
-								</button>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+										@click="gigVerificationHandler(gig._id)"
+									>
+										<font-awesome-icon
+											:icon="['fas', 'eye']"
+										></font-awesome-icon>
+
+										{{
+											gig.verification === "verified"
+												? "gig is verified"
+												: "verify pending"
+										}}
+									</button>
+
+									<button
+										class="btn btn-outline my-1 gap-2 btn-sm"
+										@click="gigStatusChangeHandler(gig._id)"
+									>
+										<font-awesome-icon
+											class="mx-2"
+											:icon="
+												gig?.status === 'inactive'
+													? 'fa-solid fa-check'
+													: 'fa-solid fa-times'
+											"
+										></font-awesome-icon>
+										{{
+											gig?.status === "inactive"
+												? "activate gig"
+												: "inactivate gig"
+										}}
+									</button>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
-	</div>
+	</dashboard-component>
 </template>
 
 <script>
@@ -160,14 +124,13 @@ import { handleCustomError } from "@/helper";
 import customToast from "@/toast";
 import Swal from "sweetalert2";
 
-import linkButton from "@/components/linkButton.vue";
 import produce from "immer";
+import { mapGetters } from "vuex";
 
 export default {
 	name: "sellerDashboardView",
 
 	components: {
-		"link-button": linkButton,
 	},
 
 	data() {
@@ -178,6 +141,7 @@ export default {
 	},
 
 	computed: {
+		...mapGetters(["getUser"]),
 		getHeaders: function () {
 			return {
 				authorization: "bearer " + this.$store.state.user.accessToken,
@@ -299,10 +263,11 @@ export default {
 		},
 	},
 	async mounted() {
+		const user = this.getUser;
+
 		// get all gigs created by this user
 		// user will be treated as seller while making the request to fetch gigs
-		const sellerId = this.$store.state.user._id;
-		const URL = `/seller/` + sellerId + "/gigs";
+		const URL = `/seller/${user.username}/gigs`;
 
 		try {
 			const result = await api.get(URL, {

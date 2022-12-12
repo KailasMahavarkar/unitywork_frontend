@@ -1,5 +1,5 @@
 <template>
-	<fragment>
+	<page-component>
 		<div class="flex items-center justify-center w-full">
 			<div class="flex form-control w-full max-w-[70%] my-5">
 				<div class="input-group">
@@ -78,7 +78,7 @@
 				</div>
 			</div>
 		</div>
-	</fragment>
+	</page-component>
 </template>
 
 <script>
@@ -153,7 +153,7 @@ export default {
 		async getGigs() {
 			try {
 				const tempQuery = fixQuery(this.query);
-				const result = await api.get(`/search?query=${tempQuery}`);
+				const result = await api.get(`/gigs/search?query=${tempQuery}`);
 
 				// post fetch processing
 				this.gigs = processGigs(result.data.data);

@@ -1,313 +1,322 @@
 <template>
-	<div class="flex flex-col w-full shadow-md">
-		<!-- STEPS -->
-		<ul class="steps">
-			<!-- create title, set category and tags -->
-			<step-list
-				:value="isTitleValid"
-				:currentStep="step"
-				:expectedStep="1"
+	<dashboard-component>
+		<div class="flex flex-col w-full shadow-md">
+			<!-- STEPS -->
+			<ul class="steps">
+				<!-- create title, set category and tags -->
+				<step-list
+					:value="isTitleValid"
+					:currentStep="step"
+					:expectedStep="1"
+				>
+					Create Title
+				</step-list>
+
+				<!-- create body -->
+				<step-list
+					:value="isBodyValid"
+					:currentStep="step"
+					:expectedStep="2"
+				>
+					Create Body
+				</step-list>
+
+				<!-- create pricing -->
+				<step-list
+					:value="isPricingValid"
+					:currentStep="step"
+					:expectedStep="3"
+				>
+					Create Pricing
+				</step-list>
+
+				<!-- upload images -->
+				<step-list
+					:value="isImagesValid"
+					:currentStep="step"
+					:expectedStep="4"
+				>
+					Upload Images
+				</step-list>
+
+				<!-- preview -->
+				<step-list
+					:value="step === 5"
+					:currentStep="step"
+					:expectedStep="5"
+				>
+					Preview & Publish
+				</step-list>
+			</ul>
+
+			<!-- TITLE -->
+			<div
+				v-if="step === 1"
+				class="flex flex-col w-full items-center mt-[50px]"
 			>
-				Create Title
-			</step-list>
-
-			<!-- create body -->
-			<step-list
-				:value="isBodyValid"
-				:currentStep="step"
-				:expectedStep="2"
-			>
-				Create Body
-			</step-list>
-
-			<!-- create pricing -->
-			<step-list
-				:value="isPricingValid"
-				:currentStep="step"
-				:expectedStep="3"
-			>
-				Create Pricing
-			</step-list>
-
-			<!-- upload images -->
-			<step-list
-				:value="isImagesValid"
-				:currentStep="step"
-				:expectedStep="4"
-			>
-				Upload Images
-			</step-list>
-
-			<!-- preview -->
-			<step-list
-				:value="step === 5"
-				:currentStep="step"
-				:expectedStep="5"
-			>
-				Preview & Publish
-			</step-list>
-		</ul>
-
-		<!-- TITLE -->
-		<div
-			v-if="step === 1"
-			class="flex flex-col w-full items-center mt-[50px]"
-		>
-			<div class="flex flex-col w-[90%]">
-				<h2 class="text-left m-2 text-gray-500 dark:text-gray-300">
-					Gig Title
-				</h2>
-				<div class="flex">
-					<input
-						type="text"
-						id="title"
-						v-model="gig.title"
-						placeholder="like I will create a 'your portfolio website'"
-						class="input rounded-sm w-full shadow flex-1 dark:input-bordered"
-					/>
-				</div>
-			</div>
-
-			<div class="flex flex-col w-[90%] mt-10">
-				<h2 class="text-left m-2 text-gray-500 dark:text-gray-300">
-					Gig Category
-				</h2>
-				<div class="flex">
-					<select
-						v-model="gig.category"
-						class="input rounded-sm w-full shadow flex-1 font-bold dark:select-bordered"
-					>
-						<option selected>Select Category</option>
-						<option v-for="category in categories" :key="category">
-							{{ category }}
-						</option>
-					</select>
-				</div>
-			</div>
-
-			<div class="flex flex-col w-[90%] mt-10">
-				<!-- loop through tags -->
-
-				<h2 class="text-left m-2 text-gray-500 dark:text-gray-300">
-					Gig Tags
-				</h2>
-
-				<div class="flex flex-wrap">
-					<!-- preview tags -->
-					<div
-						v-for="tag in gig.tags"
-						:key="tag"
-						class="btn btn-outline no-animation mx-2"
-					>
-						{{ tag }}
-
-						<!-- remove -->
-						<button
-							class="btn btn-sm btn-warning btn-circle mx-2"
-							@click="removeTag(tag)"
-						>
-							x
-						</button>
-					</div>
-
-					<!-- add tag -->
-					<div
-						class="flex items-center justify-center"
-						v-if="gig.tags.length < 5"
-					>
+				<div class="flex flex-col w-[90%]">
+					<h2 class="text-left m-2 text-gray-500 dark:text-gray-300">
+						Gig Title
+					</h2>
+					<div class="flex">
 						<input
 							type="text"
-							id="tag"
-							v-model="tag"
-							class="input rounded-sm w-full shadow flex-1 font-bold dark:input-bordered"
+							id="title"
+							v-model="gig.title"
+							placeholder="like I will create a 'your portfolio website'"
+							class="input rounded-sm w-full shadow flex-1 dark:input-bordered"
 						/>
+					</div>
+				</div>
 
-						<div
-							class="flex mx-5 cursor-pointer items-center justify-center w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700"
-							@click="addTag"
+				<div class="flex flex-col w-[90%] mt-10">
+					<h2 class="text-left m-2 text-gray-500 dark:text-gray-300">
+						Gig Category
+					</h2>
+					<div class="flex">
+						<select
+							v-model="gig.category"
+							class="input rounded-sm w-full shadow flex-1 font-bold dark:select-bordered"
 						>
-							<span class="text-gray-500 dark:text-gray-300"
-								>+</span
+							<option selected>Select Category</option>
+							<option
+								v-for="category in categories"
+								:key="category"
 							>
+								{{ category }}
+							</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="flex flex-col w-[90%] mt-10">
+					<!-- loop through tags -->
+
+					<h2 class="text-left m-2 text-gray-500 dark:text-gray-300">
+						Gig Tags
+					</h2>
+
+					<div class="flex flex-wrap">
+						<!-- preview tags -->
+						<div
+							v-for="tag in gig.tags"
+							:key="tag"
+							class="btn btn-outline no-animation mx-2"
+						>
+							{{ tag }}
+
+							<!-- remove -->
+							<button
+								class="btn btn-sm btn-warning btn-circle mx-2"
+								@click="removeTag(tag)"
+							>
+								x
+							</button>
+						</div>
+
+						<!-- add tag -->
+						<div
+							class="flex items-center justify-center"
+							v-if="gig.tags.length < 5"
+						>
+							<input
+								type="text"
+								id="tag"
+								v-model="tag"
+								class="input rounded-sm w-full shadow flex-1 font-bold dark:input-bordered"
+							/>
+
+							<div
+								class="flex mx-5 cursor-pointer items-center justify-center w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700"
+								@click="addTag"
+							>
+								<span class="text-gray-500 dark:text-gray-300"
+									>+</span
+								>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<!-- BODY -->
-		<div
-			v-if="step === 2"
-			class="flex flex-col w-full items-center mt-[50px]"
-		>
-			<div class="flex flex-col w-[90%]">
-				<h2 class="text-left m-2 text-gray-500 dark:text-gray-300">
-					Gig Body
-				</h2>
-				<vue-editor class="h-full" v-model="gig.blog"> </vue-editor>
-			</div>
-		</div>
-
-		<!-- PRICING -->
-		<div
-			class="flex flex-col w-full items-center mt-[80px] mb-0"
-			v-if="step === 3"
-		>
-			<div class="flex flex-col w-[90%]">
-				<div class="flex justify-between">
+			<!-- BODY -->
+			<div
+				v-if="step === 2"
+				class="flex flex-col w-full items-center mt-[50px]"
+			>
+				<div class="flex flex-col w-[90%]">
 					<h2 class="text-left m-2 text-gray-500 dark:text-gray-300">
-						Gig Pricing
+						Gig Body
 					</h2>
+					<vue-editor class="h-full" v-model="gig.blog"> </vue-editor>
 				</div>
-				<table>
-					<tr>
-						<th>Package</th>
-						<th>Price</th>
-						<th>Delivery Time</th>
-						<th>Revision Count</th>
-						<th>Valid</th>
-					</tr>
-					<tr v-for="pack in gig.pricings" :key="pack.id">
-						<td>
-							<input
-								type="text"
-								id="package"
-								class="input input-bordered rounded-sm w-full flex-1"
-								v-model="pack.name"
-							/>
-						</td>
-						<td>
-							<input
-								type="number"
-								id="price"
-								:min="300"
-								v-model="pack.price"
-								class="input input-bordered rounded-sm w-full flex-1"
-							/>
-						</td>
-						<td>
-							<select
-								class="select select-bordered rounded-sm w-full flex-1"
-								v-model="pack.deliveryTime"
-							>
-								<option
-									v-for="(element, index) in timeArray"
-									:key="index"
-								>
-									{{ element }}
-								</option>
-							</select>
-						</td>
-						<td>
-							<input
-								type="number"
-								max="20"
-								id="revisions"
-								v-model="pack.revisions"
-								class="input input-bordered rounded-sm w-full flex-1"
-							/>
-						</td>
-						<td>
-							<font-awesome-icon
-								:icon="
-									pack.valid
-										? ['fas', 'check']
-										: ['fas', 'times']
-								"
-								class="text-xl text-green-500"
-							/>
-						</td>
-					</tr>
-				</table>
 			</div>
-		</div>
 
-		<!-- Images -->
-		<div class="flex flex-col w-full child:flex-1" v-if="step === 4">
-			<div class="flex items-center justify-center">
-				<div
-					class="flex flex-col m-10 p-5 shadow"
-					v-for="(image, index) in [
-						'fileOne',
-						'fileTwo',
-						'fileThree',
-					]"
-					:key="index"
-				>
-					<img
-						:src="
-							secureUrls[image] ||
-							previewImages[image] ||
-							`https://via.placeholder.com/300x200/FFF/000?text=300%20x%20200%20image`
-						"
-						class="w-[300px] max-h-[200px] object-cover"
-						alt=""
-					/>
-					<div class="flex shadow m-0 p-0 rounded-md max-w-[300px]">
-						<input
-							class="file-input w-full"
-							:id="image"
-							:multiple="false"
-							type="file"
-							@change="uploadFile"
-							:ref="image"
-						/>
-						<button
-							class="btn btn-error btn-sm btn-circle m-2"
-							@click="removeFile(image)"
+			<!-- PRICING -->
+			<div
+				class="flex flex-col w-full items-center mt-[80px] mb-0"
+				v-if="step === 3"
+			>
+				<div class="flex flex-col w-[90%]">
+					<div class="flex justify-between">
+						<h2
+							class="text-left m-2 text-gray-500 dark:text-gray-300"
 						>
-							<font-awesome-icon icon="times" />
-						</button>
+							Gig Pricing
+						</h2>
+					</div>
+					<table>
+						<tr>
+							<th>Package</th>
+							<th>Price</th>
+							<th>Delivery Time</th>
+							<th>Revision Count</th>
+							<th>Valid</th>
+						</tr>
+						<tr v-for="pack in gig.pricings" :key="pack.id">
+							<td>
+								<input
+									type="text"
+									id="package"
+									class="input input-bordered rounded-sm w-full flex-1"
+									v-model="pack.name"
+								/>
+							</td>
+							<td>
+								<input
+									type="number"
+									id="price"
+									:min="300"
+									v-model="pack.price"
+									class="input input-bordered rounded-sm w-full flex-1"
+								/>
+							</td>
+							<td>
+								<select
+									class="select select-bordered rounded-sm w-full flex-1"
+									v-model="pack.deliveryTime"
+								>
+									<option
+										v-for="(element, index) in timeArray"
+										:key="index"
+									>
+										{{ element }}
+									</option>
+								</select>
+							</td>
+							<td>
+								<input
+									type="number"
+									max="20"
+									id="revisions"
+									v-model="pack.revisions"
+									class="input input-bordered rounded-sm w-full flex-1"
+								/>
+							</td>
+							<td>
+								<font-awesome-icon
+									:icon="
+										pack.valid
+											? ['fas', 'check']
+											: ['fas', 'times']
+									"
+									class="text-xl text-green-500"
+								/>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			<!-- Images -->
+			<div class="flex flex-col w-full child:flex-1" v-if="step === 4">
+				<div class="flex items-center justify-center">
+					<div
+						class="flex flex-col m-10 p-5 shadow"
+						v-for="(image, index) in [
+							'fileOne',
+							'fileTwo',
+							'fileThree',
+						]"
+						:key="index"
+					>
+						<img
+							:src="
+								secureUrls[image] ||
+								previewImages[image] ||
+								`https://via.placeholder.com/300x200/FFF/000?text=300%20x%20200%20image`
+							"
+							class="w-[300px] max-h-[200px] object-cover"
+							alt=""
+						/>
+						<div
+							class="flex shadow m-0 p-0 rounded-md max-w-[300px]"
+						>
+							<input
+								class="file-input w-full"
+								:id="image"
+								:multiple="false"
+								type="file"
+								@change="uploadFile"
+								:ref="image"
+							/>
+							<button
+								class="btn btn-error btn-sm btn-circle m-2"
+								@click="removeFile(image)"
+							>
+								<font-awesome-icon icon="times" />
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
+
+			<div v-if="step === 5">
+				<gig-card :gig="gig"></gig-card>
+			</div>
+
+			<!-- SAVE TO CLOUD -->
+			<div class="flex items-center justify-end m-5">
+				<button
+					class="btn btn-primary max-w-md"
+					type="button"
+					name="button"
+					@click="previousWizard"
+					v-if="step > 1"
+				>
+					Prev
+				</button>
+
+				<!-- conditionally disable buttton -->
+
+				<button
+					class="btn btn-primary max-w-md mx-2"
+					type="button"
+					name="button"
+					@click="nextWizard"
+					v-if="step < 5"
+					:disabled="
+						(step === 1 && !isTitleValid) ||
+						(step === 2 && !isBodyValid) ||
+						(step === 3 && !isPricingValid) ||
+						(step === 4 && !isImagesValid)
+					"
+				>
+					Next
+				</button>
+
+				<button
+					class="btn btn-success max-w-md mx-2"
+					type="button"
+					name="button"
+					@click="saveDraftGig"
+					v-if="step === 5"
+				>
+					Save and Publish Gig
+				</button>
+			</div>
 		</div>
-
-		<div v-if="step === 5">
-			<gig-card :gig="gig"></gig-card>
-		</div>
-
-		<!-- SAVE TO CLOUD -->
-		<div class="flex items-center justify-end m-5">
-			<button
-				class="btn btn-primary max-w-md"
-				type="button"
-				name="button"
-				@click="previousWizard"
-				v-if="step > 1"
-			>
-				Prev
-			</button>
-
-			<!-- conditionally disable buttton -->
-
-			<button
-				class="btn btn-primary max-w-md mx-2"
-				type="button"
-				name="button"
-				@click="nextWizard"
-				v-if="step < 5"
-				:disabled="
-					(step === 1 && !isTitleValid) ||
-					(step === 2 && !isBodyValid) ||
-					(step === 3 && !isPricingValid) ||
-					(step === 4 && !isImagesValid)
-				"
-			>
-				Next
-			</button>
-
-			<button
-				class="btn btn-success max-w-md mx-2"
-				type="button"
-				name="button"
-				@click="saveDraftGig"
-                v-if="step === 5"
-			>
-				Save and Publish Gig
-			</button>
-		</div>
-	</div>
+	</dashboard-component>
 </template>
 
 <script>

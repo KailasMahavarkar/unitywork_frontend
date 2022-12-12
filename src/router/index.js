@@ -3,30 +3,124 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import HomeView from "../views/homeView.vue";
 import store from '@/store';
+import { refreshToken } from '@/api';
+import { customToast } from '@/helper'
+
 
 Vue.use(VueRouter)
 
-function guardMyroute(to, from, next) {
+async function guardMyroute(to, from, next) {
     if (store.state.authenicated) {
         return next();
     }
 
     const user = store.state.user;
-    if (user) {
-        // check if token iat is more than exp
-        if (user['iat'] < user['exp']) {
-            // token is valid
-            return next();
-        }
+
+    if (!user) {
+        return next('/login');
     }
 
-    next('/login');
+    // check if refresh token is expired
+    const refreshTokenTimeInSeconds = (user.refreshExp - (Date.now() / 1000)).toFixed(0);
+    const refreshTokenTimeInMinutes = refreshTokenTimeInSeconds / 60;
+    const refreshTokenExpired = refreshTokenTimeInMinutes < 0;
+
+    if (refreshTokenExpired) {
+        // set authenicated to false
+        store.commit('setAuthentication', false);
+
+        // reset user data
+        store.commit('resetUser');
+
+        customToast({
+            message: 'Your session has expired',
+            icon: 'error'
+        })
+    
+        return next('/login');
+    }
+
+
+    const accessTokenTimeInSeconds = (user.exp - (Date.now() / 1000)).toFixed(0);
+    const accessTokenTimeInMinutes = accessTokenTimeInSeconds / 60;
+    const tokenExpired = accessTokenTimeInMinutes < 0;
+
+    if (!tokenExpired) {
+        return next();
+    } else {
+        // refresh token
+        const hasRefreshed = await refreshToken();
+
+        if (!hasRefreshed) {
+            return next('/login');
+        }
+
+        return next();
+    }
+
+}
+
+function guardAdminRoute(to, from, next) {
+
+    // authenicate user
+    const user = store.state.user;
+
+    // check if user is admin
+    if (user['role'] !== 'admin') {
+        return next('/login');
+    }
+
+    return guardMyroute(to, from, next);
 }
 
 const waitForStorageToBeReady = async (to, from, next) => {
     await store.restored
     next()
 }
+
+const sellerDashboardRoutes = [
+    {
+        path: "/seller-dashboard/create-gig",
+        name: "sellerGigCreateEditorView",
+        component: () => import("../views/sellerGigCreateEditorView.vue"),
+    },
+    {
+        path: "/seller-dashboard/verification",
+        name: "sellerVerificationEditorView",
+        beforeEnter: guardMyroute,
+        component: () => import("../views/sellerVerificationEditorView.vue"),
+    },
+    {
+        // seller profile editor view
+        path: "/seller-dashboard/profile",
+        name: "sellerProfileEditorView",
+        beforeEnter: guardMyroute,
+        component: () => import("../views/sellerProfileEditorView.vue"),
+    },
+    {
+
+        // seller socials view
+        path: "/seller-dashboard/socials",
+        name: "sellerSocialsEditorView",
+        beforeEnter: guardMyroute,
+        component: () => import("../views/sellerSocialsEditorView.vue"),
+    },
+    {
+        // main admin dashboard
+        path: "/seller-dashboard",
+        name: "sellerDashboardView",
+        beforeEnter: guardMyroute,
+        component: () => import("../views/sellerDashboardView.vue"),
+    },
+    {
+        // admin dashboard
+        path: "/admin-dashboard",
+        name: "adminDashboardView",
+        beforeEnter: guardAdminRoute,
+        component: () => import("../views/adminDashboardView.vue"),
+    }
+]
+
 
 export const baseRoutes = [
     {
@@ -52,30 +146,9 @@ export const baseRoutes = [
     {
         path: "/seller/:id",
         name: "sellerProfileView",
-        component: () => import("../views/sellerProfileView.vue")
+        component: () => import("../views/sellerProfileEditorView.vue")
     },
 
-    {
-        path: "/seller-dashboard/create-gig",
-        name: "sellerGigCreateView",
-        component: () => import("../views/sellerGigCreateView.vue"),
-    },
-    {
-        path: "/seller-dashboard/verification",
-        name: "sellerVerificationView",
-        component: () => import("../views/sellerVerificationView.vue"),
-    },
-    {
-        path: "/seller-dashboard/socials",
-        name: "sellerSocialsView",
-        component: () => import("../views/sellerSocialsView.vue"),
-    },
-    {
-        path: "/seller-dashboard",
-        name: "sellerDashboardView",
-        beforeEnter: guardMyroute,
-        component: () => import("../views/sellerDashboardView.vue"),
-    },
     {
         path: "/register",
         name: "registerView",
@@ -108,7 +181,8 @@ const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
     routes: [
-        ...baseRoutes
+        ...baseRoutes,
+        ...sellerDashboardRoutes
     ]
 })
 

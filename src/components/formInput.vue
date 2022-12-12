@@ -9,8 +9,8 @@
 			<input
 				:type="type"
 				:required="required"
+                :value="value"
 				class="input input-bordered w-full"
-				v-model="value"
 				@input="$emit('input', value)"
 			/>
 		</div>
@@ -22,7 +22,6 @@ export default {
 	name: "formInput",
 	components: {},
 	data: () => ({
-		value: "",
 	}),
 	props: {
 		type: {
@@ -35,6 +34,12 @@ export default {
 			required: false,
 			default: false,
 		},
+
+        value: {
+            type: String,
+            required: false,
+            default: ""
+        },
 
 		mode: {
 			type: String,

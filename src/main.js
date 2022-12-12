@@ -4,6 +4,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import Fragment from 'vue-fragment';
+import dashboardComponent from "./components/layouts/dashboardComponent.vue";
+import pageComponent from "./components/layouts/pageComponent.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
@@ -17,6 +19,7 @@ import {
     faEye, faTimes, faCheck,
     faCloudUpload, faBars
 } from '@fortawesome/free-solid-svg-icons';
+
 
 import {
     faGithub, faTwitter, faInstagram, faDribbble, faBehance,
@@ -56,16 +59,18 @@ library.add(
 )
 
 
-
-
 // plugins
 Vue.use(Fragment.Plugin);
-Vue.use(vueDebounce)
-
-// import fontawesome component as a global component
+Vue.use(vueDebounce);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
-Vue.config.productionTip = false
 
+
+// custom components
+Vue.component("dashboard-component",dashboardComponent);
+Vue.component("page-component",pageComponent);
+
+
+Vue.config.productionTip = false
 
 // vue filter to support max length of 20 for string
 Vue.filter('truncate', (/** @type {string} */ text) => {

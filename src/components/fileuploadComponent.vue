@@ -9,10 +9,10 @@
 			<div class="flex flex-col w-full">
 				<div class="flex items-center justify-center shadow mb-2">
 					<img
-						v-if="preview || secureUrl"
+						v-if="image?.preview || image.secureUrl"
 						:src="
-							secureUrl ||
-							preview ||
+							image.secureUrl ||
+							image?.preview ||
 							`https://via.placeholder.com/300x200/FFF/000?text=300%20x%20200%20image`
 						"
 						class="w-[300px] max-h-[200px] object-cover"
@@ -29,7 +29,11 @@
 						ref="file"
 					/>
 
-					<div class="tooltip tooltip-error" data-tip="delete image">
+					<div
+						v-if="image.preview || image.secureUrl"
+						class="tooltip tooltip-error"
+						data-tip="delete image"
+					>
 						<button
 							class="btn btn-error btn-sm btn-circle m-2"
 							@click.prevent="removeFile"
@@ -38,12 +42,10 @@
 						</button>
 					</div>
 					<div
-						v-if="!secureUrl"
+						v-if="image.preview && !image.secureUrl"
 						class="tooltip"
 						:data-tip="
-							preview && !secureUrl
-								? 'Upload Image'
-								: 'Change Image'
+							image.secureUrl ? 'Upload Image' : 'Change Image'
 						"
 					>
 						<button
@@ -65,34 +67,46 @@
 import api from "@/api";
 import { handleCustomError } from "@/helper";
 import customToast from "@/toast";
+import { mapGetters } from "vuex";
 
 export default {
 	name: "formInput",
 	components: {},
 	data: () => ({
-		image: null,
-	}),
+        blob: null,
+    }),
 	props: {
 		fileName: {
 			type: String,
 			default: "image",
 		},
-		secureUrl: {
-			type: String,
-			default: "",
+		image: {
+			type: Object,
+			default: null,
 		},
-		preview: {
-			type: String,
-			default: "",
+
+		minWidth: {
+			type: Number,
+			default: 300,
 		},
-		publicId: {
-			type: String,
-			default: "",
+		maxWidth: {
+			type: Number,
+			default: 1280,
 		},
-		submit: {
-			type: Function,
-			default: () => {},
+
+		minHeight: {
+			type: Number,
+			default: 200,
 		},
+
+		maxHeight: {
+			type: Number,
+			default: 720,
+		},
+	},
+
+	computed: {
+		...mapGetters(["getUser"]),
 	},
 
 	methods: {
@@ -126,28 +140,15 @@ export default {
 
 				window.URL.revokeObjectURL(img.src);
 
-				const validDimension = {
-					width: {
-						min: 300,
-						max: 1280,
-					},
-					height: {
-						min: 200,
-						max: 720,
-					},
-				};
-
 				const widthCheck =
-					width < validDimension.width.min ||
-					width > validDimension.width.max;
+					width < this.minWidth || width > this.maxWidth;
 
 				const heightCheck =
-					height < validDimension.height.min ||
-					height > validDimension.height.max;
+					height < this.minHeight || height > this.maxHeight;
 				if (widthCheck) {
 					this.cleanUp();
 					customToast({
-						message: `Image width should be between ${validDimension.width.min} and ${validDimension.width.max}`,
+						message: `Image width should be between ${this.minWidth} and ${this.maxWidth}`,
 						icon: "error",
 						timer: 5000,
 					});
@@ -158,30 +159,36 @@ export default {
 				if (heightCheck) {
 					this.cleanUp();
 					customToast({
-						message: `Image height should be between ${validDimension.height.min} and ${validDimension.height.max}`,
+						message: `Image height should be between ${this.minHeight} and ${this.maxHeight}`,
 						icon: "error",
 						timer: 5000,
 					});
 					return false;
 				}
 				const reader = new FileReader();
-				reader.readAsDataURL(this.image);
+				reader.readAsDataURL(this.blob);
 				reader.onload = (e) => {
-					this.$emit("preview", e.target.result);
+					this.$emit("image", {
+						publicId: this.image.publicId,
+						secureUrl: this.image.secureUrl,
+						preview: e.target.result,
+					});
 				};
 				return true;
 			};
 		},
 		uploadFile() {
 			// @ts-ignore
-			this.image = this.$refs.file.files[0];
+			const temp = this.$refs.file.files[0];
 
-			const validateFile = this.beforeUploadFile(this.image);
+            this.blob = temp;
+
+			const validateFile = this.beforeUploadFile(temp);
 			if (!validateFile) {
 				return;
 			}
 
-			this.$emit("preview", this.image);
+			this.$emit("preview", temp);
 		},
 		async submitFile() {
 			const formData = new FormData();
@@ -190,21 +197,24 @@ export default {
 			const myImage = this.$refs["file"].files[0];
 			formData.append("file", myImage);
 
-			// console.log(formData);
 
 			// handleCustomError;
 			try {
-				const result = await api.post(
-					"/cloudinary",
-					formData,
-					this.getHeaders
-				);
+				const result = await api.post("/cloudinary", formData, {
+					headers: {
+						"Content-Type": "multipart/form-data",
+					},
+				});
 				if (result.status === 200) {
 					const publicId = result.data.data.publicId;
 					const secureUrl = result.data.data.secureUrl;
+
 					// emit the publicId and secureUrl to parent component
-					this.$emit("publicId", publicId);
-					this.$emit("secureUrl", secureUrl);
+					this.$emit("image", {
+						publicId: publicId,
+						secureUrl: secureUrl,
+						preview: "",
+					});
 					customToast({
 						message: "File uploaded successfully",
 						icon: "success",
@@ -218,11 +228,10 @@ export default {
 		async removeFile() {
 			// check if file is already uploaded in cloudinary
 			// if yes, delete the file from cloudinary
-			if (this.secureUrl) {
+			if (this.image.secureUrl) {
 				// delete the file from cloudinary
 				const result = await api.delete(
-					`/cloudinary?publicId=${this.publicId}`,
-					{}
+					`/cloudinary?publicId=${this.image.publicId}`
 				);
 				if (result.status === 200) {
 					customToast({
@@ -238,10 +247,27 @@ export default {
 			// @ts-ignore
 			this.$refs.file.value = "";
 
-			this.$emit("preview", "");
-			this.$emit("publicId", "");
-			this.$emit("secureUrl", "");
+			this.$emit("image", {
+				publicId: "",
+				secureUrl: "",
+				preview: "",
+			});
 		},
+	},
+
+	mounted() {
+		// console.log(this.secureUrl || this.image.secureUrl);
+		// this.secureUrl = this.secureUrl || this.image.secureUrl;
+		// bind the image object to the component on mount
+		// this.secureUrl = this.image.secureUrl;
+		// this.publicId = this.image.publicId;
+		// this.preview = this.image.preview;
+		// // emit the image object to the parent component
+		// this.$emit("image", {
+		//     publicId: this.publicId,
+		//     secureUrl: this.secureUrl,
+		//     preview: this.preview,
+		// })
 	},
 };
 </script>
