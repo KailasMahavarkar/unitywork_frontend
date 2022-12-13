@@ -84,8 +84,6 @@ export default {
 		const seller = result.data.data.user;
 		const gigs = result.data.data.gigs;
 
-		console.log(seller);
-
 		// bind gigs to vue data
 		this.gigs = gigs;
 

@@ -31,16 +31,20 @@
 					:key="gig._id"
 					class="flex flex-col w-full md:w-1/2 lg:w-1/3 p-1 md:p-2"
 				>
-					<gig-card
-						:sellerName="gig.sellerUsername"
-						:sellerVerified="gig.verified"
-						:gigVerified="gig.verified"
-						:gigTitle="gig.title"
-						:gigTags="gig.tags"
-						:gigId="gig._id"
-						:images="gig.images"
+					<router-link
+						:to="{ name: 'gigView', params: { id: gig._id } }"
 					>
-					</gig-card>
+						<gig-card
+							:sellerName="gig.sellerUsername"
+							:sellerVerified="gig.sellerVerified"
+							:gigVerified="gig.verified"
+							:gigTitle="gig.title"
+							:gigTags="gig.tags"
+							:gigId="gig._id"
+							:images="gig.images"
+						>
+						</gig-card>
+					</router-link>
 				</div>
 			</div>
 		</div>
@@ -101,7 +105,16 @@ export default {
 					: `/gigs`;
 				const result = await api.get(URL);
 
-				this.gigs = result.data.data;
+				const gigs = result.data.data;
+
+				// remove gigs that are not active
+				for (let i = 0; i < gigs.length; i++) {
+					if (gigs[i].status !== "active") {
+						gigs.splice(i, 1);
+					}
+				}
+
+				this.gigs = gigs;
 
 				// set gigs to store
 				// 	this.$store.commit("setGigs", this.gigs);

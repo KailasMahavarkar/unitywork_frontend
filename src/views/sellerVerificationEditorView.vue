@@ -207,10 +207,7 @@ export default {
 
 	async mounted() {
 		try {
-			const result = await api.get(
-				`/seller/verification`,
-				this.getHeaders
-			);
+			const result = await api.get(`/seller/verification`);
 
 			if (result.status === 200) {
 				const verificationData = result.data.data.verification;
@@ -234,17 +231,7 @@ export default {
 					secureUrl: verificationData.selfieGovtIdCardSecureUrl,
 					publicId: verificationData.selfieGovtIdCardPublicId,
 				};
-
-				console.log({
-					firstname: this.firstname,
-					lastname: this.lastname,
-					description: this.description,
-					govtIdCard: this.govtIdCard,
-					selfieGovtIdCard: this.selfieGovtIdCard,
-				});
 			}
-
-			// console.log({...this.getHeaders});
 		} catch (error) {
 			handleCustomError(error);
 		}

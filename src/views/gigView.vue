@@ -79,8 +79,6 @@ export default {
 				const socialResult = await api.get(socialURL);
 				const socials = socialResult.data.data.socials;
 
-				console.log(gig.avatar);
-
 				this.socials = socials;
 			} catch (error) {
 				handleCustomError(error);

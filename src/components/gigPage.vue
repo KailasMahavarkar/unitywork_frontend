@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="flex items-start mt-5 justify-center bg-white dark:bg-gray-800 shadow-md rounded-md min-h-screen py-5"
+		class="flex items-start mt-5 justify-center bg-white dark:bg-gray-800 shadow-xl rounded-md min-h-screen py-5"
 	>
 		<div class="flex flex-col w-full max-w-[90%]">
 			<div class="flex flex-col items-center w-full">
@@ -17,25 +17,11 @@
 				</div>
 			</div>
 
-			<h1 class="m-2">
+			<h1 class="m-2 mt-5">
 				{{ gigTitle }}
 			</h1>
 
-			<div class="breadcrumbs m-0">
-				<ul>
-					<li v-for="(item, index) in breadcrumbs" :key="index">
-						<a :href="item.title">
-							<font-awesome-icon
-								:icon="item.icon"
-								class="w-4 h-4 mr-2"
-							/>
-							{{ item.title }}
-						</a>
-					</li>
-				</ul>
-			</div>
-
-			<div class="divider" v-if="gigTagsArray.length > 0"></div>
+			<div class="divider mx-[50px]" v-if="gigTagsArray.length > 0"></div>
 
 			<!-- tags -->
 			<div class="flex flex-col w-full items-center">
@@ -50,7 +36,7 @@
 				</div>
 			</div>
 
-			<div class="divider"></div>
+			<div class="divider mx-[50px]"></div>
 			<div
 				class="flex max-w-[80%] justify-between w-full text-start mx-5"
 			>
@@ -60,7 +46,7 @@
 					v-html="gigBlog"
 				></div>
 			</div>
-			<div class="divider mb-0"></div>
+			<div class="divider mx-[50px]"></div>
 
 			<!-- show packages -->
 			<h2>Gig Pricing</h2>
@@ -177,7 +163,6 @@ export default {
 		getAvatar() {
 			return `https://avatars.dicebear.com/api/identicon/${this.username}.svg`;
 		},
-		
 	},
 	props: {
 		username: {

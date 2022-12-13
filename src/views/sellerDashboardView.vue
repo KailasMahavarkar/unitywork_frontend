@@ -256,6 +256,9 @@ export default {
 				headers: this.getHeaders,
 			});
 			this.gigs = result.data.data;
+
+			
+
 		} catch (error) {
 			return handleCustomError(error);
 		}

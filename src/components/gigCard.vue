@@ -16,12 +16,16 @@
 						<!-- seller name -->
 						<div class="font-bold text-sm my-1">
 							<span
-								class="text-info child:mx-2"
+								class="text-info text-xs child:mx-2"
 								:class="
 									gigVerified ? 'text-success' : 'text-error'
 								"
 							>
-								Gig Verified
+								{{
+									gigVerified
+										? "Gig Verified"
+										: "Gig Not verified"
+								}}
 								<font-awesome-icon
 									:icon="
 										gigVerified
@@ -31,12 +35,27 @@
 								/>
 							</span>
 						</div>
-						<!-- seller level -->
-						<div class="font-bold text-sm my-1">
-							<span class="text-info child:mx-2">
-								Seller Verified
+						<!-- seller verififed -->
+						<div class="font-bold text-xs my-1">
+							<span
+								class="text-info child:mx-2"
+								:class="
+									sellerVerified
+										? 'text-success'
+										: 'text-error'
+								"
+							>
+								{{
+									sellerVerified
+										? "Seller Verified"
+										: "Seller Not Verified"
+								}}
 								<font-awesome-icon
-									icon="fa-solid fa-circle-check"
+									:icon="
+										sellerVerified
+											? 'fa-solid fa-check'
+											: 'fa-solid fa-circle-xmark'
+									"
 								/>
 							</span>
 						</div>
