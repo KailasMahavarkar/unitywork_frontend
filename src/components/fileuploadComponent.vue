@@ -1,5 +1,5 @@
 <template>
-	<div class="flex flex-wrap flex-1 mb-2">
+	<div class="flex">
 		<div class="mb-2 mx-2 w-full">
 			<label class="label">
 				<span class="label-text font-extrabold">
@@ -15,7 +15,7 @@
 							image?.preview ||
 							`https://via.placeholder.com/300x200/FFF/000?text=300%20x%20200%20image`
 						"
-						class="w-[300px] max-h-[200px] object-cover"
+						class="w-[300px] h-[200px] object-cover m-0 p-2"
 						alt=""
 					/>
 				</div>
@@ -168,7 +168,7 @@ export default {
 				const reader = new FileReader();
 				reader.readAsDataURL(this.blob);
 				reader.onload = (e) => {
-					this.$emit("image", {
+					this.$emit("update:image", {
 						publicId: this.image.publicId,
 						secureUrl: this.image.secureUrl,
 						preview: e.target.result,
@@ -210,7 +210,7 @@ export default {
 					const secureUrl = result.data.data.secureUrl;
 
 					// emit the publicId and secureUrl to parent component
-					this.$emit("image", {
+					this.$emit("update:image", {
 						publicId: publicId,
 						secureUrl: secureUrl,
 						preview: "",
@@ -247,7 +247,7 @@ export default {
 			// @ts-ignore
 			this.$refs.file.value = "";
 
-			this.$emit("image", {
+			this.$emit("update:image", {
 				publicId: "",
 				secureUrl: "",
 				preview: "",
@@ -256,18 +256,7 @@ export default {
 	},
 
 	mounted() {
-		// console.log(this.secureUrl || this.image.secureUrl);
-		// this.secureUrl = this.secureUrl || this.image.secureUrl;
-		// bind the image object to the component on mount
-		// this.secureUrl = this.image.secureUrl;
-		// this.publicId = this.image.publicId;
-		// this.preview = this.image.preview;
-		// // emit the image object to the parent component
-		// this.$emit("image", {
-		//     publicId: this.publicId,
-		//     secureUrl: this.secureUrl,
-		//     preview: this.preview,
-		// })
+		
 	},
 };
 </script>

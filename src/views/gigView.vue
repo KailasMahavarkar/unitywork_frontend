@@ -1,56 +1,52 @@
 <template>
-	<page-component>
-		<!-- create a tailwind page where you can view single gig  -->
-		<gig-view-card :gig="gig"></gig-view-card>
-	</page-component>
+	<!-- create a tailwind page where you can view single gig  -->
+	<gig-page
+		:avatar="avatar"
+		:username="sellerUsername"
+		:gigTitle="gigTitle"
+		:gigTags="gigTags"
+		:gigBlog="gigBlog"
+		:gigPricings="gigPricings"
+		:gigImages="gigImages"
+		:socials="socials"
+		:gigCategory="gigCategory"
+		:sellerCountry="sellerCountry"
+	></gig-page>
 </template>
 
 <script>
 import api from "@/api";
 import { handleCustomError } from "@/helper";
-import gigViewCard from "@/components/gigViewCard.vue";
+import gigPage from "@/components/gigPage.vue";
 
 export default {
 	name: "gigView",
 	components: {
-		"gig-view-card": gigViewCard,
+		"gig-page": gigPage,
 	},
 	data() {
 		return {
-			gig: {
-				_id: "",
-				ratings: [],
-				sellerId: "",
-				title: "",
-				sellerName: "",
-				sellerAvatar: "",
-				sellerLevel: "silver",
-				sellerCountry: "india",
-				packages: [],
-
-				thumbnail: "",
-
-				images: [],
-				blog: "",
-
-				description: "",
-
-				category: "",
-
-				pricing: [],
-				deliveryTime: "",
-				deliveryFiles: [],
-				chats: [],
-
-				// timestamps
-				createdAt: 0,
-				updatedAt: 0,
-
-				// status
-				status: "",
-				rating: 0,
-
-				tags: [],
+			avatar: {},
+			gigBlog: "",
+			gigCategory: "",
+			gigImages: {},
+			gigPricings: {},
+			sellerCountry: "",
+			sellerUsername: "",
+			status: "",
+			gigTags: [],
+			gigTitle: "",
+			gigVerified: "",
+			gigVerificationStatus: "",
+			socials: {
+				github: "",
+				instagram: "",
+				facebook: "",
+				twitter: "",
+				behance: "",
+				youtube: "",
+				linkedin: "",
+				discord: "",
 			},
 		};
 	},
@@ -60,30 +56,32 @@ export default {
 	methods: {
 		async getGig() {
 			try {
-				const id = this.$route.params.id;
+				const id = this.$route.params.id || this.$route.params.gigId;
 				const result = await api.get(`/gigs/${id}`);
 
 				// post fetch processing
 				const gig = result.data.data;
 
-				// loop and sum gig ratings using
-				// for loop method
+				this.avatar = gig.avatar;
+				this.gigBlog = gig.blog;
+				this.gigCategory = gig.category;
+				this.gigImages = gig.images;
+				this.gigPricings = gig.pricings;
+				this.sellerCountry = gig.sellerCountry;
+				this.sellerUsername = gig.sellerUsername;
+				this.status = gig.status;
+				this.gigTags = gig.tags;
+				this.gigTitle = gig.title;
+				this.gigVerified = gig.verified;
+				this.gigVerificationStatus = gig.verificationStatus;
 
-				let sum = 0;
-				for (let x = 0; x < gig.ratings.length; x++) {
-					sum += gig.ratings[x];
-				}
+				const socialURL = `/seller/${gig.sellerUsername}/socials`;
+				const socialResult = await api.get(socialURL);
+				const socials = socialResult.data.data.socials;
 
-				// get average
-				const avg = sum / gig.ratings.length;
+				console.log(gig.avatar);
 
-				// round to single decimal place
-				const roundedAvg = Math.round(avg * 10) / 10;
-
-				// set rating to rounded average
-				gig.rating = roundedAvg;
-
-				this.gig = gig;
+				this.socials = socials;
 			} catch (error) {
 				handleCustomError(error);
 			}

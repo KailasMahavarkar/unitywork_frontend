@@ -1,6 +1,9 @@
 <template>
 	<dashboard-component>
-		<div class="flex flex-col w-full m-auto p-5 bg-base-200" v-if="showControls">
+		<div
+			class="flex flex-col w-full m-auto p-5 bg-base-200"
+			v-if="showControls"
+		>
 			<div class="flex flex-col md:flex-row">
 				<div class="form-control w-full mx-2 max-w-md">
 					<label class="label">
@@ -79,8 +82,7 @@
 			<div class="flex flex-col md:flex-row">
 				<file-uploader
 					class="max-w-md"
-					:image="avatar"
-					@image="avatar = $event"
+					:image.sync="avatar"
 					:max-height="200"
 					:min-height="200"
 					:max-width="200"
@@ -115,7 +117,7 @@
 				>
 					<seller-card
 						:username="username"
-						:avatar="avatar.secureUrl"
+						:avatar="avatar"
 						:firstname="firstname"
 						:lastname="lastname"
 						:description="description"
@@ -167,7 +169,7 @@ export default {
 			description: "Hello",
 			country: "",
 
-			showControls: true,
+			showControls: false,
 			username: "zeno",
 
 			// gigs: [
@@ -208,13 +210,12 @@ export default {
 					description: this.description,
 				});
 
-                if (result.data.status === "success") {
-                    customToast({
-                        message: "Profile updated successfully",
-                        icon: "success",
-                    })
-                }
-
+				if (result.data.status === "success") {
+					customToast({
+						message: "Profile updated successfully",
+						icon: "success",
+					});
+				}
 			} catch (error) {
 				handleCustomError(error);
 			}
@@ -232,8 +233,7 @@ export default {
 					this.lastname = data.lastname;
 					this.location = data.location;
 					this.job = data.job;
-					this.avatar.secureUrl = data.avatar.secureUrl;
-					this.avatar.publicId = data.avatar.publicId;
+					this.avatar = data.avatar;
 					this.education = data.education;
 					this.description = data.description;
 					this.country = data.country;

@@ -1,5 +1,10 @@
 <template>
 	<page-component>
+		<h1
+			class="text-3xl lg:text-3xl xl:text-5xl font-bolder text-center text-gray-700 dark:text-gray-200"
+		>
+			Search Gigs
+		</h1>
 		<div class="flex items-center justify-center w-full">
 			<div class="flex form-control w-full max-w-[70%] my-5">
 				<div class="input-group">
@@ -17,98 +22,36 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="divider mx-[10rem]"></div>
 		<div class="container mx-auto">
 			<div class="flex flex-wrap -m-1 md:-m-2">
 				<div
-					class="card m-5 bg-base-100 shadow rounded-none w-[300px] h-[400px]"
 					v-for="gig in gigs"
 					:key="gig._id"
-					@click="gigClickHandler(gig._id)"
+					class="flex flex-col w-full md:w-1/2 lg:w-1/3 p-1 md:p-2"
 				>
-					<!-- conditonal routing in routerlink -->
-					<router-link :to="'gigs/' + gig._id">
-						<figure class="mb-0 pb-2 mt-0 border-[1px]">
-							<img :src="gig.thumbnail" />
-						</figure>
-						<div class="card-body">
-							<div class="flex">
-								<img
-									:src="gig.sellerAvatar"
-									class="rounded-full shadow w-[40px] h-[40px] p-2 m-0"
-								/>
-								<div class="flex flex-col mx-2 items-start">
-									<p
-										class="mx-2 my-0 flex items-center justify-center text-sm font-bold"
-									>
-										{{ gig.sellerName }}
-									</p>
-									<p
-										class="mx-2 my-0 flex items-center justify-center text-xs"
-									>
-										Seller level
-										<span class="font-bold">
-											&nbsp;{{ gig.sellerLevel }}
-										</span>
-									</p>
-								</div>
-							</div>
-
-							<div class="card-title">
-								<div class="badge badge-secondary">
-									{{ gig.rating }}
-									<font-awesome-icon
-										v-bind:icon="['fas', 'star']"
-									></font-awesome-icon>
-								</div>
-							</div>
-							<div class="card-actions">
-								<p class="text-start m-0 text-sm">
-									{{ gig.title }}
-								</p>
-								<span
-									class="badge badge-outline"
-									v-for="tag in gig.tags"
-									:key="tag"
-								>
-									{{ tag }}
-								</span>
-							</div>
-						</div>
-					</router-link>
+					<gig-card
+						:sellerName="gig.sellerUsername"
+						:sellerVerified="gig.verified"
+						:gigVerified="gig.verified"
+						:gigTitle="gig.title"
+						:gigTags="gig.tags"
+						:gigId="gig._id"
+						:images="gig.images"
+					>
+					</gig-card>
 				</div>
 			</div>
 		</div>
+		<div class="divider mx-[10rem]"></div>
 	</page-component>
 </template>
 
 <script>
 import api from "@/api";
 import { handleCustomError } from "@/helper";
-
-const processGigs = (data) => {
-	const gigs = data.map((gig) => {
-		// loop and sum gig ratings using
-		// for loop method
-
-		let sum = 0;
-		for (let x = 0; x < gig.ratings.length; x++) {
-			sum += gig.ratings[x];
-		}
-
-		// get average
-		const avg = sum / gig.ratings.length;
-
-		// round to single decimal place
-		const roundedAvg = Math.round(avg * 10) / 10;
-
-		// set rating to rounded average
-		gig.rating = roundedAvg;
-
-		return gig;
-	});
-
-	return gigs;
-};
+import gigCardVue from "@/components/gigCard.vue";
 
 const fixQuery = (query) => {
 	let tempQuery = "";
@@ -126,7 +69,9 @@ const fixQuery = (query) => {
 
 export default {
 	name: "GigsView",
-	components: {},
+	components: {
+		"gig-card": gigCardVue,
+	},
 	data: function () {
 		return {
 			gigs: [],
@@ -134,32 +79,32 @@ export default {
 		};
 	},
 
-	mounted() {
+	async mounted() {
 		// get params from input
+		let { query } = this.$route.query;
 
-		const { query } = this.$route.query;
-
-		if (typeof query === "string" && query) {
-			this.query = query;
-			this.getGigs();
-			return;
+		if (!query) {
+			query = "web development";
 		}
 
-		this.query = "web development";
-		this.getGigs();
+		await this.getGigs();
 	},
 	computed: {},
 	methods: {
 		async getGigs() {
-			try {
-				const tempQuery = fixQuery(this.query);
-				const result = await api.get(`/gigs/search?query=${tempQuery}`);
+			const fixedQuery = fixQuery(this.query);
+			const isQuery = fixedQuery !== "";
 
-				// post fetch processing
-				this.gigs = processGigs(result.data.data);
+			try {
+				const URL = isQuery
+					? `/gigs/search?query=${fixedQuery}`
+					: `/gigs`;
+				const result = await api.get(URL);
+
+				this.gigs = result.data.data;
 
 				// set gigs to store
-				this.$store.commit("setGigs", this.gigs);
+				// 	this.$store.commit("setGigs", this.gigs);
 			} catch (error) {
 				handleCustomError(error);
 			}

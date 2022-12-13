@@ -37,9 +37,13 @@ export default new Vuex.Store({
         setGigs: (state, gigs) => {
             state.gigs = gigs
         },
+        addGig: (state, gig) => {
+            state.gigs.push(gig)
+        },
         resetUser: state => state.user = {},
     },
     actions: {
+        addGig: ({ commit }, gig) => commit('addGig', gig),
         setUser: ({ commit }, user) => commit('setUser', user),
         setAuthentication: ({ commit }, payload) => commit('setAuthentication', payload),
         setGigs: ({ commit }, payload) => commit('setGigs', payload),

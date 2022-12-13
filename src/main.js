@@ -4,8 +4,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import Fragment from 'vue-fragment';
-import dashboardComponent from "./components/layouts/dashboardComponent.vue";
-import pageComponent from "./components/layouts/pageComponent.vue";
+import dashboardComponent from "./components/layouts/dashboardLayout.vue";
+import pageComponent from "./components/layouts/pageLayout.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
@@ -17,7 +17,8 @@ import {
     faAdd, faUser, faCircleCheck,
     faThumbsUp, faThumbsDown,
     faEye, faTimes, faCheck,
-    faCloudUpload, faBars
+    faCloudUpload, faBars,
+    faCircleXmark
 } from '@fortawesome/free-solid-svg-icons';
 
 
@@ -49,13 +50,11 @@ library.add(
     faThumbsUp, faThumbsDown,
     faEye, faTimes, faCheck,
     faCloudUpload, faBars,
+    faCircleXmark,
 
     // brands
     faGithub, faTwitter, faInstagram, faDribbble, faBehance, faYoutube,
-
-    faFacebook,
-    faLinkedin, faDiscord
-
+    faFacebook, faLinkedin, faDiscord
 )
 
 
@@ -66,8 +65,8 @@ Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 
 // custom components
-Vue.component("dashboard-component",dashboardComponent);
-Vue.component("page-component",pageComponent);
+Vue.component("dashboard-component", dashboardComponent);
+Vue.component("page-component", pageComponent);
 
 
 Vue.config.productionTip = false

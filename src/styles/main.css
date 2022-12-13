@@ -7,15 +7,6 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
-html {
-  display: block;
-}
-
-body {
-  width: 100% !important;
-  height: 100% !important;
-}
-
 html,
 body {
   padding: 0;
@@ -96,4 +87,8 @@ a {
 }
 .hero_slider img {
   @apply w-[300px] md:w-[400px] lg:w-[500px];
+}
+
+.ql-editor {
+  min-height: 500px !important;
 }

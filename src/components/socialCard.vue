@@ -8,7 +8,7 @@
 				>
 					<font-awesome-icon
 						:icon="['fab', social]"
-						class="w-4 h-4 md:w-6 md:h-6 "
+						class="w-4 h-4 md:w-6 md:h-6 lg:w-8 lg:h-8 xl:w-10 xl:h-10 "
 					/>
 				</a>
 			</div>

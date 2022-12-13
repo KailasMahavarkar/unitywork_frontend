@@ -1,4 +1,3 @@
-
 <!-- this page handles path not exists errors -->
 
 <template>
@@ -13,9 +12,9 @@
 
 				<p class="mb-8 text-center md:text-lg">
 					The page you’re looking for doesn’t exist, redirecting in
-                    <span class="font-extrabold">
-                        {{ count }} seconds
-                    </span>
+					<span class="font-extrabold">
+						{{ count }} seconds
+					</span>
 				</p>
 
 				<router-link to="/">

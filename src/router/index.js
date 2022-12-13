@@ -36,7 +36,7 @@ async function guardMyroute(to, from, next) {
             message: 'Your session has expired',
             icon: 'error'
         })
-    
+
         return next('/login');
     }
 
@@ -82,7 +82,14 @@ const sellerDashboardRoutes = [
     {
         path: "/seller-dashboard/create-gig",
         name: "sellerGigCreateEditorView",
+        beforeEnter: guardMyroute,
         component: () => import("../views/sellerGigCreateEditorView.vue"),
+    },
+    {
+        path: "/seller-dashboard/edit/:gigId",
+        name: "sellerGigEditView",
+        beforeEnter: guardMyroute,
+        component: () => import("../views/sellerGigEditView.vue"),
     },
     {
         path: "/seller-dashboard/verification",
@@ -144,9 +151,9 @@ export const baseRoutes = [
         component: () => import("../views/sellersView.vue"),
     },
     {
-        path: "/seller/:id",
-        name: "sellerProfileView",
-        component: () => import("../views/sellerProfileEditorView.vue")
+        path: "/sellers/:username",
+        name: "sellerView",
+        component: () => import("../views/sellerView.vue"),
     },
 
     {

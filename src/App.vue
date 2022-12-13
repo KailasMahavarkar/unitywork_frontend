@@ -1,10 +1,10 @@
 <template>
 	<div
 		id="app"
-		class="prose max-w-none bg-base-100"
+		class="prose max-w-none bg-base-100 w-full h-full"
 		v-bind:data-theme="theme"
 	>
-		<div class="flex items-center justify-center w-full h-full">
+		<div class="flex items-start justify-center w-full h-full">
 			<div class="flex flex-col container w-full h-full">
 				<navbar-component>
 					<template v-slot:theme>
@@ -64,8 +64,8 @@ export default {
 	beforeMount() {},
 
 	mounted() {
-        // Get theme from local storage
-        this.theme = localStorage.getItem("theme") || "light";
-    },
+		// Get theme from local storage
+		this.theme = localStorage.getItem("theme") || "light";
+	},
 };
 </script>

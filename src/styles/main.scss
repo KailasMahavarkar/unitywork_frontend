@@ -3,28 +3,28 @@
 @tailwind utilities;
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
 
-#app {
-	// height: 100% !important;
-}
+// #app {
+// 	// height: 100% !important;
+// }
 
 html,
 body {
 	font-family: "Roboto", sans-serif;
 }
 
-html {
-	display: block;
-	// height: 100%;
-	// width: 100%;
-}
+// html {
+// 	display: block;
+// 	// height: 100%;
+// 	// width: 100%;
+// }
 
 // body {
 // 	height: 100%;
 // }
 
 body {
-	width: 100% !important;
-	height: 100% !important;
+	// width: 100% !important;
+	// height: 100% !important;
 	// min-height: 100vh;
 }
 
@@ -112,6 +112,11 @@ a {
 		justify-content: center;
 	}
 	img {
-	    @apply w-[300px] md:w-[400px] lg:w-[500px];
+		@apply w-[300px] md:w-[400px] lg:w-[500px];
 	}
+}
+
+// override gig blog editor height
+.ql-editor {
+	min-height: 500px !important;
 }

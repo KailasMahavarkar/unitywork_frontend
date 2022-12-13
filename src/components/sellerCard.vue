@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-xl rounded-lg mt-16"
+		class="flex flex-col min-w-0 break-words w-full mb-6 shadow-xl rounded-lg mt-16"
 	>
 		<!-- seller avatar & seller name -->
 		<div class="flex flex-wrap justify-center">
@@ -15,69 +15,7 @@
 			<h3>{{ fullname.slice(0, 30) }}</h3>
 
 			<div class="w-full flex justify-center">
-				<div class="flex justify-center space-x-6 align-center">
-					<a
-						rel="noopener noreferrer"
-						target="_blank"
-						href="https://github.com/kailasmahavarkar"
-						aria-label="GitHub"
-					>
-						<font-awesome-icon
-							icon="fa-brands fa-github"
-							class="w-4 h-4 fill-current"
-						>
-						</font-awesome-icon>
-					</a>
-					<a rel="noopener noreferrer" href="#" aria-label="Dribble">
-						<font-awesome-icon
-							icon="fa-brands fa-dribbble"
-							class="w-4 h-4 fill-current"
-						>
-						</font-awesome-icon>
-					</a>
-					<a rel="noopener noreferrer" href="#" aria-label="Twitter">
-						<font-awesome-icon
-							icon="fa-brands fa-twitter"
-							class="w-4 h-4 fill-current"
-						>
-						</font-awesome-icon>
-					</a>
-					<a rel="noopener noreferrer" href="#" aria-label="Email">
-						<font-awesome-icon
-							icon="fa-solid fa-envelope"
-							class="w-4 h-4 fill-current"
-						>
-						</font-awesome-icon>
-					</a>
-				</div>
-			</div>
-			<div class="w-full px-4 text-center">
-				<div class="flex justify-center">
-					<div class="mr-4 p-3 text-center">
-						<span
-							class="text-xl font-bold block uppercase tracking-wide"
-						>
-							{{ rank }}
-						</span>
-						<span class="text-sm">Rank</span>
-					</div>
-					<div class="mr-4 p-3 text-center">
-						<span
-							class="text-xl font-bold block uppercase tracking-wide"
-						>
-							{{ gigCount }}
-						</span>
-						<span class="text-sm">Gigs</span>
-					</div>
-					<div class="mr-4 p-3 text-center">
-						<span
-							class="text-xl font-bold block uppercase tracking-wide"
-						>
-							{{ gigViews }}
-						</span>
-						<span class="text-sm"> Gig Views </span>
-					</div>
-				</div>
+				<social-card :socials="socials"> </social-card>
 			</div>
 		</div>
 		<div class="divider h-[0.25rem]"></div>
@@ -85,15 +23,15 @@
 		<!-- seller location, job and education -->
 		<div class="text-center">
 			<h4 class="text-gray-400">
-				{{ location || 'Location Unspecified' }}
+				{{ location || "Location Unspecified" }}
 			</h4>
 			<div class="mb-2 mt-6">
 				<i class="fas fa-briefcase mr-2 text-lg"></i>
-				{{ job || 'Job Title Unspecified' }}
+				{{ job || "Job Title Unspecified" }}
 			</div>
 			<div class="mb-2">
 				<i class="fas fa-university mr-2 text-lg"></i>
-				{{ education || 'Education Level Unspecified' }}
+				{{ education || "Education Level Unspecified" }}
 			</div>
 		</div>
 		<div class="divider h-[0.25rem]"></div>
@@ -102,7 +40,7 @@
 		<div class="flex flex-wrap justify-center text-center">
 			<div class="w-full px-10">
 				<p>
-					{{ description || 'About Unspecified' }}
+					{{ description || "About Unspecified" }}
 				</p>
 			</div>
 		</div>
@@ -110,21 +48,46 @@
 </template>
 
 <script>
+import socialCardVue from "./socialCard.vue";
 export default {
 	name: "sellerCard",
+	components: {
+		"social-card": socialCardVue,
+	},
 
 	data() {
 		return {};
 	},
 	props: {
+		socials: {
+			type: Object,
+			required: false,
+			default: () => ({
+				github: "",
+				instagram: "",
+				facebook: "",
+				twitter: "",
+				behance: "",
+				youtube: "",
+				linkedin: "",
+				discord: "",
+			}),
+		},
+
 		username: {
 			type: String,
 			required: true,
 		},
 		avatar: {
-			type: String,
+			type: Object,
 			required: false,
-            default: ""
+			default: () => {
+				return {
+					preview: "",
+					secureUrl: "",
+					publidId: "",
+				};
+			},
 		},
 		firstname: {
 			type: String,
@@ -135,19 +98,6 @@ export default {
 			required: true,
 		},
 
-		rank: {
-			type: Number,
-			required: true,
-		},
-
-		gigCount: {
-			type: Number,
-			required: true,
-		},
-		gigViews: {
-			type: Number,
-			required: true,
-		},
 		location: {
 			type: String,
 			required: true,
@@ -171,7 +121,7 @@ export default {
 		},
 		getAvatar() {
 			const fallbackUrl = `https://avatars.dicebear.com/api/identicon/${this.username}.svg`;
-			return this.avatar || fallbackUrl;
+			return this.avatar.secureUrl || fallbackUrl;
 		},
 	},
 };

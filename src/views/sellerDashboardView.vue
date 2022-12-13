@@ -1,28 +1,18 @@
 <template>
 	<dashboard-component>
 		<div class="m-5">
-			<!-- all gigs overview -->
-			<div class="overflow-x-auto min-h-[60vh]">
-				<table class="table table-compact  w-full shadow-md">
-					<!-- head -->
-					<thead>
-						<tr>
-							<th>Title</th>
-							<th>Status</th>
-							<th>Preview</th>
-							<th>Gig Actions</th>
-							<th>User Actions</th>
-
-							<th></th>
-						</tr>
-					</thead>
-					<tbody v-if="gigs">
-						<!-- row 1 -->
-						<tr v-for="gig in gigs" :key="gig._id">
-							<th>
-								{{ gig.title }}
-							</th>
-							<td>
+			<div v-for="gig in gigs" :key="gig._id">
+				<div class="card w-96 bg-base-100 shadow-xl">
+					<figure class="m-0 p-0">
+						<img
+							:src="gig.images?.image1?.secureUrl"
+							class="m-0 p-0"
+							alt="Shoes"
+						/>
+					</figure>
+					<div class="card-body">
+						<div class="card-actions justify-end">
+							<div>
 								<font-awesome-icon
 									class="mx-2"
 									:class="{
@@ -35,84 +25,93 @@
 									:icon="['fas', 'circle']"
 								></font-awesome-icon>
 								{{ gig.status }}
-							</td>
-							<td>
-								<div class="flex items-center space-x-3">
-									<img
-										:src="gig.thumbnail"
-										class="w-[120px] h-[60px]"
-										alt="Avatar Tailwind CSS Component"
-									/>
-								</div>
-							</td>
-							<td>
-								<div class="btn-group btn-group-vertical">
-									<!-- delete -->
-									<button
-										class="btn btn-error btn-outline my-1 gap-2 btn-sm"
-										@click="deleteGig(gig._id, gig.title)"
-									>
-										<font-awesome-icon
-											class="mx-2"
-											:icon="['fas', 'trash']"
-										></font-awesome-icon>
-										Delete
-									</button>
-									<button
-										class="btn btn-primary gap-2 btn-sm"
-									>
-										<font-awesome-icon
-											class="mx-2"
-											:icon="['fas', 'edit']"
-										></font-awesome-icon>
-										Edit
-									</button>
-								</div>
-							</td>
-							<td>
-								<div class="btn-group btn-group-vertical">
-									<!-- CORE ACTIONS -->
-									<button
-										class="btn gap-2 btn-outline btn-sm btn-out"
-										:disabled="
-											gig.verification === 'verified'
-										"
-										@click="gigVerificationHandler(gig._id)"
-									>
-										<font-awesome-icon
-											:icon="['fas', 'eye']"
-										></font-awesome-icon>
+							</div>
+						</div>
 
-										{{
-											gig.verification === "verified"
-												? "gig is verified"
-												: "verify pending"
-										}}
-									</button>
+						<h2 class="card-title m-0 text-left">
+							{{ gig.title }}
+						</h2>
+						<div class="card-actions mt-2">
+							<router-link
+								:to="{
+									name: 'sellerGigEditView',
+									params: { gigId: gig._id },
+								}"
+							>
+								<button
+									class="btn btn-primary btn-outline btn-sm"
+								>
+									<font-awesome-icon
+										class="mx-2"
+										:icon="['fas', 'edit']"
+									></font-awesome-icon>
+									Edit
+								</button>
+							</router-link>
 
-									<button
-										class="btn btn-outline my-1 gap-2 btn-sm"
-										@click="gigStatusChangeHandler(gig._id)"
-									>
-										<font-awesome-icon
-											class="mx-2"
-											:icon="
-												gig?.status === 'inactive'
-													? 'fa-solid fa-check'
-													: 'fa-solid fa-times'
-											"
-										></font-awesome-icon>
-										{{
-											gig?.status === "inactive"
-												? "activate gig"
-												: "inactivate gig"
-										}}
-									</button>
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+							<button
+								class="btn btn-error btn-outline btn-sm"
+								@click="deleteGig(gig._id, gig.title)"
+							>
+								<font-awesome-icon
+									class="mx-2"
+									:icon="['fas', 'trash']"
+								></font-awesome-icon>
+								Delete
+							</button>
+
+							<button
+								class="btn btn-outline my-1 gap-2 btn-sm"
+								@click="gigStatusChangeHandler(gig._id)"
+							>
+								<font-awesome-icon
+									:icon="
+										gig?.status === 'inactive'
+											? 'fa-solid fa-check'
+											: 'fa-solid fa-times'
+									"
+								></font-awesome-icon>
+								{{
+									gig?.status === "inactive"
+										? "activate"
+										: "inactivate"
+								}}
+							</button>
+							<router-link
+								:to="{
+									name: 'gigView',
+									params: { id: gig._id },
+								}"
+							>
+								<button
+									class="btn btn-outline my-1 gap-2 btn-sm"
+								>
+									<font-awesome-icon
+										icon="eye"
+									></font-awesome-icon>
+									View Gig
+								</button>
+							</router-link>
+						</div>
+						<div class="divider m-0"></div>
+
+						<div class="card-actions">
+							<button
+								class="btn gap-2 btn-outline btn-sm btn-out w-full"
+								@click="gigVerificationHandler(gig._id)"
+							>
+								<font-awesome-icon
+									:icon="['fas', 'eye']"
+								></font-awesome-icon>
+								{{
+									gig?.verificationStatus === "created"
+										? "verify gig"
+										: "click to verify gig"
+								}}
+							</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</dashboard-component>
@@ -130,8 +129,7 @@ import { mapGetters } from "vuex";
 export default {
 	name: "sellerDashboardView",
 
-	components: {
-	},
+	components: {},
 
 	data() {
 		return {
@@ -160,16 +158,8 @@ export default {
 				}).then(async (result) => {
 					/* Read more about isConfirmed, isDenied below */
 					if (result.isConfirmed) {
-						const URL = "/seller/gigs/" + gigId;
-
 						try {
-							await api.delete(URL, {
-								headers: {
-									authorization:
-										"Bearer " +
-										this.$store.state.user.accessToken,
-								},
-							});
+							await api.delete(`/seller/gig`);
 
 							// update gigs
 							this.gigs = this.gigs.filter(
@@ -227,16 +217,8 @@ export default {
 
 		async gigStatusChangeHandler(gigId) {
 			try {
-				const URL = `/seller/gig/status`;
-				const result = await api.patch(
-					URL,
-					{
-						gigId: gigId,
-					},
-					{
-						headers: this.getHeaders,
-					}
-				);
+				const URL = `/seller/gig/${gigId}/status`;
+				const result = await api.patch(URL);
 
 				if (result.status === 200) {
 					const oldStatus = this.gigs.find(

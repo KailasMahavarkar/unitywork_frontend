@@ -34,13 +34,11 @@ export default {
 			required: false,
 			default: false,
 		},
-
-        value: {
-            type: String,
-            required: false,
-            default: ""
-        },
-
+		value: {
+			type: String,
+			required: false,
+			default: ""
+		},
 		mode: {
 			type: String,
 			required: false,
