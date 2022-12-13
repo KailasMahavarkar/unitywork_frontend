@@ -88,7 +88,7 @@ export default {
 		let { query } = this.$route.query;
 
 		if (!query) {
-			query = "web development";
+			query = "web";
 		}
 
 		this.query = query;
