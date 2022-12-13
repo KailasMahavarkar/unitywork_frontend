@@ -88,9 +88,9 @@ export default {
 		let { query } = this.$route.query;
 
 		if (!query) {
-			query = "web";
+			query = "";
 		}
-
+		
 		this.query = query;
 
 		await this.getGigs();
