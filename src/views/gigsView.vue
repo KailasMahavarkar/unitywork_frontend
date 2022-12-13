@@ -91,6 +91,8 @@ export default {
 			query = "web development";
 		}
 
+		this.query = query;
+
 		await this.getGigs();
 	},
 	computed: {},
