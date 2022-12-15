@@ -1,12 +1,12 @@
 <template>
 	<dashboard-component>
-		<div class="m-5">
-			<div v-for="gig in gigs" :key="gig._id">
-				<div class="card w-96 bg-base-100 shadow-xl">
+		<div class="flex flex-wrap gap-5 m-5">
+			<div class="" v-for="gig in gigs" :key="gig._id">
+				<div class="card w-[320px] bg-base-100 shadow-xl">
 					<figure class="m-0 p-0">
 						<img
 							:src="gig.images?.image1?.secureUrl"
-							class="m-0 p-0"
+							class="m-0 p-0 w-[300px] h-[200px]"
 							alt="Shoes"
 						/>
 					</figure>
@@ -98,16 +98,31 @@
 						<div class="card-actions">
 							<button
 								class="btn gap-2 btn-outline btn-sm btn-out w-full"
+								:disabled="gig.verification !== 'created'"
 								@click="gigVerificationHandler(gig._id)"
 							>
 								<font-awesome-icon
 									:icon="['fas', 'eye']"
 								></font-awesome-icon>
-								{{
-									gig?.verificationStatus === "created"
-										? "verify gig"
-										: "click to verify gig"
-								}}
+
+								<span v-if="gig.verification === 'created'">
+									Click to verify
+								</span>
+								<span
+									v-else-if="gig.verification === 'verified'"
+								>
+									Verified
+								</span>
+								<span
+									v-else-if="gig.verification === 'rejected'"
+								>
+									Rejected by admin
+								</span>
+								<span
+									v-else-if="gig.verification === 'pending'"
+								>
+									Sent for verification
+								</span>
 							</button>
 						</div>
 					</div>
@@ -140,11 +155,6 @@ export default {
 
 	computed: {
 		...mapGetters(["getUser"]),
-		getHeaders: function () {
-			return {
-				authorization: "bearer " + this.$store.state.user.accessToken,
-			};
-		},
 	},
 
 	methods: {
@@ -184,16 +194,8 @@ export default {
 
 		async gigVerificationHandler(gigId) {
 			try {
-				const URL = `/seller/gig/verify`;
-				const result = await api.patch(
-					URL,
-					{
-						gigId: gigId,
-					},
-					{
-						headers: this.getHeaders,
-					}
-				);
+				const URL = `/gig/${gigId}/create-verification`;
+				const result = await api.post(URL);
 
 				if (result.status === 200) {
 					// update gigs
@@ -205,12 +207,12 @@ export default {
 					});
 
 					customToast({
-						title: "Success",
-						message: "Gig status changed successfully",
-						type: "success",
+						message: "Gig sent for verification",
+						icon: "success",
 					});
 				}
 			} catch (error) {
+				console.log("error --->", error.response.data);
 				handleCustomError(error);
 			}
 		},
@@ -243,6 +245,17 @@ export default {
 				handleCustomError(error);
 			}
 		},
+
+		getVerificationText: function (status) {
+			if (status === "created") {
+				return "click to verify";
+			} else if (status === "pending") {
+				return "gig verification pending";
+			} else if (status === "rejected") {
+				return "gig verification rejected";
+			}
+			return "gig verified";
+		},
 	},
 	async mounted() {
 		const user = this.getUser;
@@ -252,13 +265,8 @@ export default {
 		const URL = `/seller/${user.username}/gigs`;
 
 		try {
-			const result = await api.get(URL, {
-				headers: this.getHeaders,
-			});
+			const result = await api.get(URL);
 			this.gigs = result.data.data;
-
-			
-
 		} catch (error) {
 			return handleCustomError(error);
 		}

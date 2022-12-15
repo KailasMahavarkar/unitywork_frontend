@@ -49,6 +49,7 @@
 
 <script>
 import socialCardVue from "./socialCard.vue";
+import { socialDefault } from "@/data/default";
 export default {
 	name: "sellerCard",
 	components: {
@@ -62,16 +63,7 @@ export default {
 		socials: {
 			type: Object,
 			required: false,
-			default: () => ({
-				github: "",
-				instagram: "",
-				facebook: "",
-				twitter: "",
-				behance: "",
-				youtube: "",
-				linkedin: "",
-				discord: "",
-			}),
+			default: () => socialDefault,
 		},
 
 		username: {

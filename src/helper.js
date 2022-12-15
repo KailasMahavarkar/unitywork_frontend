@@ -51,6 +51,17 @@ export let parseJwt = token =>
 export const handleCustomError = (error) => {
     const errorData = error.response?.data;
 
+    if (errorData?.msg || errorData?.message) {
+
+        // this part handles custom errors
+        return customToast({
+            title: "Error",
+            message: errorData?.msg || errorData?.message,
+            icon: "error",
+            duration: 3000,
+        });
+    }
+
     if (errorData.errors) {
         // this part handles AJV errors
         return customToast({
@@ -62,14 +73,12 @@ export const handleCustomError = (error) => {
             icon: "error",
             duration: 3000,
         });
-    } else if (errorData.msg) {
-
-        // this part handles custom errors
-        return customToast({
-            title: "Error",
-            message: errorData.msg,
-            icon: "error",
-            duration: 3000,
-        });
     }
+
+    return customToast({
+        title: "Error",
+        message: "Something went wrong",
+        icon: "error",
+        duration: 3000,
+    });
 }

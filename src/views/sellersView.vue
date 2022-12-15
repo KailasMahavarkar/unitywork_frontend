@@ -2,7 +2,7 @@
 	<page-component>
 		<div class="flex mt-5">
 			<router-link
-				class="bg-white flex flex-col shadow-md rounded-lg px-4 py-6 sm:px-6 lg:px-8 max-w-[300px]"
+				class="bg-base-100 flex flex-col shadow-md rounded-lg px-4 py-6 sm:px-6 lg:px-8 max-w-[300px]"
 				v-for="seller in sellers"
 				:key="seller._id"
 				:to="{

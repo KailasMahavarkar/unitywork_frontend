@@ -31,20 +31,17 @@
 					:key="gig._id"
 					class="flex flex-col w-full md:w-1/2 lg:w-1/3 p-1 md:p-2"
 				>
-					<router-link
-						:to="{ name: 'gigView', params: { id: gig._id } }"
+					<gig-card
+						:sellerName="gig.sellerUsername"
+						:sellerVerified="gig.sellerVerified"
+						:gigVerified="gig.verified"
+						:gigTitle="gig.title"
+						:gigTags="gig.tags"
+						:gigId="gig._id"
+						:images="gig.images"
+						:route="{ name: 'gigView', params: { id: gig._id } }"
 					>
-						<gig-card
-							:sellerName="gig.sellerUsername"
-							:sellerVerified="gig.sellerVerified"
-							:gigVerified="gig.verified"
-							:gigTitle="gig.title"
-							:gigTags="gig.tags"
-							:gigId="gig._id"
-							:images="gig.images"
-						>
-						</gig-card>
-					</router-link>
+					</gig-card>
 				</div>
 			</div>
 		</div>
@@ -90,7 +87,7 @@ export default {
 		if (!query) {
 			query = "";
 		}
-		
+
 		this.query = query;
 
 		await this.getGigs();

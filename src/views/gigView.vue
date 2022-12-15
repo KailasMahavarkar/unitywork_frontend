@@ -18,6 +18,7 @@
 import api from "@/api";
 import { handleCustomError } from "@/helper";
 import gigPage from "@/components/gigPage.vue";
+import { socialDefault } from "@/data/default";
 
 export default {
 	name: "gigView",
@@ -37,17 +38,8 @@ export default {
 			gigTags: [],
 			gigTitle: "",
 			gigVerified: "",
-			gigVerificationStatus: "",
-			socials: {
-				github: "",
-				instagram: "",
-				facebook: "",
-				twitter: "",
-				behance: "",
-				youtube: "",
-				linkedin: "",
-				discord: "",
-			},
+			verification: "",
+			socials: socialDefault,
 		};
 	},
 	mounted() {
@@ -73,7 +65,7 @@ export default {
 				this.gigTags = gig.tags;
 				this.gigTitle = gig.title;
 				this.gigVerified = gig.verified;
-				this.gigVerificationStatus = gig.verificationStatus;
+				this.verification = gig.verification;
 
 				const socialURL = `/seller/${gig.sellerUsername}/socials`;
 				const socialResult = await api.get(socialURL);

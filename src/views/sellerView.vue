@@ -13,14 +13,17 @@
 				:job="job"
 				:education="education"
 				:description="description"
+				:socials="socials"
 			>
 			</seller-card>
 		</div>
 
-		<div class="divider"></div>
+		<div class="divider my-[50px] divide-x-[5px]">
+			Gigs
+		</div>
 
-		<div v-for="gig in gigs" :key="gig._id">
-			<router-link :to="{ name: 'gigView', params: { id: gig._id } }">
+		<div class="flex flex-row flex-wrap gap-10">
+			<div v-for="gig in gigs" :key="gig._id">
 				<gig-card
 					:sellerName="username"
 					:sellerVerified="sellerVerified"
@@ -29,9 +32,10 @@
 					:gigTags="gig.tags"
 					:gigId="gig._id"
 					:images="gig.images"
+					:route="{ name: 'gigView', params: { id: gig._id } }"
 				>
 				</gig-card>
-			</router-link>
+			</div>
 		</div>
 	</div>
 </template>
@@ -39,7 +43,7 @@
 <script>
 import sellerCardVue from "@/components/sellerCard.vue";
 import gigCardVue from "@/components/gigCard.vue";
-
+import { socialDefault } from "@/data/default";
 import api from "@/api";
 
 export default {
@@ -56,16 +60,7 @@ export default {
 			secureUrl: "",
 			publidId: "",
 		},
-		socials: {
-			github: "",
-			instagram: "",
-			facebook: "",
-			twitter: "",
-			behance: "",
-			youtube: "",
-			linkedin: "",
-			discord: "",
-		},
+		socials: socialDefault,
 		firstname: "",
 		lastname: "",
 		rank: "",

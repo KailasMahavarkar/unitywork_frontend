@@ -4,83 +4,89 @@
 	>
 		<image-slider :images="getImageArray"> </image-slider>
 
-		<div class="card-body">
-			<div class="flex">
-				<!-- seller avatar -->
-				<img
-					:src="getSellerAvatar"
-					class="rounded-full shadow w-[80px] h-[80px] p-1 m-0"
-				/>
-				<div class="flex w-full m-auto justify-end">
-					<div class="flex flex-col items-end justify-end">
-						<!-- seller name -->
-						<div class="font-bold text-sm my-1">
-							<span
-								class="text-info text-xs child:mx-2"
-								:class="
-									gigVerified ? 'text-success' : 'text-error'
-								"
-							>
-								{{
-									gigVerified
-										? "Gig Verified"
-										: "Gig Not verified"
-								}}
-								<font-awesome-icon
-									:icon="
+		<router-link :to="route">
+			<div class="card-body">
+				<div class="flex">
+					<!-- seller avatar -->
+					<img
+						:src="getSellerAvatar"
+						class="rounded-full shadow w-[80px] h-[80px] p-1 m-0"
+					/>
+					<div class="flex w-full m-auto justify-end">
+						<div class="flex flex-col items-end justify-end">
+							<!-- seller name -->
+							<div class="font-bold text-sm my-1">
+								<span
+									class="text-info text-xs child:mx-2"
+									:class="
 										gigVerified
-											? 'fa-solid fa-check'
-											: 'fa-solid fa-circle-xmark'
+											? 'text-success'
+											: 'text-error'
 									"
-								/>
-							</span>
-						</div>
-						<!-- seller verififed -->
-						<div class="font-bold text-xs my-1">
-							<span
-								class="text-info child:mx-2"
-								:class="
-									sellerVerified
-										? 'text-success'
-										: 'text-error'
-								"
-							>
-								{{
-									sellerVerified
-										? "Seller Verified"
-										: "Seller Not Verified"
-								}}
-								<font-awesome-icon
-									:icon="
+								>
+									{{
+										gigVerified
+											? "Gig Verified"
+											: "Gig Not verified"
+									}}
+									<font-awesome-icon
+										:icon="
+											gigVerified
+												? 'fa-solid fa-check'
+												: 'fa-solid fa-circle-xmark'
+										"
+									/>
+								</span>
+							</div>
+							<!-- seller verififed -->
+							<div class="font-bold text-xs my-1">
+								<span
+									class="text-info child:mx-2"
+									:class="
 										sellerVerified
-											? 'fa-solid fa-check'
-											: 'fa-solid fa-circle-xmark'
+											? 'text-success'
+											: 'text-error'
 									"
-								/>
-							</span>
+								>
+									{{
+										sellerVerified
+											? "Seller Verified"
+											: "Seller Not Verified"
+									}}
+									<font-awesome-icon
+										:icon="
+											sellerVerified
+												? 'fa-solid fa-check'
+												: 'fa-solid fa-circle-xmark'
+										"
+									/>
+								</span>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
 
-			<div class="flex font-extrabold">
-				{{ sellerName }}
-			</div>
+				<div class="flex mx-5 font-extrabold">
+					{{ sellerName }}
+				</div>
 
-			<!-- title and tags -->
-			<div class="card-actions">
-				<p class="flex flex-wrap text-start m-0 text-md line-clamp-3">
-					{{ gigTitle || "gig title" }}
-				</p>
-				<span
-					class="badge badge-outline"
-					v-for="(item, index) in gigTags"
-					:key="index"
-				>
-					{{ item }}
-				</span>
+				<!-- title and tags -->
+				<div class="card-actions">
+					<p
+						class="flex flex-wrap text-start m-0 text-md line-clamp-3"
+					>
+						{{ gigTitle || "gig title" }}
+					</p>
+					<span
+						class="badge badge-outline"
+						v-for="(item, index) in gigTags"
+						:key="index"
+					>
+						{{ item }}
+					</span>
+				</div>
 			</div>
-		</div>
+		</router-link>
 	</div>
 </template>
 
@@ -129,6 +135,11 @@ export default {
 		gigTags: {
 			type: Array,
 			required: true,
+		},
+
+		route: {
+			type: [String, Object],
+			required: false,
 		},
 	},
 

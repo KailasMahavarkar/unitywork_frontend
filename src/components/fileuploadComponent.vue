@@ -45,7 +45,9 @@
 						v-if="image.preview && !image.secureUrl"
 						class="tooltip"
 						:data-tip="
-							image.secureUrl ? 'Upload Image' : 'Change Image'
+							image.preview
+								? 'upload image'
+								: 'select image'
 						"
 					>
 						<button
@@ -98,7 +100,6 @@ export default {
 			type: Number,
 			default: 200,
 		},
-
 		maxHeight: {
 			type: Number,
 			default: 720,

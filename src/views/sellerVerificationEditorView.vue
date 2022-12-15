@@ -9,7 +9,7 @@
 				<form
 					class="flex flex-col w-full max-w-lg shadow-md p-5 rounded-md bg-white dark:bg-gray-800"
 					v-if="
-						verificationStatus === 'pending' ||
+						verificationStatus === 'created' ||
 						verificationStatus === 'rejected'
 					"
 				>
@@ -66,16 +66,14 @@
 
 					<file-uploader
 						file-name="govtIdCard"
-						:image="govtIdCard"
-						@image="govtIdCard = $event"
+						:image.sync="govtIdCard"
 					>
 						Govt. Issued ID
 					</file-uploader>
 
 					<file-uploader
 						file-name="selfieGovtIdCard"
-						:image="selfieGovtIdCard"
-						@image="selfieGovtIdCard = $event"
+						:image.sync="selfieGovtIdCard"
 					>
 						Selfie With Govt Issued ID
 					</file-uploader>
@@ -91,7 +89,11 @@
 				<!-- if seller is verified -->
 
 				<div
-					v-if="verificationStatus === 'verified'"
+					v-if="
+						verificationStatus === 'pending' ||
+						verificationStatus === 'verified' ||
+						verificationStatus === 'rejected'
+					"
 					class="w-full h-full"
 				>
 					<div class="flex flex-col items-center justify-center">
@@ -99,9 +101,32 @@
 							<i
 								class="fa fa-check-circle text-6xl text-green-500"
 							></i>
-							<p class="text-green">
-								Your profile is {{ verificationStatus }}
-							</p>
+							<h3
+								class="text-warning"
+								v-if="verificationStatus === 'pending'"
+							>
+								{{
+									"Your profile is under review. We will get back to you soon."
+								}}
+							</h3>
+
+							<h3
+								class="text-green-500"
+								v-else-if="verificationStatus === 'verified'"
+							>
+								{{
+									"Your profile is verified. You can now start selling your services like pro"
+								}}
+							</h3>
+
+							<h3
+								class="text-red-500"
+								v-else-if="verificationStatus === 'rejected'"
+							>
+								{{
+									"Your profile is rejected. You can now make changes and resubmit your profile for review"
+								}}
+							</h3>
 						</div>
 					</div>
 				</div>
@@ -153,18 +178,20 @@ export default {
 	},
 	methods: {
 		async formSubmitHandler() {
+			const sellerId = this.getUser._id;
+
 			// remove preview from data
+			this.govtIdCard.preview = "";
+			this.selfieGovtIdCard.preview = "";
+
 			const data = {
 				firstname: this.firstname,
 				lastname: this.lastname,
 				description: this.description,
 				email: this.email,
 				country: this.country,
-				govtIdCardSecureUrl: this.govtIdCard.secureUrl,
-				govtIdCardPublicId: this.govtIdCard.publicId,
-				selfieGovtIdCardSecureUrl: this.selfieGovtIdCard.secureUrl,
-				selfieGovtIdCardPublicId: this.selfieGovtIdCard.publicId,
-				verificationStatus: "pending",
+				govtIdCard: this.govtIdCard,
+				selfieGovtIdCard: this.selfieGovtIdCard,
 			};
 
 			if (!this.govtIdCard.secureUrl) {
@@ -183,14 +210,11 @@ export default {
 				return;
 			}
 
-			console.log(this._data);
-
 			// send data to server
 			try {
 				const result = await api.post(
-					`/seller/verification`,
-					data,
-					this.getHeaders
+					`/seller/${sellerId}/create-verification`,
+					data
 				);
 
 				if (result.status === 200) {
@@ -207,7 +231,8 @@ export default {
 
 	async mounted() {
 		try {
-			const result = await api.get(`/seller/verification`);
+			const sellerId = this.getUser._id;
+			const result = await api.get(`/seller/${sellerId}/verification`);
 
 			if (result.status === 200) {
 				const verificationData = result.data.data.verification;
@@ -220,17 +245,8 @@ export default {
 
 				this.verificationStatus = verificationData.verificationStatus;
 
-				this.govtIdCard = {
-					preview: verificationData.govtIdCardSecureUrl,
-					secureUrl: verificationData.govtIdCardSecureUrl,
-					publicId: verificationData.govtIdCardPublicId,
-				};
-
-				this.selfieGovtIdCard = {
-					preview: verificationData.selfieGovtIdCardSecureUrl,
-					secureUrl: verificationData.selfieGovtIdCardSecureUrl,
-					publicId: verificationData.selfieGovtIdCardPublicId,
-				};
+				this.govtIdCard = verificationData.govtIdCard;
+				this.selfieGovtIdCard = verificationData.selfieGovtIdCard;
 			}
 		} catch (error) {
 			handleCustomError(error);
