@@ -125,6 +125,7 @@
 						:education="education"
 						:job="job"
 						:rank="rank"
+						:socials="socials"
 						:gig-views="gigViews"
 						:gig-count="gigCount"
 					>
@@ -142,6 +143,7 @@ import sellerCardVue from "@/components/sellerCard.vue";
 import api from "@/api";
 import { handleCustomError } from "@/helper";
 import customToast from "@/toast";
+import { socialDefault } from "@/data/default";
 export default {
 	name: "sellerView",
 	components: {
@@ -171,7 +173,7 @@ export default {
 
 			showControls: false,
 			username: "zeno",
-
+			socials: socialDefault,
 			// gigs: [
 			// 	{
 			// 		gigId: "123456",
@@ -222,7 +224,7 @@ export default {
 		},
 		async getSeller() {
 			const user = this.$store.state.user;
-			const URL = `/seller/${user.username}/profile`;
+			const URL = `/seller/profile/${user.username}`;
 
 			try {
 				const result = await api.get(URL);
@@ -237,6 +239,7 @@ export default {
 					this.education = data.education;
 					this.description = data.description;
 					this.country = data.country;
+					this.socials = data.socials;
 				}
 
 				this.seller = result.data.data;

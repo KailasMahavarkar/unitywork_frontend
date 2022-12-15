@@ -67,7 +67,7 @@ export default {
 				this.gigVerified = gig.verified;
 				this.verification = gig.verification;
 
-				const socialURL = `/seller/${gig.sellerUsername}/socials`;
+				const socialURL = `/seller/socials/${gig.sellerUsername}`;
 				const socialResult = await api.get(socialURL);
 				const socials = socialResult.data.data.socials;
 

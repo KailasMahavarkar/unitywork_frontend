@@ -5,6 +5,8 @@ import router from './router'
 import store from './store'
 import Fragment from 'vue-fragment';
 import dashboardComponent from "./components/layouts/dashboardLayout.vue";
+import adminDashboardComponent from './components/layouts/adminDashboardLayout.vue';
+
 import pageComponent from "./components/layouts/pageLayout.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -66,7 +68,9 @@ Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 // custom components
 Vue.component("dashboard-component", dashboardComponent);
+Vue.component('admin-dashboard-component', adminDashboardComponent)
 Vue.component("page-component", pageComponent);
+
 
 
 Vue.config.productionTip = false

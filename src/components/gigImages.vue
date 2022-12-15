@@ -9,6 +9,7 @@
 				:gig-tags="gigTags"
 				:gig-id="gigId"
 				:images="images"
+				:route="{}"
 			>
 			</gig-card>
 		</div>

@@ -34,7 +34,7 @@
 					<gig-card
 						:sellerName="gig.sellerUsername"
 						:sellerVerified="gig.sellerVerified"
-						:gigVerified="gig.verified"
+						:gigVerified="gig.verification==='verified'"
 						:gigTitle="gig.title"
 						:gigTags="gig.tags"
 						:gigId="gig._id"

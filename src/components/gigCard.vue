@@ -4,7 +4,7 @@
 	>
 		<image-slider :images="getImageArray"> </image-slider>
 
-		<router-link :to="route">
+		<router-link :to="route ">
 			<div class="card-body">
 				<div class="flex">
 					<!-- seller avatar -->

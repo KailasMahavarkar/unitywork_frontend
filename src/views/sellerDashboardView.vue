@@ -2,6 +2,7 @@
 	<dashboard-component>
 		<div class="flex flex-wrap gap-5 m-5">
 			<div class="" v-for="gig in gigs" :key="gig._id">
+				{{gig._id}}
 				<div class="card w-[320px] bg-base-100 shadow-xl">
 					<figure class="m-0 p-0">
 						<img
@@ -169,7 +170,7 @@ export default {
 					/* Read more about isConfirmed, isDenied below */
 					if (result.isConfirmed) {
 						try {
-							await api.delete(`/seller/gig`);
+							await api.delete(`/seller/gig/${gigId}`);
 
 							// update gigs
 							this.gigs = this.gigs.filter(
@@ -194,7 +195,7 @@ export default {
 
 		async gigVerificationHandler(gigId) {
 			try {
-				const URL = `/gig/${gigId}/create-verification`;
+				const URL = `/gig/create-verification/${gigId}`;
 				const result = await api.post(URL);
 
 				if (result.status === 200) {
@@ -219,7 +220,7 @@ export default {
 
 		async gigStatusChangeHandler(gigId) {
 			try {
-				const URL = `/seller/gig/${gigId}/status`;
+				const URL = `/seller/gig/status-update/${gigId}`;
 				const result = await api.patch(URL);
 
 				if (result.status === 200) {
@@ -262,7 +263,7 @@ export default {
 
 		// get all gigs created by this user
 		// user will be treated as seller while making the request to fetch gigs
-		const URL = `/seller/${user.username}/gigs`;
+		const URL = `/seller/gigs/${user.username}`;
 
 		try {
 			const result = await api.get(URL);

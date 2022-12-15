@@ -72,12 +72,18 @@
 				<link-button
 					v-if="authed"
 					button-class="btn-ghost btn-outline"
-					to="/seller-dashboard"
+					:to="
+						user.role === 'admin'
+							? '/admin-dashboard'
+							: '/seller-dashboard'
+					"
 					icon="fa-solid fa-user"
 				>
-					Go to {{ this.$store.state.user.username }}'s Dashboard
+					Go to
+					{{ user.role === "admin" ? "Admin" : user.username + "'s"  }}
+					Dashboard
 				</link-button>
-                
+
 				<!-- login -->
 				<router-link to="/login" v-if="!authed">
 					<button class="btn btn-secondary btn-outline">login</button>
@@ -139,23 +145,24 @@ export default {
 		"link-button": linkButtonVue,
 	},
 	data: () => ({
-		user: {},
 		authed: false,
 		navbarOpen: navbarOpen,
 		navbarNotAuthed: navbarNotAuthed,
 		navbarAuthed: navbarAuthed,
 	}),
-	computed: {},
+	computed: {
+		user: function () {
+			return this.$store.state.user;
+		},
+	},
 	props: {},
 	methods: {
 		logoutHandler() {
 			this.$store.commit("setAuthentication", false);
 			this.$store.commit("setUser", {});
 
-            // redirect to home page
-            this.$router.push("/");
-            
-
+			// redirect to home page
+			this.$router.push("/");
 		},
 	},
 

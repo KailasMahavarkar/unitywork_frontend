@@ -213,7 +213,7 @@ export default {
 			// send data to server
 			try {
 				const result = await api.post(
-					`/seller/${sellerId}/create-verification`,
+					`/seller/create-verification/${sellerId}`,
 					data
 				);
 
@@ -232,7 +232,7 @@ export default {
 	async mounted() {
 		try {
 			const sellerId = this.getUser._id;
-			const result = await api.get(`/seller/${sellerId}/verification`);
+			const result = await api.get(`/seller/verification/${sellerId}`);
 
 			if (result.status === 200) {
 				const verificationData = result.data.data.verification;

@@ -116,7 +116,7 @@ export default {
 
 		// get the socials from the api
 		try {
-			const URL = `/seller/${user.username}/socials`;
+			const URL = `/seller/socials/${user.username}`;
 
 			const result = await api.get(URL, {
 				headers: {

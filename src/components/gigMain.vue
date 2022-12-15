@@ -331,7 +331,7 @@ export default {
 			// mode is edit
 			else {
 				try {
-					const result = await api.patch(`/seller/gig/${this.gigId}`, gig);
+					const result = await api.patch(`/seller/gig/update/${this.gigId}`, gig);
 					if (result.status === 200) {
 						this.$router.push({
 							name: "sellerDashboardView",

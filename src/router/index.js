@@ -119,12 +119,38 @@ const sellerDashboardRoutes = [
         beforeEnter: guardMyroute,
         component: () => import("../views/sellerDashboardView.vue"),
     },
+
+]
+
+
+const adminDashboardRoutes = [
     {
         // admin dashboard
         path: "/admin-dashboard",
-        name: "adminDashboardView",
+        name: "adminSellersView",
         beforeEnter: guardAdminRoute,
-        component: () => import("../views/adminDashboardView.vue"),
+        component: () => import("../views/adminSellersView.vue"),
+    },
+    {
+        // show all sellers
+        path: "/admin-dashboard/sellers",
+        name: "adminSellersView",
+        beforeEnter: guardAdminRoute,
+        component: () => import("../views/adminSellersView.vue"),
+    },
+    {
+        // verify seller view
+        path: "/admin-dashboard/verify-seller",
+        name: "adminVerifySellerView",
+        beforeEnter: guardAdminRoute,
+        component: () => import("../views/adminVerifySellerView.vue"),
+    },
+    {
+        // show all gigs
+        path: "/admin-dashboard/gigs",
+        name: "adminGigsView",
+        beforeEnter: guardAdminRoute,
+        component: () => import("../views/adminGigsView.vue"),
     }
 ]
 
@@ -189,7 +215,8 @@ const router = new VueRouter({
     base: process.env.BASE_URL,
     routes: [
         ...baseRoutes,
-        ...sellerDashboardRoutes
+        ...sellerDashboardRoutes,
+        ...adminDashboardRoutes
     ]
 })
 
