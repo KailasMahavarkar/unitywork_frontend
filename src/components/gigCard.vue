@@ -141,6 +141,12 @@ export default {
 			type: [String, Object],
 			required: false,
 		},
+
+		mode: {
+			type: String,
+			required: false,
+			default: "normal",
+		}
 	},
 
 	data() {
@@ -192,7 +198,9 @@ export default {
 				} else if (value.preview) {
 					imageArray.push(value.preview);
 				} else {
-					imageArray.push(placeholderMaker(`300 x 200 ${key}`));
+					if (this.mode === 'preview'){
+						imageArray.push(placeholderMaker(`300 x 200 ${key}`));
+					}
 				}
 			}
 

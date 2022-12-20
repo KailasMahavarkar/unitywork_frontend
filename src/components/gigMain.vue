@@ -71,6 +71,8 @@
 				:gigTitle.sync="gigTitle"
 				:sellerAvatar="user.avatar.secureUrl"
 				:images.sync="images"
+				mode="preview"
+				
 			>
 			</gig-images>
 

@@ -4,8 +4,53 @@
 			class="flex items-center justify-center w-full h-full shadow min-h-[80vh] my-5"
 		>
 			<div
-				class="flex items-center justify-center w-full p-5 my-5 rounded-md"
+				class="flex flex-col items-center justify-center w-full p-5 my-5 rounded-md"
 			>
+				<!-- if seller is verified -->
+
+				<div
+					v-if="
+						verificationStatus === 'pending' ||
+						verificationStatus === 'verified' ||
+						verificationStatus === 'rejected'
+					"
+					class="w-full h-full"
+				>
+					<div class="flex flex-col items-center justify-center">
+						<div class="flex flex-col items-center justify-center">
+							<i
+								class="fa fa-check-circle text-6xl text-green-500"
+							></i>
+							<h3
+								class="text-warning"
+								v-if="verificationStatus === 'pending'"
+							>
+								{{
+									"Your profile is under review. We will get back to you soon."
+								}}
+							</h3>
+
+							<h3
+								class="text-green-500"
+								v-else-if="verificationStatus === 'verified'"
+							>
+								{{
+									"Your profile is verified. You can now start selling your services like pro"
+								}}
+							</h3>
+
+							<h3
+								class="text-red-500"
+								v-else-if="verificationStatus === 'rejected'"
+							>
+								{{
+									"Your profile is rejected. You can now make changes and resubmit your profile for review"
+								}}
+							</h3>
+						</div>
+					</div>
+				</div>
+
 				<form
 					class="flex flex-col w-full max-w-lg shadow-md p-5 rounded-md bg-white dark:bg-gray-800"
 					v-if="
@@ -85,51 +130,6 @@
 						<span>Send Profile For verification</span>
 					</button>
 				</form>
-
-				<!-- if seller is verified -->
-
-				<div
-					v-if="
-						verificationStatus === 'pending' ||
-						verificationStatus === 'verified' ||
-						verificationStatus === 'rejected'
-					"
-					class="w-full h-full"
-				>
-					<div class="flex flex-col items-center justify-center">
-						<div class="flex flex-col items-center justify-center">
-							<i
-								class="fa fa-check-circle text-6xl text-green-500"
-							></i>
-							<h3
-								class="text-warning"
-								v-if="verificationStatus === 'pending'"
-							>
-								{{
-									"Your profile is under review. We will get back to you soon."
-								}}
-							</h3>
-
-							<h3
-								class="text-green-500"
-								v-else-if="verificationStatus === 'verified'"
-							>
-								{{
-									"Your profile is verified. You can now start selling your services like pro"
-								}}
-							</h3>
-
-							<h3
-								class="text-red-500"
-								v-else-if="verificationStatus === 'rejected'"
-							>
-								{{
-									"Your profile is rejected. You can now make changes and resubmit your profile for review"
-								}}
-							</h3>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 	</dashboard-component>
@@ -216,6 +216,10 @@ export default {
 					`/seller/create-verification/${sellerId}`,
 					data
 				);
+
+				this.$router.replace({
+					name: "sellerDashboardView",
+				});
 
 				if (result.status === 200) {
 					customToast({

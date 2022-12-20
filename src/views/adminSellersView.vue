@@ -17,14 +17,20 @@
 						<td>{{ seller.verification.firstname }}</td>
 						<td>{{ seller.verification.lastname }}</td>
 						<td class="relative">
-							<img
-								:src="
-									seller.verification.selfieGovtIdCard
-										.secureUrl
-								"
-								class="w-20 h-20 hover:w-[300px] hover:h-[200px]"
-								alt=""
-							/>
+							<a
+								:href="seller.verification.govtIdCard.secureUrl"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<img
+									:src="
+										seller.verification.selfieGovtIdCard
+											.secureUrl
+									"
+									class="w-20 h-20"
+									alt=""
+								/>
+							</a>
 						</td>
 						<td class="relative">
 							<a
@@ -49,12 +55,22 @@
 							<div class="flex flex-col child:m-1">
 								<button
 									class="btn btn-sm btn-success"
-									@click="sellerUpdateHandler(seller._id, 'verified')"
+									@click="
+										sellerUpdateHandler(
+											seller._id,
+											'verified'
+										)
+									"
 								>
 									Approve
 								</button>
 								<button
-									@click="sellerUpdateHandler(seller._id, 'rejected')"
+									@click="
+										sellerUpdateHandler(
+											seller._id,
+											'rejected'
+										)
+									"
 									class="btn btn-sm btn-error"
 								>
 									Reject
@@ -93,6 +109,8 @@ export default {
 				);
 
 				if (result.status === 200) {
+					this.sellers = this.sellers.filter((seller) => seller._id !== sellerId);
+
 					customToast({
 						message: `Seller ${status} successfully`,
 						icon: "success",
@@ -102,7 +120,6 @@ export default {
 				handleCustomError(error);
 			}
 		},
-        
 	},
 
 	async mounted() {

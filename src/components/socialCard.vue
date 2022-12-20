@@ -9,10 +9,7 @@
 				class="flex justify-center items-center mx-2"
 				v-if="socials[social]"
 			>
-				<a
-					target="_blank"
-					:href="'https://' + social + '.com/' + socials[social]"
-				>
+				<a target="_blank" :href="getSocial(social, socials[social])">
 					<font-awesome-icon
 						:icon="['fab', social]"
 						class="w-4 h-4 md:w-6 md:h-6 lg:w-8 lg:h-8 xl:w-10 xl:h-10"
@@ -33,6 +30,14 @@ export default {
 			type: Object,
 			required: true,
 			default: () => socialDefault,
+		},
+	},
+
+	computed: {},
+	methods: {
+		getSocial(social, link) {
+			const linkedInExtra = social === "linkedin" ? "in/" : "";
+			return `https://${social}.com/${linkedInExtra}${link}`;
 		},
 	},
 };

@@ -2,8 +2,10 @@
 	<dashboard-component>
 		<div class="flex flex-wrap gap-5 m-5">
 			<div class="" v-for="gig in gigs" :key="gig._id">
-				{{gig._id}}
 				<div class="card w-[320px] bg-base-100 shadow-xl">
+					<h4>
+						{{gig._id}}
+					</h4>
 					<figure class="m-0 p-0">
 						<img
 							:src="gig.images?.image1?.secureUrl"
@@ -213,7 +215,7 @@ export default {
 					});
 				}
 			} catch (error) {
-				console.log("error --->", error.response.data);
+				// console.log("error --->", error.response.data);
 				handleCustomError(error);
 			}
 		},

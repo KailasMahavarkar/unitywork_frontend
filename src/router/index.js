@@ -127,7 +127,7 @@ const adminDashboardRoutes = [
     {
         // admin dashboard
         path: "/admin-dashboard",
-        name: "adminSellersView",
+        name: "adminDashboardView",
         beforeEnter: guardAdminRoute,
         component: () => import("../views/adminSellersView.vue"),
     },
@@ -138,13 +138,7 @@ const adminDashboardRoutes = [
         beforeEnter: guardAdminRoute,
         component: () => import("../views/adminSellersView.vue"),
     },
-    {
-        // verify seller view
-        path: "/admin-dashboard/verify-seller",
-        name: "adminVerifySellerView",
-        beforeEnter: guardAdminRoute,
-        component: () => import("../views/adminVerifySellerView.vue"),
-    },
+
     {
         // show all gigs
         path: "/admin-dashboard/gigs",

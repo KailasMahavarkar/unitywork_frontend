@@ -10,6 +10,7 @@
 				:gig-id="gigId"
 				:images="images"
 				:route="{}"
+				:mode="mode"
 			>
 			</gig-card>
 		</div>
@@ -75,6 +76,12 @@ export default {
 			type: Object,
 			required: false,
 			default: () => ({}),
+		},
+
+		mode: {
+			type: String,
+			required: false,
+			default: 'normal'
 		}
 	},
 	computed: {

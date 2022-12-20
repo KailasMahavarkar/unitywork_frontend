@@ -3,11 +3,16 @@
 		<div class="container" :style="imgSize">
 			<div v-for="i in [currentIndex]" :key="i" :style="imgSize">
 				<img
-                    class="m-0 rounded-t-2xl"
-                :width="width" :height="height" :src="currentImg" />
+					class="m-0 rounded-t-2xl"
+					:width="width"
+					:height="height"
+					:src="currentImg"
+				/>
 			</div>
-			<div class="prev" @click="prevHandler" href="#">&#10094;</div>
-			<div class="next" @click="nextHandler" href="#">&#10095;</div>
+
+			<!-- hide controls if there is only one image -->
+			<div v-if="(images.length > 1) && mode ==='normal'" class="prev" @click="prevHandler" href="#">&#10094;</div>
+			<div v-if="(images.length > 1) && mode ==='normal'" class="next" @click="nextHandler" href="#">&#10095;</div>
 		</div>
 	</fragment>
 </template>
@@ -52,6 +57,12 @@ export default {
 			type: Number,
 			default: 300,
 		},
+
+		mode: {
+			type: String,
+			required: false,
+			default: "normal",
+		}
 	},
 
 	computed: {

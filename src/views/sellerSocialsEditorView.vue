@@ -21,15 +21,20 @@
 						<label class="label">
 							<span class="label-text"> </span>
 						</label>
-						<label class="flex flex-col w-full lg:flex-row input-group  ">
-							<span class="bg-gray-500 text-white hidden lg:flex ">
+						<label
+							class="flex flex-col w-full lg:flex-row input-group"
+						>
+							<span class="bg-gray-500 text-white hidden lg:flex">
 								<font-awesome-icon
 									:icon="['fab', social]"
 									class="w-4 h-4 md:w-6 md:h-6 lg:w-8 lg:h-8"
 								/>
 							</span>
-							<span class="lg:min-w-[200px]"
-								>https://{{ social }}.com/
+							<span
+								class="lg:min-w-[200px]">
+								https://{{ social }}.com/{{
+									social === "linkedin" ? "in/" : ""
+								}}
 							</span>
 
 							<input
