@@ -23,13 +23,12 @@
 			</div>
 		</div>
 
-		<div class="divider mx-[10rem]"></div>
+		<div class="my-5"></div>
 		<div class="container mx-auto">
-			<div class="flex flex-wrap -m-1 md:-m-2">
+			<div class="flex flex-wrap gap-10">
 				<div
 					v-for="gig in gigs"
 					:key="gig._id"
-					class="flex flex-col w-full md:w-1/2 lg:w-1/3 p-1 md:p-2"
 				>
 					<gig-card
 						:sellerName="gig.sellerUsername"
@@ -45,7 +44,6 @@
 				</div>
 			</div>
 		</div>
-		<div class="divider mx-[10rem]"></div>
 	</page-component>
 </template>
 

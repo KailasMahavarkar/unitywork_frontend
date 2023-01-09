@@ -12,6 +12,15 @@
 				<br />
 				Password: 123
 			</div>
+
+			<div class="divider"></div>
+			<div>
+				<b> Admin Credentials</b>
+				<br />
+				Username: admin
+				<br />
+				Password: 123456
+			</div>
 		</div>
 	</div>
 </template>

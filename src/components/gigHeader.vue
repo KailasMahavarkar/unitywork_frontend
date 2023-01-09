@@ -69,6 +69,7 @@
 						type="text"
 						id="tag"
 						v-model="tag"
+						@keyup.enter="addTag"
 						class="input rounded-sm w-full shadow flex-1 font-bold dark:input-bordered"
 					/>
 
@@ -147,6 +148,7 @@ export default {
 			}
 
 			this.tagsArray.push(this.tag);
+			this.tag = "";
 			this.$emit("update:gigTags", this.tagsArray);
 		},
 		removeTag(tag) {
