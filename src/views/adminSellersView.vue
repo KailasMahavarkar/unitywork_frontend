@@ -1,7 +1,7 @@
 <template>
 	<admin-dashboard-component>
 		<div class="overflow-x-auto flex justify-center">
-			<table class="table table-compact w-[90%]">
+			<table class="table table-compact w-[90%]" v-if="sellers.length > 0">
 				<thead>
 					<tr>
 						<th>Firstname</th>
@@ -17,34 +17,20 @@
 						<td>{{ seller.verification.firstname }}</td>
 						<td>{{ seller.verification.lastname }}</td>
 						<td class="relative">
-							<a
-								:href="seller.verification.govtIdCard.secureUrl"
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-								<img
-									:src="
-										seller.verification.selfieGovtIdCard
-											.secureUrl
-									"
-									class="w-20 h-20"
-									alt=""
-								/>
+							<a :href="seller.verification.govtIdCard.secureUrl" target="_blank"
+								rel="noopener noreferrer">
+								<img :src="
+									seller.verification.selfieGovtIdCard
+										.secureUrl
+								" class="w-20 h-20" alt="" />
 							</a>
 						</td>
 						<td class="relative">
-							<a
-								:href="seller.verification.govtIdCard.secureUrl"
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-								<img
-									:src="
-										seller.verification.govtIdCard.secureUrl
-									"
-									class="w-20 h-20"
-									alt=""
-								/>
+							<a :href="seller.verification.govtIdCard.secureUrl" target="_blank"
+								rel="noopener noreferrer">
+								<img :src="
+									seller.verification.govtIdCard.secureUrl
+								" class="w-20 h-20" alt="" />
 							</a>
 						</td>
 
@@ -53,26 +39,20 @@
 						</td>
 						<td>
 							<div class="flex flex-col child:m-1">
-								<button
-									class="btn btn-sm btn-success"
-									@click="
-										sellerUpdateHandler(
-											seller._id,
-											'verified'
-										)
-									"
-								>
+								<button class="btn btn-sm btn-success" @click="
+									sellerUpdateHandler(
+										seller._id,
+										'verified'
+									)
+								">
 									Approve
 								</button>
-								<button
-									@click="
-										sellerUpdateHandler(
-											seller._id,
-											'rejected'
-										)
-									"
-									class="btn btn-sm btn-error"
-								>
+								<button @click="
+									sellerUpdateHandler(
+										seller._id,
+										'rejected'
+									)
+								" class="btn btn-sm btn-error">
 									Reject
 								</button>
 							</div>
@@ -80,6 +60,11 @@
 					</tr>
 				</tbody>
 			</table>
+			<div v-if="sellers.length == 0">
+				<h2 class="text-center">No sellers to verify</h2>
+				<button class="btn dark:btn-outline" @click="syncHandler">Reload Sellers</button>
+
+			</div>
 		</div>
 	</admin-dashboard-component>
 </template>
@@ -120,16 +105,29 @@ export default {
 				handleCustomError(error);
 			}
 		},
+
+		async getAllSellers() {
+			try {
+				const result = await api.get("/admin/seller/all-verification");
+				this.sellers = result.data.data;
+
+
+			} catch (error) {
+				handleCustomError(error);
+			}
+		},
+
+		async syncHandler() {
+			await this.getAllSellers();
+			customToast({
+				message: "Sellers fetched successfully",
+				icon: "success",
+			})
+		},
 	},
 
 	async mounted() {
-		try {
-			const result = await api.get("/admin/seller/all-verification");
-			this.sellers = result.data.data;
-			console.log(result);
-		} catch (error) {
-			handleCustomError(error);
-		}
+		await this.getAllSellers();
 	},
 };
 </script>

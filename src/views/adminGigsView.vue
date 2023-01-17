@@ -1,7 +1,7 @@
 <template>
 	<admin-dashboard-component>
 		<div class="overflow-x-auto flex justify-center">
-			<table class="table table-compact w-[90%]">
+			<table class="table table-compact w-[90%]" v-if="gigs.length > 0">
 				<thead>
 					<tr>
 						<th>Gig Id</th>
@@ -12,19 +12,15 @@
 				</thead>
 				<tbody>
 					<tr v-for="gig in gigs" :key="gig._id">
+						<!-- check if any gigs is present -->
 						<td>{{ gig._id }}</td>
 						<td>{{ gig.sellerUsername }}</td>
 						<td>
-							<router-link
-                                target="_blank"
-								:to="{
-									name: 'gigView',
-									params: { id: gig._id },
-								}"
-							>
-								<button
-									class="btn btn-sm btn-outline btn-primary"
-								>
+							<router-link target="_blank" :to="{
+								name: 'gigView',
+								params: { id: gig._id },
+							}">
+								<button class="btn btn-sm btn-outline btn-primary">
 									View
 								</button>
 							</router-link>
@@ -32,20 +28,14 @@
 
 						<td>
 							<div class="flex flex-col child:m-1">
-								<button
-									class="btn btn-sm btn-success"
-									@click="
-										gigUpdateHandler(gig._id, 'verified')
-									"
-								>
+								<button class="btn btn-sm btn-success" @click="
+									gigUpdateHandler(gig._id, 'verified')
+								">
 									Approve
 								</button>
-								<button
-									@click="
-										gigUpdateHandler(gig._id, 'rejected')
-									"
-									class="btn btn-sm btn-error"
-								>
+								<button @click="
+									gigUpdateHandler(gig._id, 'rejected')
+								" class="btn btn-sm btn-error">
 									Reject
 								</button>
 							</div>
@@ -53,6 +43,10 @@
 					</tr>
 				</tbody>
 			</table>
+			<div v-if="gigs.length == 0">
+				<h2 class="text-center">No Gigs to verify</h2>
+				<button class="btn dark:btn-outline" @click="syncHandler">Reload Gigs</button>
+			</div>
 		</div>
 	</admin-dashboard-component>
 </template>
@@ -83,8 +77,8 @@ export default {
 
 				if (result.status === 200) {
 
-                    // remove the gig from the gigs array
-                    this.gigs = this.gigs.filter((gig) => gig._id !== gigId);
+					// remove the gig from the gigs array
+					this.gigs = this.gigs.filter((gig) => gig._id !== gigId);
 
 					customToast({
 						message: `gig ${status} successfully`,
@@ -95,15 +89,28 @@ export default {
 				handleCustomError(error);
 			}
 		},
+
+		async getAllGigs() {
+			try {
+				const result = await api.get("/admin/gig/all-verification");
+				this.gigs = result.data.data;
+			} catch (error) {
+				handleCustomError(error);
+			}
+		},
+
+		async syncHandler() {
+			await this.getAllGigs();
+			customToast({
+				message: "Gigs synced successfully",
+				icon: "success",
+			});
+		},
 	},
 
 	async mounted() {
-		try {
-			const result = await api.get("/admin/gig/all-verification");
-			this.gigs = result.data.data;
-		} catch (error) {
-			handleCustomError(error);
-		}
+		await this.getAllGigs();
+
 	},
 };
 </script>
