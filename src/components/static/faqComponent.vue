@@ -53,10 +53,8 @@
 							How does my gig rank in search?
 						</template>
 						<template #content>
-							Due to the nature of the service, we re-analyze your
-							gig at fix interval of time, and if we find any
-							issue with your gig, we will pause your gig and
-							notify you with email.
+							Due to the nature of the service, by default 
+							every gig is ranked equally. 
 						</template>
 					</faq>
 
