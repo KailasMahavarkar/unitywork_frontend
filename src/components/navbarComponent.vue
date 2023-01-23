@@ -35,8 +35,17 @@
 							</router-link>
 						</li>
 					</div>
+
+					<div v-if="authed">
+						<button class="btn btn-sm w-full mt-5 btn-outline"
+							@click="logoutHandler"
+						>
+							Logout
+						</button>
+					</div>
 				</ul>
 			</div>
+			
 			<router-link :to="authed ? '/gigs' : '/'">
 				<a class="btn btn-ghost normal-case text-xl"> Unity Work </a>
 			</router-link>
@@ -80,7 +89,7 @@
 					icon="fa-solid fa-user"
 				>
 					Go to
-					{{ user.role === "admin" ? "Admin" : user.username + "'s"  }}
+					{{ user.role === "admin" ? "Admin" : user.username + "'s" }}
 					Dashboard
 				</link-button>
 

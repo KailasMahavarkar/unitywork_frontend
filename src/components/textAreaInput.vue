@@ -8,10 +8,11 @@
 			</label>
 			<textarea
 				:value="value"
-                @input="$emit('input', value)"
+				@input="$emit('input', value)"
 				class="textarea textarea-bordered w-full min-h-[200px]"
 				:class="textareaClass"
-			/>
+			>
+			</textarea>
 		</div>
 	</div>
 </template>
@@ -20,18 +21,17 @@
 export default {
 	name: "formInput",
 	components: {},
-	data: () => ({
-    }),
+	data: () => ({}),
 	props: {
 		textareaClass: {
 			type: String,
 			required: false,
 		},
-        value: {
-            type: String,
-            required: false,
-            default: "",
-        },
+		value: {
+			type: String,
+			required: false,
+			default: "",
+		},
 	},
 
 	methods: {
