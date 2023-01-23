@@ -92,6 +92,7 @@ export default {
 	watch: {
 		gigPricings: {
 			handler: function () {
+				// loop every pricing and validate it
 				for (const pricing in this.pricings) {
 					const revisions = this.pricings[pricing]["revisions"] > 0;
                     const price = this.pricings[pricing]["price"] >= 5;

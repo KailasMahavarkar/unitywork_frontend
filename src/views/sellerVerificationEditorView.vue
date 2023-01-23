@@ -7,7 +7,6 @@
 				class="flex flex-col items-center justify-center w-full p-5 my-5 rounded-md"
 			>
 				<!-- if seller is verified -->
-
 				<div
 					v-if="
 						verificationStatus === 'pending' ||
@@ -53,10 +52,7 @@
 
 				<form
 					class="flex flex-col w-full max-w-lg shadow-md p-5 rounded-md bg-white dark:bg-gray-800"
-					v-if="
-						verificationStatus === 'created' ||
-						verificationStatus === 'rejected'
-					"
+					v-if="['created', 'rejected'].includes(verificationStatus)"
 				>
 					<!-- First & Last Name -->
 					<div class="flex flex-col md:flex-1 md:flex-row">

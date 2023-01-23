@@ -40,8 +40,7 @@ export default {
 			active: "login",
 		};
 	},
-	mounted() {
-	},
+	mounted() {},
 	methods: {},
 };
 </script>

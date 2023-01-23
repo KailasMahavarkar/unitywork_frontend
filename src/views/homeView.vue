@@ -11,7 +11,8 @@
 		<!-- Why Choose US -->
 		<faq-snippet></faq-snippet>
 
-		<router-link to="/gigs">
+		<!-- get started redirects to login -->
+		<router-link to="/register">
 			<div class="m-[2em] text-primary">
 				<button class="btn btn-wide btn-secondary">
 					<span class="btn-text">Get Started</span>
@@ -22,7 +23,7 @@
 </template>
 
 <script>
-import heroSectionVue from "@/components/static/heroSection.vue";
+import heroSection from "@/components/static/heroSection.vue";
 import faqSnippet from "@/components/static/faqComponent.vue";
 import marketplaceComponent from "@/components/static/marketplaceComponent.vue";
 
@@ -30,7 +31,7 @@ export default {
 	name: "HomeView",
 	components: {
 		"faq-snippet": faqSnippet,
-		"hero-section": heroSectionVue,
+		"hero-section": heroSection,
 		marketplace: marketplaceComponent,
 	},
 	data: function () {

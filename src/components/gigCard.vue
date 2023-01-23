@@ -4,7 +4,7 @@
 	>
 		<image-slider :images="getImageArray"> </image-slider>
 
-		<router-link :to="route ">
+		<router-link :to="route">
 			<div class="card-body">
 				<div class="flex">
 					<!-- seller avatar -->
@@ -146,7 +146,7 @@ export default {
 			type: String,
 			required: false,
 			default: "normal",
-		}
+		},
 	},
 
 	data() {
@@ -198,7 +198,7 @@ export default {
 				} else if (value.preview) {
 					imageArray.push(value.preview);
 				} else {
-					if (this.mode === 'preview'){
+					if (this.mode === "preview") {
 						imageArray.push(placeholderMaker(`300 x 200 ${key}`));
 					}
 				}

@@ -68,12 +68,14 @@ export default {
 	},
 	data: () => ({
 		baseRoutes,
-		authed: false,
 		user: {},
 	}),
 	props: {
 		toggleTheme: Function,
 		theme: String,
+	},
+	computed: {
+		authed: () => this.$store.state.user,
 	},
 	methods: {
 		logoutHandler() {

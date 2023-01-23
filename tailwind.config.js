@@ -28,13 +28,13 @@ module.exports = {
     },
     daisyui: {
         styled: true,
-        themes: ['dark', 'light'],
+        themes: ['night', 'light'],
         base: true,
         utils: true,
         logs: true,
         rtl: false,
         prefix: "",
-        darkTheme: "dark",
+        darkTheme: "night",
     },
     plugins: [tailwindTypography, lineclamp, daisy, childrenSupport],
 }

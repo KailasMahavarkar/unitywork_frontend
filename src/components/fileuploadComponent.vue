@@ -3,11 +3,17 @@
 		<div class="mb-2 mx-2 w-full">
 			<label class="label">
 				<span class="label-text font-extrabold">
-					<slot> </slot>
+					<!-- customizable text -->
+					<slot></slot>
 				</span>
 			</label>
 			<div class="flex flex-col w-full">
 				<div class="flex items-center justify-center shadow mb-2">
+					<!-- 
+						uploaded and secureUrl is not empty
+						otherwise use preview image from local(blob)
+						otherwise use placeholder API 
+					-->
 					<img
 						v-if="image?.preview || image.secureUrl"
 						:src="
@@ -20,6 +26,7 @@
 					/>
 				</div>
 				<div class="flex items-center justify-center shadow rounded-md">
+					<!-- input for image upload -->
 					<input
 						class="file-input w-full"
 						@change="uploadFile"
@@ -29,6 +36,7 @@
 						ref="file"
 					/>
 
+					<!-- handle image removal -->
 					<div
 						v-if="image.preview || image.secureUrl"
 						class="tooltip tooltip-error"
@@ -41,15 +49,17 @@
 							<font-awesome-icon icon="times" />
 						</button>
 					</div>
+
+					<!-- handle image preview -->
 					<div
 						v-if="image.preview && !image.secureUrl"
 						class="tooltip"
 						:data-tip="
-							image.preview
-								? 'upload image'
-								: 'select image'
+							image.preview ? 'upload image' : 'select image'
 						"
 					>
+
+						<!-- handle submit -->
 						<button
 							class="btn btn-sm btn-circle m-2"
 							@click.prevent="submitFile"
@@ -75,8 +85,8 @@ export default {
 	name: "formInput",
 	components: {},
 	data: () => ({
-        blob: null,
-    }),
+		blob: null,
+	}),
 	props: {
 		fileName: {
 			type: String,
@@ -182,7 +192,7 @@ export default {
 			// @ts-ignore
 			const temp = this.$refs.file.files[0];
 
-            this.blob = temp;
+			this.blob = temp;
 
 			const validateFile = this.beforeUploadFile(temp);
 			if (!validateFile) {
@@ -197,7 +207,6 @@ export default {
 			// @ts-ignore
 			const myImage = this.$refs["file"].files[0];
 			formData.append("file", myImage);
-
 
 			// handleCustomError;
 			try {
@@ -256,8 +265,6 @@ export default {
 		},
 	},
 
-	mounted() {
-		
-	},
+	mounted() {},
 };
 </script>

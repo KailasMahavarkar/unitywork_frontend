@@ -26,7 +26,6 @@ export default {
 	}),
 	methods: {
 		startSlide() {
-			// @ts-ignore
 			this.timer = setInterval(this.next, this.intervalVal);
 		},
 		stopSlide() {

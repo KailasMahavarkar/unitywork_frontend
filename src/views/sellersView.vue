@@ -63,6 +63,7 @@ export default {
 		sellers: [],
 	}),
 	props: {},
+
 	mounted() {
 		this.getSellers();
 	},

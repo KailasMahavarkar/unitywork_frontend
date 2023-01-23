@@ -72,7 +72,6 @@
 				:sellerAvatar="user.avatar.secureUrl"
 				:images.sync="images"
 				mode="preview"
-				
 			>
 			</gig-images>
 
@@ -90,6 +89,8 @@
 					Prev
 				</button>
 
+				<!-- Next button is only shown if step >= 5 -->
+				<!-- there are only 5 steps maximum thus 5 -->
 				<button
 					class="btn btn-primary max-w-md mx-2"
 					type="button"
@@ -100,6 +101,7 @@
 					Next
 				</button>
 
+				<!-- button for [Edit gig | Update gig | Create gig] -->
 				<button
 					class="btn btn-wide btn-success max-w-md mx-2"
 					type="button"
@@ -107,7 +109,7 @@
 					v-if="step === 5"
 					@click="submitGig"
 				>
-					{{ mode === "edit" ? "Update" : "Create" }} Gig
+					{{ mode === "edit" ? "Update" : "Create" }} gig
 				</button>
 			</div>
 		</gigStepComponent>
@@ -333,7 +335,10 @@ export default {
 			// mode is edit
 			else {
 				try {
-					const result = await api.patch(`/seller/gig/update/${this.gigId}`, gig);
+					const result = await api.patch(
+						`/seller/gig/update/${this.gigId}`,
+						gig
+					);
 					if (result.status === 200) {
 						this.$router.push({
 							name: "sellerDashboardView",
@@ -375,8 +380,6 @@ export default {
 			this.gigPricings = gig.pricings;
 			this.images = gig.images;
 			this.gigId = target;
-
-			console.log("result -->", result);
 		}
 	},
 };

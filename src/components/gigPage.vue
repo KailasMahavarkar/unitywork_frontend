@@ -37,8 +37,10 @@
 			</div>
 
 			<div class="divider mx-[50px]"></div>
+
+			<!-- blog -->
 			<div
-				class="flex max-w-[80%] justify-between w-full text-start mx-5"
+				class="flex max-w-[80%] justify-between w-full text-start mx-5 gigblog"
 			>
 				<div
 					class="child:m-0 child:p-1"
@@ -99,17 +101,6 @@
 			<div class="card-actions justify-center my-5">
 				<social-card :socials="socials"> </social-card>
 			</div>
-
-			<!-- <div class="card-actions justify-center my-5">
-
-				<a
-					class="btn btn-success btn-outline"
-					:href="`mailto:${'kai@gmail.com'}`"
-					data-rel="external"
-				>
-					{{ "kai@gmail.com" }}
-				</a>
-			</div> -->
 		</div>
 	</div>
 </template>

@@ -6,32 +6,55 @@
 					<label class="label">
 						<span class="label-text">First Name</span>
 					</label>
-					<input type="text" required="true" class="input input-bordered w-full max-w-xs"
-						v-model="firstname" />
+					<input
+						type="text"
+						required="true"
+						class="input input-bordered w-full max-w-xs"
+						v-model="firstname"
+					/>
 				</div>
 				<div class="flex-1">
 					<label class="label">
 						<span class="label-text">Last Name</span>
 					</label>
-					<input type="text" required="true" class="input input-bordered w-full max-w-xs"
-						v-model="lastname" />
+					<input
+						type="text"
+						required="true"
+						class="input input-bordered w-full max-w-xs"
+						v-model="lastname"
+					/>
 				</div>
 			</div>
 
-			<div class="flex last:child:mx-2" v-if="active === 'company-register'">
+			<div
+				class="flex last:child:mx-2"
+				v-if="active === 'company-register'"
+			>
 				<div class="flex-1">
 					<label class="label">
 						<span class="label-text">Company Name</span>
 					</label>
-					<input type="text" required="true" class="input input-bordered w-full max-w-xs"
-						v-model="companyName" />
+					<input
+						type="text"
+						required="true"
+						class="input input-bordered w-full max-w-xs"
+						v-model="companyName"
+					/>
 				</div>
 				<div class="flex-1">
 					<label class="label">
 						<span class="label-text">Country</span>
 					</label>
-					<select class="select select-bordered" v-model="country" name="country">
-						<option value="" v-for="country in countryData" :key="country.name">
+					<select
+						class="select select-bordered"
+						v-model="country"
+						name="country"
+					>
+						<option
+							value=""
+							v-for="country in countryData"
+							:key="country.name"
+						>
 							{{ country.name.substring(0, 20) }}
 						</option>
 					</select>
@@ -43,7 +66,12 @@
 				<label class="label">
 					<span class="label-text">Username</span>
 				</label>
-				<input type="email" required="true" class="input input-bordered w-full" v-model="username" />
+				<input
+					type="email"
+					required="true"
+					class="input input-bordered w-full"
+					v-model="username"
+				/>
 			</div>
 
 			<!-- EMAIL -->
@@ -51,9 +79,12 @@
 				<label class="label">
 					<span class="label-text">Email Address</span>
 				</label>
-				<input type="email" required="true" class="input input-bordered w-full" v-model="email" />
-
-
+				<input
+					type="email"
+					required="true"
+					class="input input-bordered w-full"
+					v-model="email"
+				/>
 			</div>
 
 			<!-- PASSWORD -->
@@ -61,7 +92,12 @@
 				<label class="label">
 					<span class="label-text">Password</span>
 				</label>
-				<input type="password" required="true" class="input input-bordered w-full" v-model="password" />
+				<input
+					type="password"
+					required="true"
+					class="input input-bordered w-full"
+					v-model="password"
+				/>
 			</div>
 
 			<!-- CONFIRM PASSWORD -->
@@ -69,18 +105,24 @@
 				<label class="label">
 					<span class="label-text">Confirm Password</span>
 					<span class="label-text">
-						{{ (password && confirm_password) ? passwordMatch: "" }}
+						{{ password && confirm_password ? passwordMatch : "" }}
 					</span>
-					
 				</label>
-				<input type="text" required="true" class="input input-bordered w-full" v-model="confirm_password" />
-
+				<input
+					type="text"
+					required="true"
+					class="input input-bordered w-full"
+					v-model="confirm_password"
+				/>
 			</div>
-
 
 			<!-- SUBMIT BUTTON -->
 			<div class="form-control justify-center mt-5">
-				<button @click="handleRegister" required="true" class="btn btn-primary">
+				<button
+					@click="handleRegister"
+					required="true"
+					class="btn btn-primary"
+				>
 					Submit
 				</button>
 			</div>
@@ -89,7 +131,10 @@
 
 			<div class="form-control justify-center">
 				<router-link to="/login">
-					<button required="true" class="btn btn-outline btn-primary w-full">
+					<button
+						required="true"
+						class="btn btn-outline btn-primary w-full"
+					>
 						Already Have an account? Login Now
 					</button>
 				</router-link>
@@ -127,11 +172,11 @@ export default {
 	computed: {
 		passwordMatch() {
 			if (this.password !== this.confirm_password) {
-				return "password does not match"
+				return "password does not match";
 			}
 
-			return ""
-		}
+			return "";
+		},
 	},
 
 	methods: {
@@ -154,7 +199,7 @@ export default {
 				});
 
 				// push to gigs page
-				this.$router.push('/gigs');
+				this.$router.push("/gigs");
 
 				return customToast({
 					title: "Success",

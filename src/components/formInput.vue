@@ -3,13 +3,14 @@
 		<div class="mb-2 mx-2 w-full">
 			<label class="label">
 				<span class="label-text font-extrabold">
+					<!-- slot for adding customizable text | fallback is FullName -->
 					<slot> FullName </slot>
 				</span>
 			</label>
 			<input
 				:type="type"
 				:required="required"
-                :value="value"
+				:value="value"
 				class="input input-bordered w-full"
 				@input="$emit('input', value)"
 			/>
@@ -21,8 +22,7 @@
 export default {
 	name: "formInput",
 	components: {},
-	data: () => ({
-	}),
+	data: () => ({}),
 	props: {
 		type: {
 			type: String,
@@ -37,7 +37,7 @@ export default {
 		value: {
 			type: String,
 			required: false,
-			default: ""
+			default: "",
 		},
 		mode: {
 			type: String,

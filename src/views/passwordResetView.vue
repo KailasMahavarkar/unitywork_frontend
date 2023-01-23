@@ -18,7 +18,7 @@
 				/>
 			</div>
 
-			<!-- EMAIL -->
+			<!-- new password -->
 			<div class="form-control w-full" v-if="token">
 				<label class="label">
 					<span class="label-text">New Password</span>

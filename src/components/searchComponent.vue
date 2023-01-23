@@ -20,6 +20,7 @@
 import api from "@/api";
 import { handleCustomError } from "@/helper";
 
+// gig rank is not used anymore
 const processGigs = (data) => {
 	const gigs = data.map((gig) => {
 		// loop and sum gig ratings using
@@ -59,9 +60,9 @@ export default {
 	methods: {
 		async getGigs() {
 			try {
-				const result = await api.get("/gigs");
+				// const result = await api.get("/gigs");
 				// post fetch processing
-				this.gigs = processGigs(result.data.data);
+				// this.gigs = processGigs(result.data.data);
 
 				// set gigs to store
 				this.$store.commit("setGigs", this.gigs);
@@ -92,9 +93,8 @@ export default {
 				// post fetch processing
 				this.gigs = processGigs(result.data.data);
 
-                // return gig to parent component
-                this.$emit("gigs", this.gigs);
-
+				// return gig to parent component
+				this.$emit("gigs", this.gigs);
 			} catch (error) {
 				handleCustomError(error);
 			}

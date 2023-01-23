@@ -104,10 +104,6 @@ export default {
 		tag: "",
 	}),
 
-	model: {},
-
-	watch: {},
-
 	computed: {
 		tagsArray() {
 			return this.gigTags;
@@ -158,9 +154,9 @@ export default {
 		},
 	},
 
-    updated() {
-        this.$emit("update:isHeaderValid", this.isHeaderValid);
-    },
+	updated() {
+		this.$emit("update:isHeaderValid", this.isHeaderValid);
+	},
 
 	mounted() {},
 

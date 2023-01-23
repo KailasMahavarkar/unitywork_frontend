@@ -8,7 +8,12 @@
 			<label class="label">
 				<span class="label-text">Username</span>
 			</label>
-			<input type="email" required="true" class="input input-bordered w-full" v-model="username" />
+			<input
+				type="email"
+				required="true"
+				class="input input-bordered w-full"
+				v-model="username"
+			/>
 		</div>
 
 		<!-- PASSWORD HANDLER -->
@@ -17,21 +22,30 @@
 				<span class="label-text">Password</span>
 				<span class="label-text">
 					<font-awesome-icon
-					class="cursor-pointer"
-					:class="{
-						'text-red-500 ': showPassword 
-					}"
-					@click="showPasswordHandler"
-					icon="fa-solid fa-eye" />
+						class="cursor-pointer"
+						:class="{
+							'text-red-500 ': showPassword,
+						}"
+						@click="showPasswordHandler"
+						icon="fa-solid fa-eye"
+					/>
 				</span>
 			</label>
-			<input :type="showPassword ? 'text' : 'password'" required="true" class="input input-bordered w-full" v-model="password" />
-
+			<input
+				:type="showPassword ? 'text' : 'password'"
+				required="true"
+				class="input input-bordered w-full"
+				v-model="password"
+			/>
 		</div>
 
 		<!-- SUBMIT BUTTON -->
 		<div class="form-control w-full mt-5">
-			<button @click="loginHandler" required="true" class="btn btn-primary">
+			<button
+				@click="loginHandler"
+				required="true"
+				class="btn btn-primary"
+			>
 				Submit
 			</button>
 		</div>
@@ -41,7 +55,10 @@
 		<!-- Password Reset -->
 		<router-link to="reset-password">
 			<div class="form-control w-full">
-				<button required="true" class="btn btn-warning btn-sm rounded-full btn-outline">
+				<button
+					required="true"
+					class="btn btn-warning btn-sm rounded-full btn-outline"
+				>
 					Reset Password
 				</button>
 			</div>
@@ -61,7 +78,7 @@ export default {
 		return {
 			username: "",
 			password: "",
-			showPassword: false
+			showPassword: false,
 		};
 	},
 	methods: {
@@ -73,19 +90,20 @@ export default {
 				});
 
 				if (result.status === 200) {
+					// get tokens
 					const { accessToken, refreshToken } = result.data.data;
 
+					// parse JWT token
 					const parsedToken = parseJwt(accessToken);
-
 					const role = parsedToken.role;
 
+					// set user and authentication
 					this.$store.commit("setUser", {
 						...parsedToken,
 						accessToken,
 						refreshToken,
 					});
 					this.$store.commit("setAuthentication", true);
-
 					this.$store.subscribe((mutation, state) => {
 						if (mutation.type === "setAuthentication") {
 							this.authed = state.authed;
@@ -101,6 +119,7 @@ export default {
 							message: "Admin Logged In Successfully",
 						});
 					} else {
+						// if the role is not admin
 						this.$router.replace({
 							name: "gigsView",
 						});
@@ -116,9 +135,9 @@ export default {
 			}
 		},
 
-		showPasswordHandler(){
+		showPasswordHandler() {
 			this.showPassword = !this.showPassword;
-		}
+		},
 	},
 };
 </script>

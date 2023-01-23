@@ -32,6 +32,7 @@
 			</div>
 
 			<div class="flex-1">
+				<!-- this slot is for any views   -->
 				<slot> </slot>
 			</div>
 		</div>

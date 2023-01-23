@@ -1,5 +1,5 @@
 <!-- this is a layout template -->
-<!-- this component should only be used in view and not in any other component -->
+
 
 <template>
 	<div class="
@@ -8,6 +8,7 @@
     shadow p-5
     dark:bg-base-200
     ">
+		<!-- this component should only be used in view and not in any other component -->
 		<slot></slot>
 	</div>
 </template>

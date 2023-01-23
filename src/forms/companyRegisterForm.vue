@@ -1,6 +1,8 @@
 <template>
 	<div class="flex items-center w-full h-full justify-center">
 		<div class="flex flex-col min-h-full p-5 shadow">
+
+			<!-- FIRSTNAME | LAST NAME -->
 			<div class="flex last:child:mx-2">
 				<div class="flex-1">
 					<label class="label">

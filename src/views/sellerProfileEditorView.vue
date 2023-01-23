@@ -63,7 +63,8 @@
 						:required="true"
 						class="textarea textarea-bordered w-full min-h-[200px]"
 						v-model="description"
-					/>
+					>
+					</textarea>
 				</div>
 
 				<div class="form-control w-full mx-2 max-w-md">
@@ -79,6 +80,7 @@
 				</div>
 			</div>
 
+			<!-- Avatar -->
 			<div class="flex flex-col md:flex-row">
 				<file-uploader
 					class="max-w-md"
@@ -174,22 +176,6 @@ export default {
 			showControls: false,
 			username: "zeno",
 			socials: socialDefault,
-			// gigs: [
-			// 	{
-			// 		gigId: "123456",
-			// 		sellerLevel: "5",
-			// 		sellerName: "John Doe",
-			// 		sellerAvatar:
-			// 			"https://source.unsplash.com/random/300x300/?1",
-			// 		gigTitle:
-			// 			"I will create a professional logo for your business",
-			// 		gigThumbnail:
-			// 			"https://source.unsplash.com/random/300x200/?1",
-			// 		gigPrice: "5",
-			// 		gigRating: "4.5",
-			// 		gigTags: ["logo", "branding", "business"],
-			// 	},
-			// ],
 		};
 	},
 	created() {

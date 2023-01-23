@@ -28,7 +28,8 @@
 		</div>
 
 		<div class="flex-1">
-			<slot> </slot>
+			<!-- this slot is for any view making this layout as wrapper -->
+			<slot></slot>
 		</div>
 	</div>
 </template>

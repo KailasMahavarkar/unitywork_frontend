@@ -5,6 +5,7 @@
 </template>
 
 <script>
+// this view is only for demo purposes
 import searchBarComponentVue from "@/components/searchBarComponent.vue";
 
 export default {

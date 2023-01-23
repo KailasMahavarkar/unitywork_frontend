@@ -63,7 +63,6 @@
 			<div v-if="sellers.length == 0">
 				<h2 class="text-center">No sellers to verify</h2>
 				<button class="btn dark:btn-outline" @click="syncHandler">Reload Sellers</button>
-
 			</div>
 		</div>
 	</admin-dashboard-component>

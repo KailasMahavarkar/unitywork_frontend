@@ -16,20 +16,12 @@ export default {
 	},
 
 	mounted() {
-		// check if route id matches any of the gigs in the store
-		// if it does, then load the gig into the store
-		// if it doesn't, then redirect to the create gig view
+		// check if mode is edit
+		// if it is, then load the gig into the store
 
-
-        // check if mode is edit
-        // if it is, then load the gig into the store
-
-        if (this.mode === "edit") {
-            console.log("edit mode")
-        }
-
+		if (this.mode === "edit") {
+			console.log("edit mode");
+		}
 	},
-
-
 };
 </script>

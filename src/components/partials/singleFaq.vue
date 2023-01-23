@@ -6,9 +6,11 @@
 				class="rounded-[50%] p-[0.2rem] h-[1rem] mr-[0.5rem] w-[1rem] bg-black text-white dark:text-black dark:bg-white"
 			>
 			</font-awesome-icon>
+			<!-- slot for title -->
 			<slot name="title"> </slot>
 		</h3>
 		<p>
+			<!-- slot for content -->
 			<slot name="content"> </slot>
 		</p>
 	</div>

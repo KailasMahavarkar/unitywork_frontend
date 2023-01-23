@@ -18,12 +18,10 @@
 			</seller-card>
 		</div>
 
-		<div class="divider my-[50px] divide-x-[5px]">
-			Gigs
-		</div>
+		<div class="divider my-[50px] divide-x-[5px]">Gigs</div>
 
-		<div class="flex flex-row flex-wrap gap-10">
-			<div v-for="gig in gigs" :key="gig._id">
+		<div class="flex flex-row flex-wrap items-center justify-center gap-5">
+			<div v-for="gig in gigs" :key="gig._id" >
 				<gig-card
 					:sellerName="username"
 					:sellerVerified="sellerVerified"
